@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="状态截点为 2026-09-01、展示证据复核至 2026-09-04 的中国地下偶像粉丝量与风格分布交互档案。"
+    />
+    <link rel="icon" href="data:," />
+    <title>中国地下偶像势力分布档案 · 2026-09-01</title>
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#map-heading">跳至分布图</a>
+
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="identity-block">
+          <p class="archive-code">
+            CN-IDOL / FIELD MAP / STATUS 2026.09.01 / EVIDENCE 2026.09.04
+          </p>
+          <div class="title-row">
+            <span class="signal-mark" aria-hidden="true"></span>
+            <h1>地下偶像势力分布档案</h1>
+          </div>
+          <p class="subtitle">
+            横轴为公开粉丝量；五个主带呈现宽口径编辑风格，轴外与未判定结论在同一横轴的分类带中独立归档。严格音乐定位仅在团体详情中展示。
+          </p>
+          <p class="freshness-line">
+            存续状态截点 2026-09-01 · 展示证据批次截至 2026-09-04 ·
+            粉丝量以各团详情所列观察时间为准
+          </p>
+        </div>
+
+        <div class="topbar-controls">
+          <div class="search-control">
+            <label class="sr-only" for="idol-search">模糊搜索团名或官号</label>
+            <div class="search-box">
+              <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="6.5"></circle>
+                <path d="m16 16 4.2 4.2"></path>
+              </svg>
+              <input
+                id="idol-search"
+                type="search"
+                placeholder="搜索团名或官号"
+                autocomplete="off"
+                maxlength="120"
+                role="combobox"
+                aria-autocomplete="list"
+                aria-controls="search-results"
+                aria-expanded="false"
+              />
+              <button
+                id="clear-search"
+                class="icon-button clear-button"
+                type="button"
+                aria-label="清空搜索"
+                hidden
+              >
+                ×
+              </button>
+            </div>
+            <ul
+              id="search-results"
+              class="search-results"
+              role="listbox"
+              aria-label="搜索结果"
+              hidden
+            ></ul>
+          </div>
+
+          <div class="region-filter">
+            <button
+              id="region-filter-toggle"
+              class="region-filter-toggle"
+              type="button"
+              aria-expanded="false"
+              aria-haspopup="dialog"
+              aria-controls="region-filter-popover"
+            >
+              <span>地域筛选</span>
+              <span id="region-filter-summary">全部地域</span>
+              <span class="region-filter-caret" aria-hidden="true">⌄</span>
+            </button>
+            <div
+              id="region-filter-popover"
+              class="region-filter-popover"
+              role="dialog"
+              aria-modal="false"
+              aria-labelledby="region-filter-heading-title"
+              aria-describedby="region-filter-help"
+              hidden
+            >
+              <div class="region-filter-heading">
+                <strong id="region-filter-heading-title">省份／城市</strong>
+                <div class="region-filter-heading-actions">
+                  <span id="region-match-count" aria-live="polite"></span>
+                  <button id="clear-region-popover" type="button">清空</button>
+                </div>
+              </div>
+              <p id="region-filter-help" class="region-filter-help">
+                先选地域口径；省份与城市可混选，结果按并集显示。
+              </p>
+              <fieldset class="region-scope-control">
+                <legend>城市口径</legend>
+                <div class="region-scope-options">
+                  <label class="region-scope-option">
+                    <input
+                      id="region-scope-any"
+                      type="radio"
+                      name="region-scope"
+                      value="any"
+                      checked
+                    />
+                    <span>任一</span>
+                  </label>
+                  <label class="region-scope-option">
+                    <input
+                      id="region-scope-founding"
+                      type="radio"
+                      name="region-scope"
+                      value="founding"
+                    />
+                    <span>建团城市</span>
+                  </label>
+                  <label class="region-scope-option">
+                    <input
+                      id="region-scope-activity"
+                      type="radio"
+                      name="region-scope"
+                      value="activity"
+                    />
+                    <span>主要活动城市</span>
+                  </label>
+                </div>
+              </fieldset>
+              <div
+                id="region-filter-tree"
+                class="region-filter-tree"
+                role="group"
+                aria-label="地域选项"
+              ></div>
+            </div>
+          </div>
+
+          <div class="scope-switch" aria-label="显示范围">
+            <button type="button" data-scope="active" aria-pressed="true">
+              存续 <span id="scope-active-count">376</span>
+            </button>
+            <button type="button" data-scope="all" aria-pressed="false">
+              全部 <span id="scope-total-count">399</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <section class="map-workspace" aria-labelledby="map-heading">
+          <div class="map-heading-row">
+            <div>
+              <p class="section-kicker">POSITIONING MATRIX</p>
+              <h2 id="map-heading">粉丝量 × 风格分布</h2>
+            </div>
+            <p id="coverage-line" class="coverage-line" aria-live="polite"></p>
+          </div>
+
+          <div
+            id="region-chips-bar"
+            class="region-chips-bar"
+            aria-label="已选地域条件"
+            hidden
+          >
+            <span class="region-chips-label">已选条件</span>
+            <div id="region-chips" class="region-chips"></div>
+            <button id="clear-region-filter" type="button">清空地域</button>
+          </div>
+
+          <div class="evidence-filter-bar" aria-label="资料状态筛选">
+            <span class="evidence-filter-label">资料状态</span>
+            <div class="evidence-filter-options">
+              <button
+                type="button"
+                data-evidence-filter="strict_uid_match"
+                aria-pressed="false"
+              >
+                API 严格匹配 <span data-filter-count="strict_uid_match">0</span>
+              </button>
+              <button
+                type="button"
+                data-evidence-filter="manual_review"
+                aria-pressed="false"
+              >
+                候选待复核 <span data-filter-count="manual_review">0</span>
+              </button>
+              <button
+                type="button"
+                data-evidence-filter="timeline_available"
+                aria-pressed="false"
+              >
+                有官号动态 <span data-filter-count="timeline_available">0</span>
+              </button>
+              <button
+                type="button"
+                data-evidence-filter="data_gap"
+                aria-pressed="false"
+              >
+                资料有缺口 <span data-filter-count="data_gap">0</span>
+              </button>
+            </div>
+            <button id="clear-evidence-filter" type="button" hidden>
+              清空资料筛选
+            </button>
+          </div>
+          <p id="api-coverage-line" class="api-coverage-line"></p>
+
+          <div class="chart-tools" aria-label="图表控制">
+            <p id="viewport-note">
+              拖动画布 · 滚轮或按钮缩放 · 点击头像查看档案
+            </p>
+            <div class="zoom-controls">
+              <button
+                id="zoom-out"
+                class="tool-button"
+                type="button"
+                aria-label="缩小分布图"
+              >
+                −
+              </button>
+              <button
+                id="zoom-fit"
+                class="tool-button fit-button"
+                type="button"
+              >
+                适配全图
+              </button>
+              <button
+                id="zoom-in"
+                class="tool-button"
+                type="button"
+                aria-label="放大分布图"
+              >
+                ＋
+              </button>
+            </div>
+          </div>
+
+          <div class="chart-frame">
+            <svg
+              id="idol-map"
+              role="region"
+              aria-labelledby="chart-title chart-description"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              <title id="chart-title">中国地下偶像粉丝量与风格分布图</title>
+              <desc id="chart-description">
+                圆形节点代表团体。越向右公开粉丝量越多；五个宽口径编辑风格主带中越向上越偏摇滚、越向下越偏王道。轴外编辑风格与未判定结论位于主带之外的分类带，分类带内部的纵向位置不表示程度。粉丝量未知的团体位于左侧独立区域。
+              </desc>
+              <defs>
+                <pattern
+                  id="micro-grid"
+                  width="48"
+                  height="48"
+                  patternUnits="userSpaceOnUse"
+                >
+                  <path d="M 48 0 L 0 0 0 48" class="micro-grid-line"></path>
+                </pattern>
+                <pattern
+                  id="unknown-hatch"
+                  width="22"
+                  height="22"
+                  patternUnits="userSpaceOnUse"
+                  patternTransform="rotate(45)"
+                >
+                  <line
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="22"
+                    class="unknown-hatch-line"
+                  ></line>
+                </pattern>
+                <clipPath id="avatar-clip">
+                  <circle cx="0" cy="0" r="25"></circle>
+                </clipPath>
+              </defs>
+              <rect class="chart-canvas" x="0" y="0"></rect>
+              <rect
+                class="chart-grid"
+                x="0"
+                y="0"
+                fill="url(#micro-grid)"
+              ></rect>
+              <g id="band-layer" aria-hidden="true"></g>
+              <g id="axis-layer" aria-hidden="true"></g>
+              <g id="tether-layer" aria-hidden="true"></g>
+              <g id="node-layer"></g>
+              <g id="selection-ring" class="selection-ring" aria-hidden="true">
+                <circle r="34" class="selection-orbit"></circle>
+                <circle r="28" class="selection-core"></circle>
+                <path
+                  d="M-48 0H-34M34 0H48M0-48V-34M0 34V48"
+                  class="selection-cross"
+                ></path>
+              </g>
+            </svg>
+            <p id="chart-live" class="sr-only" aria-live="polite"></p>
+          </div>
+
+          <div class="legend" aria-label="图例与口径">
+            <span
+              ><i class="legend-dot known" aria-hidden="true"></i
+              >已取得头像</span
+            >
+            <span
+              ><i class="legend-dot initial" aria-hidden="true">A</i
+              >首字母替代</span
+            >
+            <span
+              ><i class="legend-ring medium-identity" aria-hidden="true"></i>UID
+              中置信候选</span
+            >
+            <span
+              ><i class="legend-ring non-active" aria-hidden="true"></i
+              >非存续或未核清</span
+            >
+            <span
+              ><i class="legend-swatch comparable" aria-hidden="true"></i
+              >宽口径编辑风格主带 · 可纵向比较</span
+            >
+            <span
+              ><i class="legend-swatch axis-out" aria-hidden="true"></i
+              >轴外编辑风格 · 仅分类</span
+            >
+            <span
+              ><i class="legend-swatch unresolved" aria-hidden="true"></i
+              >未判定／阻塞 · 仅分类</span
+            >
+            <span class="legend-note"
+              >粉丝量采用对数轴；“万”级数据为公开页显示的近似值。</span
+            >
+          </div>
+        </section>
+
+        <aside
+          id="detail-panel"
+          class="detail-panel"
+          aria-labelledby="detail-name"
+        >
+          <div class="detail-heading">
+            <div>
+              <p class="section-kicker">SELECTED DOSSIER</p>
+              <p id="detail-index" class="detail-index">NO. ---</p>
+            </div>
+            <span id="detail-status" class="status-stamp">等待选择</span>
+          </div>
+
+          <div class="poster-stage">
+            <img
+              id="detail-poster"
+              alt=""
+              width="960"
+              height="600"
+              decoding="async"
+              hidden
+            />
+            <div id="poster-fallback" class="poster-fallback">
+              <span id="poster-initials" aria-hidden="true">?</span>
+              <p>暂无可核验图像</p>
+            </div>
+            <span id="poster-label" class="poster-label">团体图像</span>
+          </div>
+
+          <div class="detail-title-block">
+            <h2 id="detail-name">选择一个团体</h2>
+            <p id="detail-handle">可点击图中头像或使用搜索框</p>
+          </div>
+
+          <dl class="detail-facts">
+            <div>
+              <dt>公开粉丝量</dt>
+              <dd id="detail-followers">—</dd>
+            </div>
+            <div>
+              <dt>建团/出身城市</dt>
+              <dd id="detail-region">—</dd>
+            </div>
+            <div>
+              <dt>主要活动城市</dt>
+              <dd id="detail-activity-region">—</dd>
+            </div>
+            <div>
+              <dt>严格音乐定位</dt>
+              <dd id="detail-style">—</dd>
+            </div>
+            <div>
+              <dt>图上位置</dt>
+              <dd id="detail-band">—</dd>
+            </div>
+            <div>
+              <dt>宽口径风格</dt>
+              <dd id="detail-editorial-style">—</dd>
+            </div>
+            <div>
+              <dt>口径／置信</dt>
+              <dd id="detail-editorial-status">—</dd>
+            </div>
+            <div id="detail-profile-supplement-row" hidden>
+              <dt>主页补充</dt>
+              <dd id="detail-profile-supplement">—</dd>
+            </div>
+            <div>
+              <dt>判定／行程日期</dt>
+              <dd id="detail-date">—</dd>
+            </div>
+          </dl>
+
+          <div class="tags-block">
+            <p class="detail-label">补充标签</p>
+            <div id="detail-tags" class="detail-tags"><span>暂无</span></div>
+          </div>
+
+          <p id="detail-note" class="detail-note"></p>
+
+          <details id="candidate-evidence" class="candidate-evidence">
+            <summary>
+              <span>微博 API 候选证据</span>
+              <span id="candidate-evidence-state">未载入</span>
+            </summary>
+            <p class="candidate-evidence-boundary">
+              原始缓存候选不会自动覆盖严格主档或风格纵轴；仅在团体身份经独立证据接受后，同一账号的粉丝量与头像才会进入编辑展示层，并在此处明确标记。
+            </p>
+
+            <section id="candidate-profile-section" class="candidate-section">
+              <div class="candidate-section-heading">
+                <strong>账号档案</strong>
+                <span id="candidate-profile-state">—</span>
+              </div>
+              <div class="candidate-profile-media">
+                <div class="candidate-avatar-frame">
+                  <img
+                    id="candidate-profile-avatar"
+                    width="64"
+                    height="64"
+                    loading="lazy"
+                    decoding="async"
+                    alt=""
+                    hidden
+                  />
+                  <span id="candidate-profile-avatar-fallback" aria-hidden="true"
+                    >—</span
+                  >
+                </div>
+                <div class="candidate-avatar-copy">
+                  <strong id="candidate-profile-avatar-state"
+                    >暂无本地候选头像</strong
+                  >
+                  <span id="candidate-profile-avatar-note"
+                    >仅作候选证据预览，未替换主头像</span
+                  >
+                </div>
+              </div>
+              <dl class="candidate-facts">
+                <div>
+                  <dt>身份门</dt>
+                  <dd id="candidate-profile-gate">—</dd>
+                </div>
+                <div>
+                  <dt>候选账号</dt>
+                  <dd id="candidate-profile-name">—</dd>
+                </div>
+                <div>
+                  <dt>候选粉丝量</dt>
+                  <dd id="candidate-profile-followers">—</dd>
+                </div>
+                <div>
+                  <dt>观察时间</dt>
+                  <dd id="candidate-profile-observed">—</dd>
+                </div>
+              </dl>
+              <p id="candidate-profile-bio" class="candidate-copy"></p>
+              <a
+                id="candidate-profile-link"
+                class="candidate-link"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                hidden
+                >打开候选主页（未应用） ↗</a
+              >
+            </section>
+
+            <section id="candidate-timeline-section" class="candidate-section">
+              <div class="candidate-section-heading">
+                <strong>官号时间线摘要</strong>
+                <span id="candidate-timeline-state">—</span>
+              </div>
+              <ol id="candidate-timeline-list" class="candidate-list"></ol>
+            </section>
+
+            <section id="candidate-search-section" class="candidate-section">
+              <div class="candidate-section-heading">
+                <strong>关键词搜索线索</strong>
+                <span id="candidate-search-state">—</span>
+              </div>
+              <ol id="candidate-search-list" class="candidate-list"></ol>
+              <p class="candidate-copy">
+                搜索作者未被认定为团体官号，仅供人工排查同名与账号线索。
+              </p>
+            </section>
+          </details>
+
+          <div class="detail-actions">
+            <a
+              id="profile-link"
+              class="primary-link"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              >打开团体主页 ↗</a
+            >
+            <a
+              id="evidence-link"
+              class="secondary-link"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              >查看存续／一般判定来源 ↗</a
+            >
+            <a
+              id="style-source-link"
+              class="secondary-link"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              >查看风格证据 ↗</a
+            >
+            <a
+              id="editorial-source-link"
+              class="secondary-link"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              >查看宽口径风格依据 ↗</a
+            >
+            <a
+              id="wiki-link"
+              class="secondary-link"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              >China Idols Wiki 尚未核对</a
+            >
+            <a
+              id="profile-supplement-link"
+              class="secondary-link"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              hidden
+              >补充公开主页候选（展示口径） ↗</a
+            >
+            <a
+              id="avatar-source-link"
+              class="secondary-link"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              >查看头像来源 ↗</a
+            >
+            <a
+              id="poster-source-link"
+              class="secondary-link"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              >查看当前图像来源 ↗</a
+            >
+          </div>
+
+          <p id="profile-observed" class="observed-line"></p>
+        </aside>
+      </main>
+
+      <footer class="method-strip">
+        <p>
+          <strong>口径：</strong><span id="method-total-count">399</span>
+          个官号全部进入数据集，默认显示
+          <span id="method-active-count">376</span>
+          个确认存续团。粉丝量与 UID 覆盖以图上实时统计为准；中置信 UID
+          以短虚线外圈标注。
+        </p>
+        <p>
+          <strong>边界：</strong
+          >页面仅供内部研究；本页是发现清单的归档样本，不是全国地下偶像普查。五条主带属于宽口径编辑展示，严格音乐定位另列于详情。轴外与未判定分类带不参与纵向程度比较；首选视觉保留来源并按展示口径采用，不代表完成逐人成员核验。
+        </p>
+      </footer>
+    </div>
+
+    <noscript
+      >此页面需要浏览器启用 JavaScript 才能完成搜索、缩放和团体选择。</noscript
+    >
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
