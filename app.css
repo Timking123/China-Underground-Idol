@@ -827,11 +827,17 @@ input:focus-visible,
 
 .map-heading-row h2 {
   margin: 0;
+  scroll-margin-top: 180px;
   font-family: var(--font-display);
   font-size: clamp(26px, 2.2vw, 36px);
   font-weight: 500;
   letter-spacing: -0.022em;
   line-height: 1;
+}
+
+.map-heading-row h2:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
 }
 
 .coverage-line {
@@ -1801,6 +1807,10 @@ input:focus-visible,
 
   .map-heading-row {
     display: block;
+  }
+
+  .map-heading-row h2 {
+    scroll-margin-top: 18px;
   }
 
   .coverage-line {

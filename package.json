@@ -1,0 +1,7 @@
+{
+  "name": "china-underground-idol-map",
+  "private": true,
+  "scripts": {
+    "test": "node tests/accessibility-contract.mjs && node --check app.js && node --check data.js"
+  }
+}

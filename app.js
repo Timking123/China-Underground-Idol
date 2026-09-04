@@ -2178,6 +2178,7 @@
   }
 
   function setRegionPopover(open) {
+    if (open) closeSearchResults();
     elements.regionFilterPopover.hidden = !open;
     elements.regionFilterToggle.setAttribute("aria-expanded", String(open));
     if (open) {
@@ -2665,6 +2666,10 @@
       elements.evidenceFilterButtons[0]?.focus();
     });
     document.addEventListener("pointerdown", (event) => {
+      if (!event.target.closest(".search-control")) closeSearchResults();
+      if (!event.target.closest(".region-filter")) setRegionPopover(false);
+    });
+    document.addEventListener("focusin", (event) => {
       if (!event.target.closest(".search-control")) closeSearchResults();
       if (!event.target.closest(".region-filter")) setRegionPopover(false);
     });
