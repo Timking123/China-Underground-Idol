@@ -1,0 +1,149 @@
+{
+  "schemaVersion": "public-reviewed-supplement-v1",
+  "reviewedAt": "2026-09-05",
+  "policy": "保留全部历史档案。此层记录后续人工复核及用户确认，只更新公开展示，不覆盖严格历史快照。企划和事务所粉丝按账号统计，不等同于旗下单团。",
+  "records": [
+    {
+      "id": "g060",
+      "expectedHandle": "@SugarHeart_糖心计划",
+      "reviewedAt": "2026-09-05",
+      "entityKind": "事务所账号／原团名关联档案",
+      "summary": "当前 @SugarHeart_糖心计划 为上海偶像事务所账号。官号更名通告宣布，原组合 SugarHeart 自 2026-08-29 起更名为 neokoro，由 @neokoro_official 作为组合团队微博。本站保留原清单名称及历史资料，下面粉丝量属于事务所账号，不是 neokoro 的粉丝量；当前封面采用品牌图，旧五人团照不作为现役全员照。",
+      "styleLabel": "主题企划／事务所（非单团风格）",
+      "profile": {
+        "uid": "2030310713",
+        "displayName": "SugarHeart_糖心计划",
+        "bio": "糖心计划偶像事务所；上海旗下偶像团队（官号置顶自述）。",
+        "followersDisplay": "2.2万",
+        "followersValue": 22000,
+        "followersApproximate": true,
+        "observedAt": "2026-09-05T03:46:13.026Z",
+        "sourceUrl": "https://weibo.com/u/2030310713",
+        "retrievalMethod": "公开微博页面文本转写，非新付费 API 响应",
+        "avatarAssetPath": "assets/weibo-api-avatar-candidates/g060.jpg",
+        "avatarObservedAt": "2026-09-02T12:06:02.756Z",
+        "historicalFollowers": {
+          "value": 21669,
+          "approximate": false,
+          "observedAt": "2026-09-02T12:06:02.756Z",
+          "sourceType": "cached_weibo_api"
+        }
+      },
+      "activity": {
+        "province": "上海市",
+        "city": "上海市",
+        "provinceKey": "cn-shanghai",
+        "cityKey": "cn-shanghai/shanghai"
+      },
+      "aliases": ["neokoro", "ne♡koro", "糖心SugarHeart"],
+      "wiki": {
+        "state": "exact_page",
+        "pageUrl": "https://chinaidols.fandom.com/zh/wiki/%E7%B3%96%E5%BF%83SugarHeart",
+        "title": "糖心SugarHeart",
+        "label": "China Idols Wiki（原组合／更名沿革）",
+        "confidence": "high",
+        "revisionId": 29236,
+        "observedAt": "2026-09-05T03:51:06.414Z",
+        "scopeNote": "此页对应原演出组合及更名后 neokoro，不是事务所独立页面。"
+      },
+      "visual": {
+        "assetPath": "assets/group-visuals/g060-brand-20260905.jpg",
+        "sourceUrl": "https://weibo.com/u/2030310713",
+        "mediaUrl": "https://wx2.sinaimg.cn/large/79041539gy1ighrcx7qejj20u00u03zv.jpg",
+        "fallbackReason": "account_is_agency_not_single_group",
+        "rationale": "采用官号公开图片中的 SugarHeart／糖心计划品牌标识，不是当前成员海报。组合更名关系见补充复核及通告。"
+      },
+      "links": [
+        { "label": "事务所账号", "url": "https://weibo.com/u/2030310713" },
+        {
+          "label": "组合更名通告",
+          "url": "https://weibo.com/2030310713/ReyhEiyEw"
+        },
+        {
+          "label": "更名后的 neokoro 组合主页",
+          "url": "https://weibo.com/u/7976814457"
+        },
+        {
+          "label": "旗下团队与成员置顶",
+          "url": "https://weibo.com/2030310713/RfITJ65Wv"
+        }
+      ]
+    },
+    {
+      "id": "g360",
+      "expectedHandle": "@NEOZ_official",
+      "reviewedAt": "2026-09-05",
+      "entityKind": "多团女子偶像企划",
+      "summary": "NEOZ 是活跃于武汉的女子偶像企划总号，官号简介列出 NeoQ、初翼回响公学、X_ARCHIVE待归档、Rolipo。2026-07-06 的企划开启帖介绍各子团及武汉主催安排。此条按企划账号收录，粉丝与品牌图不代表旗下任何单团，也不将子团合照标成企划全员照。",
+      "styleLabel": "主题企划（多团，非单团风格）",
+      "profile": {
+        "uid": "8257746955",
+        "displayName": "NEOZ_official",
+        "bio": "活跃于武汉的女子偶像企划 旗下团体： NeoQ 初翼回响公学 X_ARCHIVE待归档 Rolipo 合作请私信",
+        "followersDisplay": "513",
+        "followersValue": 513,
+        "followersApproximate": false,
+        "observedAt": "2026-09-05T03:46:19.202Z",
+        "sourceUrl": "https://weibo.com/u/8257746955",
+        "retrievalMethod": "公开微博页面文本转写，非新付费 API 响应",
+        "avatarAssetPath": "assets/weibo-api-avatar-candidates/g360.jpg",
+        "avatarObservedAt": "2026-09-02T12:06:02.756Z",
+        "historicalFollowers": {
+          "value": 489,
+          "approximate": false,
+          "observedAt": "2026-09-02T12:06:02.756Z",
+          "sourceType": "cached_weibo_api"
+        }
+      },
+      "activity": {
+        "province": "湖北省",
+        "city": "武汉市",
+        "provinceKey": "cn-hubei",
+        "cityKey": "cn-hubei/%E6%AD%A6%E6%B1%89%E5%B8%82"
+      },
+      "wiki": {
+        "state": "not_found",
+        "pageUrl": null,
+        "title": null,
+        "label": "China Idols Wiki 搜索",
+        "confidence": null,
+        "searchUrl": "https://chinaidols.fandom.com/zh/wiki/Special:Search?query=NEOZ&scope=internal",
+        "observedAt": "2026-09-05T03:52:09.520Z",
+        "scopeNote": "精确标题查询未找到页面，保留搜索入口，不声称所有别名页都不存在。"
+      },
+      "visual": {
+        "assetPath": "assets/group-visuals/g360-brand-20260905.jpg",
+        "sourceUrl": "https://weibo.com/u/8257746955",
+        "mediaUrl": "https://wx2.sinaimg.cn/large/0090QFd1gy1ibx26pglrzj31o01o0ti4.jpg",
+        "fallbackReason": "multi_group_project_brand_visual",
+        "rationale": "采用官号背景中的钟表与齿轮品牌艺术图，无人物；不代表旗下团体的全员海报。"
+      },
+      "links": [
+        { "label": "NEOZ 企划主页", "url": "https://weibo.com/u/8257746955" },
+        {
+          "label": "企划开启与旗下团体介绍",
+          "url": "https://weibo.com/8257746955/R7slqtRRN"
+        },
+        {
+          "label": "武汉主催活动置顶",
+          "url": "https://weibo.com/8257746955/Rgqmy2Kvh"
+        }
+      ]
+    },
+    {
+      "id": "g303",
+      "expectedHandle": "@Lumina微光",
+      "reviewedAt": "2026-09-05",
+      "summary": "用户于 2026-09-05 确认 @Lumina微光 已注销账号，并要求列为解散团。本条已从默认存续范围移出，历史资料保留；此处依据用户确认，未取得官号解散公告。不涉及另一条 @Lumina-Official。",
+      "status": {
+        "value": "已解散",
+        "isActive": false,
+        "sourceType": "user_confirmation",
+        "sourceLabel": "用户确认账号已注销并指定列为解散团",
+        "observedAt": "2026-09-05",
+        "officialAnnouncementVerified": false
+      },
+      "links": []
+    }
+  ]
+}

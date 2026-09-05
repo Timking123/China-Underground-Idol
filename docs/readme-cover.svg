@@ -1,0 +1,90 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1280"
+  height="520"
+  viewBox="0 0 1280 520"
+  role="img"
+  aria-labelledby="title description"
+>
+  <title id="title">中国地下偶像档案</title>
+  <desc id="description">
+    黑红配色的中国地下偶像档案封面，主题为粉丝量与风格分布。右侧以地偶二字构成竖向红色书脊。
+  </desc>
+  <rect width="1280" height="520" fill="#0b0c0e" />
+  <g
+    font-family="'Noto Sans CJK SC', 'Source Han Sans SC', 'Microsoft YaHei', sans-serif"
+  >
+    <path d="M56 55H950" stroke="#ece8e7" stroke-opacity="0.25" />
+    <text
+      x="56"
+      y="95"
+      fill="#e24343"
+      font-size="23"
+      font-weight="700"
+      letter-spacing="2"
+    >
+      CHINA UNDERGROUND IDOL ARCHIVE
+    </text>
+    <text
+      x="56"
+      y="239"
+      fill="#ece8e7"
+      font-size="104"
+      font-weight="900"
+      letter-spacing="-3"
+    >
+      中国地下偶像
+    </text>
+    <text x="61" y="307" fill="#c4bdbc" font-size="39" font-weight="500">
+      粉丝量 × 风格分布
+    </text>
+    <path d="M56 367H950" stroke="#ece8e7" stroke-opacity="0.25" />
+    <text x="57" y="430" fill="#e24343" font-size="39" font-weight="800">
+      399
+    </text>
+    <text x="153" y="429" fill="#c4bdbc" font-size="24">份公开档案</text>
+    <text x="492" y="430" fill="#e24343" font-size="39" font-weight="800">
+      375
+    </text>
+    <text x="590" y="429" fill="#c4bdbc" font-size="24">条标记存续</text>
+    <text x="57" y="472" fill="#938c8f" font-size="22">
+      团体 · 城市 · 风格 · 来源
+    </text>
+    <text x="950" y="472" fill="#938c8f" font-size="20" text-anchor="end">
+      idol.hi-veblen.com
+    </text>
+    <rect x="1006" width="274" height="520" fill="#e24343" />
+    <text
+      x="1143"
+      y="226"
+      fill="#0b0c0e"
+      font-size="170"
+      font-weight="900"
+      text-anchor="middle"
+    >
+      地
+    </text>
+    <text
+      x="1143"
+      y="412"
+      fill="#0b0c0e"
+      font-size="170"
+      font-weight="900"
+      text-anchor="middle"
+    >
+      偶
+    </text>
+    <path d="M1046 464H1240" stroke="#0b0c0e" stroke-opacity="0.65" />
+    <text
+      x="1143"
+      y="494"
+      fill="#0b0c0e"
+      font-size="17"
+      font-weight="700"
+      letter-spacing="3"
+      text-anchor="middle"
+    >
+      PUBLIC ARCHIVE
+    </text>
+  </g>
+</svg>

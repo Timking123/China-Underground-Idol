@@ -9,7 +9,7 @@
     <meta name="color-scheme" content="dark" />
     <meta
       name="description"
-      content="状态截点为 2026-09-01、展示证据复核至 2026-09-04 的中国地下偶像粉丝量与风格分布交互档案。"
+      content="保留 399 条完整公开档案；历史状态截点 2026-09-01，追加复核与状态修订至 2026-09-05。按粉丝量、风格和城市探索中国地下偶像。"
     />
     <link rel="icon" href="data:," />
     <title>中国地下偶像势力分布档案 · 2026-09-01</title>
@@ -22,7 +22,7 @@
       <header class="topbar">
         <div class="identity-block">
           <p class="archive-code">
-            CN-IDOL / FIELD MAP / STATUS 2026.09.01 / EVIDENCE 2026.09.04
+            CN-IDOL / FIELD MAP / STATUS 2026.09.01 / REVIEW 2026.09.05
           </p>
           <div class="title-row">
             <span class="signal-mark" aria-hidden="true"></span>
@@ -32,7 +32,7 @@
             横轴为公开粉丝量；五个主带呈现宽口径编辑风格，轴外与未判定结论在同一横轴的分类带中独立归档。严格音乐定位仅在团体详情中展示。
           </p>
           <p class="freshness-line">
-            存续状态截点 2026-09-01 · 展示证据批次截至 2026-09-04 ·
+            历史状态截点 2026-09-01 · 追加复核／状态修订至 2026-09-05 ·
             粉丝量以各团详情所列观察时间为准
           </p>
         </div>
@@ -151,7 +151,7 @@
 
           <div class="scope-switch" aria-label="显示范围">
             <button type="button" data-scope="active" aria-pressed="true">
-              存续 <span id="scope-active-count">376</span>
+              存续 <span id="scope-active-count">375</span>
             </button>
             <button type="button" data-scope="all" aria-pressed="false">
               全部 <span id="scope-total-count">399</span>
@@ -425,6 +425,16 @@
             <div id="detail-tags" class="detail-tags"><span>暂无</span></div>
           </div>
 
+          <section
+            id="review-update"
+            class="review-update"
+            hidden
+            aria-labelledby="review-update-heading"
+          >
+            <h3 id="review-update-heading">补充复核</h3>
+            <p id="review-update-summary"></p>
+            <div id="review-update-links" class="review-update-links"></div>
+          </section>
           <p id="detail-note" class="detail-note"></p>
 
           <details id="candidate-evidence" class="candidate-evidence">
@@ -452,7 +462,9 @@
                     alt=""
                     hidden
                   />
-                  <span id="candidate-profile-avatar-fallback" aria-hidden="true"
+                  <span
+                    id="candidate-profile-avatar-fallback"
+                    aria-hidden="true"
                     >—</span
                   >
                 </div>
@@ -587,18 +599,36 @@
         </aside>
       </main>
 
-      <footer class="method-strip">
+      <footer class="method-strip" aria-label="资料口径、联系与免责声明">
         <p>
           <strong>口径：</strong><span id="method-total-count">399</span>
           个官号全部进入数据集，默认显示
-          <span id="method-active-count">376</span>
+          <span id="method-active-count">375</span>
           个确认存续团。粉丝量与 UID 覆盖以图上实时统计为准；中置信 UID
           以短虚线外圈标注。
         </p>
         <p>
           <strong>边界：</strong
-          >页面仅供内部研究；本页是发现清单的归档样本，不是全国地下偶像普查。五条主带属于宽口径编辑展示，严格音乐定位另列于详情。轴外与未判定分类带不参与纵向程度比较；首选视觉保留来源并按展示口径采用，不代表完成逐人成员核验。
+          >本站是公开资料索引与非商业研究参考，收录范围来自发现清单，不是全国地下偶像普查。五条主带属于宽口径编辑展示，严格音乐定位另列于详情。轴外与未判定分类带不参与纵向程度比较；首选视觉保留来源，不代表完成逐人成员核验。
         </p>
+        <section class="footer-contact" aria-labelledby="contact-heading">
+          <h2 id="contact-heading">一起完善这份档案</h2>
+          <a class="contact-email" href="mailto:1243222867@QQ.com"
+            >1243222867@QQ.com <span aria-hidden="true">↗</span></a
+          >
+          <p>
+            如存在信息错误、遗漏、过时、侵权等情况，可通过邮箱联系管理者。请附上团名、相关页面或图片链接及情况说明，便于核查处理。
+          </p>
+        </section>
+        <section class="footer-disclaimer" aria-labelledby="disclaimer-heading">
+          <h2 id="disclaimer-heading">免责声明</h2>
+          <p>
+            资料来自公开来源，粉丝量、成员、活动地域与存续状态均有时效性，不保证完整、准确或实时。风格分类包含编辑判断，标注“猜测”的内容为推断，不代表团体或所属机构的官方立场。
+          </p>
+          <p>
+            团体名称、标识、照片及海报等素材的权利归各自权利人所有；收录不代表获得其授权、认可或与其存在合作关系。收到更正或权利投诉后，管理者将核实并作更正、补充或移除处理。本声明不排除依法应承担的责任。
+          </p>
+        </section>
       </footer>
     </div>
 

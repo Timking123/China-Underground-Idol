@@ -84,6 +84,10 @@
     detailDate: document.querySelector("#detail-date"),
     detailTags: document.querySelector("#detail-tags"),
     detailNote: document.querySelector("#detail-note"),
+    reviewUpdate: document.querySelector("#review-update"),
+    reviewUpdateHeading: document.querySelector("#review-update-heading"),
+    reviewUpdateSummary: document.querySelector("#review-update-summary"),
+    reviewUpdateLinks: document.querySelector("#review-update-links"),
     profileLink: document.querySelector("#profile-link"),
     evidenceLink: document.querySelector("#evidence-link"),
     styleSourceLink: document.querySelector("#style-source-link"),
@@ -96,9 +100,7 @@
     candidateEvidence: document.querySelector("#candidate-evidence"),
     candidateEvidenceState: document.querySelector("#candidate-evidence-state"),
     candidateProfileState: document.querySelector("#candidate-profile-state"),
-    candidateProfileAvatar: document.querySelector(
-      "#candidate-profile-avatar",
-    ),
+    candidateProfileAvatar: document.querySelector("#candidate-profile-avatar"),
     candidateProfileAvatarFallback: document.querySelector(
       "#candidate-profile-avatar-fallback",
     ),
@@ -804,6 +806,7 @@
       normalizedRegion.province,
       normalizedRegion.city,
       ...(group.secondaryTags || []),
+      ...(group.publicReview?.aliases || []),
     ]
       .filter(Boolean)
       .map(normalizeSearch);
@@ -1499,8 +1502,8 @@
     const acceptedFields = new Set(acceptedProfile?.appliedFields || []);
     const acceptedProfileMatchesCandidate = Boolean(
       acceptedProfile &&
-        profileSummary &&
-        String(profileSummary.uid || "") === String(acceptedProfile.uid || ""),
+      profileSummary &&
+      String(profileSummary.uid || "") === String(acceptedProfile.uid || ""),
     );
 
     const containsManualReview = [
@@ -1515,11 +1518,11 @@
         ? "身份已接受 · 展示层采用"
         : profileGate === "strict_uid_match"
           ? "严格 UID 一致 · 原始候选"
-        : containsManualReview
-          ? "含待复核线索 · 未应用"
-          : timelineCount + searchCount > 0
-            ? "有缓存线索 · 未应用"
-            : "暂无可用候选";
+          : containsManualReview
+            ? "含待复核线索 · 未应用"
+            : timelineCount + searchCount > 0
+              ? "有缓存线索 · 未应用"
+              : "暂无可用候选";
     elements.candidateProfileState.textContent = candidateSourceStateLabel(
       profile.sourceState,
     );
@@ -1529,10 +1532,10 @@
     );
     const candidateAvatarApplied = Boolean(
       acceptedProfileMatchesCandidate &&
-        acceptedFields.has("avatar") &&
-        candidateAvatarPath &&
-        candidateAvatarPath === group.weiboAvatarPath &&
-        candidateAvatarPath === acceptedProfile.avatarAssetPath,
+      acceptedFields.has("avatar") &&
+      candidateAvatarPath &&
+      candidateAvatarPath === group.weiboAvatarPath &&
+      candidateAvatarPath === acceptedProfile.avatarAssetPath,
     );
     elements.candidateProfileAvatar.onerror = null;
     if (candidateAvatarPath) {
@@ -1551,7 +1554,8 @@
         elements.candidateProfileAvatar.hidden = true;
         elements.candidateProfileAvatar.removeAttribute("src");
         elements.candidateProfileAvatarFallback.hidden = false;
-        elements.candidateProfileAvatarState.textContent = "本地候选头像载入失败";
+        elements.candidateProfileAvatarState.textContent =
+          "本地候选头像载入失败";
         elements.candidateProfileAvatarNote.textContent =
           "素材路径仍保留在证据记录中";
       };
@@ -1703,7 +1707,9 @@
 
     elements.detailTags.replaceChildren();
     const tags = [...(group.secondaryTags || [])];
-    const confidence = group.confidenceNormalized;
+    const confidence = group.publicReview?.profile
+      ? null
+      : group.confidenceNormalized;
     if (confidence?.status) tags.push(`存续信心：${confidence.status}`);
     if (confidence?.style) tags.push(`风格信心：${confidence.style}`);
     if (confidence?.overall) tags.push(`判定信心：${confidence.overall}`);
@@ -1712,12 +1718,18 @@
         `UID 匹配：${group.uidConfidence === "medium" ? "中（候选）" : "高"}`,
       );
     if (group.fieldEvidence?.profileIdentity?.state === "blocked")
-      tags.push("身份：阻塞");
+      tags.push(
+        group.publicReview?.profile
+          ? "历史单团身份：阻塞；企划账号已复核"
+          : "身份：阻塞",
+      );
     if (group.fieldEvidence?.profileIdentity?.state === "not_found")
       tags.push(
-        profileAppliedFields.has("identity")
-          ? "严格主档身份：未取得 UID（展示已补充）"
-          : "身份复核：未取得 UID",
+        group.publicReview?.profile
+          ? "历史单团身份：未取得 UID；事务所账号已复核"
+          : profileAppliedFields.has("identity")
+            ? "严格主档身份：未取得 UID（展示已补充）"
+            : "身份复核：未取得 UID",
       );
     tags.push(
       placement.comparable
@@ -1738,9 +1750,23 @@
       elements.detailTags.append(element);
     });
 
+    const publicReview = group.publicReview;
+    elements.reviewUpdate.hidden = !publicReview;
+    elements.reviewUpdateLinks.replaceChildren();
+    elements.reviewUpdateSummary.textContent = publicReview?.summary || "";
+    elements.reviewUpdateHeading.textContent = publicReview
+      ? `补充复核 · ${publicReview.reviewedAt}`
+      : "补充复核";
+    for (const source of publicReview?.links || []) {
+      const link = document.createElement("a");
+      link.className = "secondary-link";
+      setLink(link, source.url, `${source.label} ↗`);
+      elements.reviewUpdateLinks.append(link);
+    }
     const notes = [];
     if (group.profileBio) notes.push(`官号简介：${group.profileBio}`);
-    if (group.notes) notes.push(`既有归档备注：${group.notes}`);
+    if (group.notes && !publicReview?.profile)
+      notes.push(`既有归档备注：${group.notes}`);
     if (group.strictMusicAxisV2?.styleReviewNote)
       notes.push(`严格音乐轴复核：${group.strictMusicAxisV2.styleReviewNote}`);
     if (!group.editorialStyle && group.styleReviewNote)
@@ -1789,14 +1815,16 @@
       group.fieldEvidence.followers.browserRawDisplay !==
         group.fieldEvidence.followers.rawDisplay
     ) {
-      const followerReviewLabel = profileAppliedFields.has("followers")
-        ? "严格主档粉丝量复核（补充前）"
-        : "粉丝量复核";
+      const followerReviewLabel = publicReview?.profile
+        ? "历史严格单团粉丝量复核（企划账号已补充）"
+        : profileAppliedFields.has("followers")
+          ? "严格主档粉丝量复核（补充前）"
+          : "粉丝量复核";
       notes.push(
         `${followerReviewLabel}：${group.fieldEvidence.followers.decisionNote}`,
       );
     }
-    if (evidenceAfterCutoff)
+    if (evidenceAfterCutoff && !publicReview?.status)
       notes.push(
         "该日期晚于归档截点，通常表示截点前已公开的未来行程；请结合备注与来源判断，不应解释为截点后采集。",
       );
@@ -1818,13 +1846,18 @@
     renderPoster(group);
     renderCandidateEvidence(group);
     const profileIdentityBlocked =
-      group.fieldEvidence?.profileIdentity?.state === "blocked";
+      group.fieldEvidence?.profileIdentity?.state === "blocked" &&
+      !publicReview?.profile;
     setLink(
       elements.profileLink,
       profileIdentityBlocked
         ? null
         : group.profileUrl || fallbackProfileUrl(group),
-      group.weiboUid ? "打开团体主页 ↗" : "按官号打开备用主页 ↗",
+      publicReview?.profile
+        ? "打开企划／事务所账号 ↗"
+        : group.weiboUid
+          ? "打开团体主页 ↗"
+          : "按官号打开备用主页 ↗",
       profileIdentityBlocked ? "身份阻塞 · 暂不提供主页跳转" : "暂无可用主页",
     );
     setLink(
@@ -2027,7 +2060,9 @@
       const summary = candidateSummaries(
         candidateEvidenceFor(group).profile,
       )[0];
-      return Boolean(safeCandidateAvatarPath(summary?.candidateAvatarPath, group.id));
+      return Boolean(
+        safeCandidateAvatarPath(summary?.candidateAvatarPath, group.id),
+      );
     }).length;
     const timelineCount = data.groups.filter(
       (group) =>
@@ -2236,6 +2271,9 @@
       element.textContent = "—";
     });
     elements.detailProfileSupplementRow.hidden = true;
+    elements.reviewUpdate.hidden = true;
+    elements.reviewUpdateSummary.textContent = "";
+    elements.reviewUpdateLinks.replaceChildren();
     elements.detailTags.replaceChildren();
     elements.detailNote.textContent =
       "地域条件内部取并集；资料状态内部取并集，不同筛选维度之间取交集。";
