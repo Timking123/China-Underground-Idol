@@ -1,0 +1,141 @@
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  padding: 12px 32px;
+  border-bottom: 1px solid var(--line);
+}
+
+.site-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 12px;
+  border-radius: var(--radius-xs);
+  color: var(--text-soft);
+  text-decoration: none;
+  transition: transform 120ms ease-out;
+}
+
+.site-nav a[aria-current="page"] {
+  background: var(--accent-soft);
+  color: var(--accent-hot);
+}
+
+.site-nav a:active {
+  transform: scale(0.96);
+}
+
+.content-shell > .site-nav,
+.events-shell > .site-nav {
+  padding-inline: 0;
+}
+
+.site-link-status {
+  padding: 12px;
+  background: var(--surface-2);
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+.site-group-events {
+  padding: 16px 0;
+  border-block: 1px solid var(--line);
+}
+
+.site-group-events h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.site-group-events p,
+.site-group-events li {
+  color: var(--text-soft);
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.site-group-events a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  color: var(--accent-hot);
+  text-underline-offset: 4px;
+}
+
+.site-group-events ul {
+  padding-left: 20px;
+}
+
+.site-detail-actions,
+.site-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+
+.site-detail-actions a,
+.site-footer-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--accent-hot);
+  text-underline-offset: 4px;
+}
+
+.site-evidence-details {
+  border-block: 1px solid var(--line);
+}
+
+.site-evidence-details > summary {
+  min-height: 44px;
+  padding: 12px 16px;
+  color: var(--text-soft);
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.site-evidence-details[open] > summary {
+  color: var(--accent-hot);
+}
+
+.site-evidence-details > .coverage-line {
+  margin: 0;
+  padding: 0 16px 12px;
+  text-align: left;
+}
+
+@media (max-width: 480px) {
+  .site-nav {
+    gap: 2px;
+    padding-block: 8px;
+  }
+  .site-nav a {
+    justify-content: center;
+    padding-inline: 9px;
+    font-size: 13px;
+  }
+}
+
+@media (hover: hover) {
+  .site-nav a:hover {
+    background: var(--surface-2);
+    color: var(--text);
+  }
+}
+
+@media (max-width: 860px) {
+  .site-nav {
+    padding-inline: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav a {
+    transition: none;
+  }
+  .site-nav a:active {
+    transform: none;
+  }
+}

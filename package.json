@@ -2,6 +2,26 @@
   "name": "china-underground-idol-map",
   "private": true,
   "scripts": {
-    "test": "node tests/accessibility-contract.mjs && node tests/public-reviewed-records.mjs && node --check app.js && node --check data.js"
+    "test": "npm run test:legacy && node scripts/test.mjs",
+    "test:legacy": "node tests/accessibility-contract.mjs && node tests/public-reviewed-records.mjs && node --check app.js && node --check data.js",
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --max-warnings 0",
+    "format:check": "prettier . --check",
+    "format": "prettier . --write",
+    "verify": "npm run typecheck && npm run lint && npm run format:check && npm run build && npm test",
+    "preview": "node scripts/preview.mjs",
+    "package:site": "npm run verify && node scripts/packageSite.mjs"
+  },
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "esbuild": "0.28.2",
+    "eslint": "10.10.0",
+    "prettier": "3.9.6",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.69.0"
   }
 }

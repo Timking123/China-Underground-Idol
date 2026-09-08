@@ -1,0 +1,166 @@
+{
+  "schemaVersion": "idol-events-v1",
+  "updatedAt": "2026-09-08T08:36:19Z",
+  "coverage": "partial",
+  "events": [
+    {
+      "id": "e-weibo-5338755200452940",
+      "title": "偶像回响 Idol Echo Live Vol.31 · 小丸mori生诞祭",
+      "date": "2026-09-05",
+      "province": null,
+      "city": null,
+      "venue": "VeinLab未来俱乐部",
+      "address": null,
+      "opensAt": null,
+      "startsAt": null,
+      "endsAt": null,
+      "status": "scheduled",
+      "performers": [{ "groupId": "g263", "name": "TakeBlue" }],
+      "sources": [
+        {
+          "url": "https://weibo.com/detail/5338755200452940",
+          "label": "TakeBlue 本周演出情报",
+          "publisher": "TakeBlue 官号",
+          "observedAt": "2026-09-03T11:43:48.400Z",
+          "kind": "official"
+        }
+      ],
+      "notes": "据已归档官号预告整理，未实时复核变更。预告中的 15:40–16:00 为 TakeBlue 出演时段，不能据此确定整场开演时间；仅收录已核实的部分阵容。省市、完整地址和整场时刻未确认。",
+      "poster": null
+    },
+    {
+      "id": "e-weibo-5339142341002069",
+      "title": "SIN RETORNO 世界树剧场演出",
+      "date": "2026-09-06",
+      "province": null,
+      "city": null,
+      "venue": "世界树剧场",
+      "address": null,
+      "opensAt": null,
+      "startsAt": null,
+      "endsAt": null,
+      "status": "scheduled",
+      "performers": [{ "groupId": "g032", "name": "SIN RETORNO" }],
+      "sources": [
+        {
+          "url": "https://weibo.com/detail/5339142341002069",
+          "label": "SIN RETORNO 本周演出预告",
+          "publisher": "SIN RETORNO 官号",
+          "observedAt": "2026-09-03T11:46:52.435Z",
+          "kind": "official"
+        }
+      ],
+      "notes": "标题为依据官宣整理的描述性标题，整场活动正式名称未确认。预告中的 18:20–18:40 为本团出演时段，整场开演时间留空。省市及地址未确认；未实时复核取消、延期或阵容变更。",
+      "poster": null
+    },
+    {
+      "id": "e-weibo-5339009950681922",
+      "title": "紫禁之巅 Vol.2 —— 京门第一",
+      "date": "2026-09-06",
+      "province": "北京",
+      "city": "北京",
+      "venue": "门空间TheDoorSpace",
+      "address": "北京市西城区廊房头条2号院1号楼2层01号",
+      "opensAt": null,
+      "startsAt": null,
+      "endsAt": null,
+      "status": "scheduled",
+      "performers": [
+        { "groupId": "g192", "name": "PokaPokaTime" },
+        { "groupId": "g190", "name": "風時計Kazetoke" }
+      ],
+      "sources": [
+        {
+          "url": "https://weibo.com/detail/5339009950681922",
+          "label": "PokaPokaTime 本周活动预告",
+          "publisher": "PokaPokaTime 官号",
+          "observedAt": "2026-09-03T11:46:52.435Z",
+          "kind": "official"
+        },
+        {
+          "url": "https://weibo.com/detail/5339081194342085",
+          "label": "風時計Kazetoke 本周课程安排",
+          "publisher": "風時計Kazetoke 官号",
+          "observedAt": "2026-09-03T11:43:48.400Z",
+          "kind": "official"
+        }
+      ],
+      "notes": "日期和活动全名来自 PokaPokaTime 预告，城市及完整地址由同场活动的風時計Kazetoke 官号预告交叉核对。仅列已核实的部分出演团体，整场入场、开演和结束时刻未确认；未实时复核变更。",
+      "poster": null
+    },
+    {
+      "id": "e-weibo-5338640013852929",
+      "title": "MOGUMOGU生长计划4 · RED²红色的二次方",
+      "date": "2026-09-13",
+      "province": "内蒙古",
+      "city": "呼和浩特",
+      "venue": null,
+      "address": null,
+      "opensAt": "13:40",
+      "startsAt": "14:00",
+      "endsAt": null,
+      "status": "scheduled",
+      "performers": [
+        { "groupId": "g185", "name": "绯色苏打" },
+        { "groupId": null, "name": "MOGUMOGU" }
+      ],
+      "sources": [
+        {
+          "url": "https://weibo.com/detail/5338640013852929",
+          "label": "绯色苏打 TWOMAN LIVE 官宣",
+          "publisher": "绯色苏打 官号",
+          "observedAt": "2026-09-03T11:46:52.435Z",
+          "kind": "official"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5331060167541520.html",
+          "label": "绯色苏打 8 月 12 日预告（新浪公开页）",
+          "publisher": "绯色苏打_Official",
+          "observedAt": "2026-09-08T08:33:36Z",
+          "kind": "official"
+        }
+      ],
+      "notes": "归档正文明确活动日期、OPEN 13:40 与 START 14:00。2026-09-08 补核绯色苏打 8 月 12 日预告，同名活动及同日日期明确指向内蒙古呼和浩特；具体场地及地址仍未确认。MOGUMOGU 按官宣名称收录，未独立核验身份绑定。补核历史预告不表示已排除后续取消、延期或阵容变更。",
+      "poster": null
+    },
+    {
+      "id": "e-weibo-5339115526292485",
+      "title": "Meguri-Kaado Last one-man",
+      "date": "2026-09-15",
+      "province": "北京",
+      "city": "北京",
+      "venue": "门空间TheDoorSpace",
+      "address": null,
+      "opensAt": "18:45",
+      "startsAt": "19:00",
+      "endsAt": null,
+      "status": "scheduled",
+      "performers": [{ "groupId": null, "name": "Meguri-Kaado" }],
+      "sources": [
+        {
+          "url": "https://weibo.com/detail/5339115526292485",
+          "label": "螢石FluorMelo 活动邀请转发",
+          "publisher": "螢石FluorMelo 官号",
+          "observedAt": "2026-09-03T11:47:14.413Z",
+          "kind": "official"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5338725122835985.html",
+          "label": "Meguri-Kaado 9 月 2 日原预告（新浪公开页）",
+          "publisher": "Meguri-Kaado",
+          "observedAt": "2026-09-08T08:33:36Z",
+          "kind": "official"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5334341322280544.html",
+          "label": "TrueWorld 场馆城市交叉依据（非本场排期）",
+          "publisher": "TrueWorld-",
+          "observedAt": "2026-09-08T08:33:36Z",
+          "kind": "organizer"
+        }
+      ],
+      "notes": "2026-09-08 补核 Meguri-Kaado 9 月 2 日原预告，确认日期、入场、开演及场地，与原邀请转发一致。结合 TrueWorld 其他场次的同场馆、区、院号、楼层资料交叉确认城市北京；该来源仅用于城市，不证明本场排期。街名存在廊坊头条与廊房头条异写，完整地址仍留空。主出演未绑定团体档案，未据致谢文案推断其他出演者。补核历史预告不表示已排除后续取消、延期或阵容变更。",
+      "poster": null
+    }
+  ]
+}

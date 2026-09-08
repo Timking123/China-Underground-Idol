@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="编辑整理的地下偶像活动日程。按日期、团体和省市查找，查看官宣来源并手动导出日历。仅覆盖已收录资料，不是完整或实时日程。"
+    />
+    <link rel="icon" href="data:," />
+    <title>活动日历 · 地下偶像资料档案</title>
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="styles/events.css" />
+    <link rel="stylesheet" href="styles/site.css" />
+    <script src="assets/groups-data.js" defer></script>
+    <script src="assets/events.js" defer></script>
+  </head>
+  <body class="events-page">
+    <a class="skip-link" href="#events-heading">跳至活动日程</a>
+    <div class="events-shell">
+      <nav class="site-nav" aria-label="主导航">
+        <a href="discover.html">发现</a>
+        <a href="groups.html">团体</a>
+        <a href="events.html" aria-current="page">演出</a>
+        <a href="index.html">风格图</a>
+        <a href="guide.html">观演指南</a>
+      </nav>
+      <header class="events-header">
+        <p class="events-code">CN-IDOL / EVENT ARCHIVE</p>
+        <h1>活动日历<span aria-hidden="true"> / LIVE</span></h1>
+        <p class="events-coverage">
+          部分收录 · 出发前请核对官宣 · 中国当地时间（UTC+8）
+        </p>
+      </header>
+
+      <main id="events-app">
+        <form id="events-filters" class="events-filters" aria-label="筛选活动">
+          <input
+            id="events-period"
+            name="period"
+            type="hidden"
+            value="upcoming"
+          />
+          <div class="events-search-row">
+            <label class="events-search"
+              ><span class="events-label">搜索演出</span
+              ><input
+                id="events-query"
+                name="q"
+                type="search"
+                maxlength="120"
+                autocomplete="off"
+                placeholder="活动、团体、场地或关键词"
+            /></label>
+            <button type="submit" class="events-primary">搜索</button>
+          </div>
+          <div
+            class="events-quick-actions"
+            role="group"
+            aria-label="活动日期范围"
+          >
+            <button type="button" data-period="upcoming" aria-pressed="true">
+              近期
+            </button>
+            <button type="button" data-period="past" aria-pressed="false">
+              历史
+            </button>
+            <button type="button" data-period="all" aria-pressed="false">
+              全部
+            </button>
+            <button id="events-today" type="button" aria-pressed="false">
+              今天
+            </button>
+            <button id="events-weekend" type="button" aria-pressed="false">
+              本周末
+            </button>
+          </div>
+          <div class="events-context">
+            <label class="events-city-shortcut"
+              ><span class="events-label">城市</span>
+              <select id="events-city-shortcut" aria-label="按城市查看演出">
+                <option value="">全部城市</option>
+                <option value="__multiple__" disabled hidden>多地区已选</option>
+              </select>
+            </label>
+            <details id="events-advanced" class="events-advanced">
+              <summary>
+                更多筛选 <span id="events-advanced-count"></span>
+              </summary>
+              <div class="events-filter-fields">
+                <label
+                  >开始日期<input
+                    id="events-from"
+                    name="from"
+                    type="date"
+                    min="1900-01-01"
+                    max="2100-12-31"
+                /></label>
+                <label
+                  >结束日期<input
+                    id="events-to"
+                    name="to"
+                    type="date"
+                    min="1900-01-01"
+                    max="2100-12-31"
+                /></label>
+                <label
+                  >团体<select id="events-group" name="group">
+                    <option value="">全部团体</option>
+                  </select></label
+                >
+              </div>
+              <details class="events-regions">
+                <summary>
+                  省市多选 <span id="events-region-count">不限地区</span>
+                </summary>
+                <p class="events-help">
+                  省和市可以混选，满足任一地区即可。例如“广东省＋桂林市”；再与日期、团体和关键词共同筛选。这里只列出已收录活动的地区。
+                </p>
+                <div
+                  id="events-region-options"
+                  class="events-region-options"
+                ></div>
+              </details>
+              <div class="events-filter-actions">
+                <button type="submit" class="events-primary">应用筛选</button>
+                <button type="reset">清除筛选</button>
+              </div>
+            </details>
+          </div>
+          <p id="events-active-filters" class="events-help"></p>
+          <p id="events-filter-notice" class="events-help" role="status"></p>
+        </form>
+
+        <section class="events-results" aria-labelledby="events-heading">
+          <div class="events-results-top">
+            <div>
+              <h2 id="events-heading" tabindex="-1">活动日程</h2>
+              <p
+                id="events-result-status"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                正在读取活动资料…若长时间没有显示，请重新打开完整站点文件。
+              </p>
+            </div>
+            <div class="events-result-actions">
+              <div
+                class="events-view-switch"
+                role="group"
+                aria-label="显示方式"
+              >
+                <button id="events-list-view" type="button" aria-pressed="true">
+                  日程
+                </button>
+                <button
+                  id="events-month-view"
+                  type="button"
+                  aria-pressed="false"
+                >
+                  月历
+                </button>
+              </div>
+              <button id="events-export" type="button" disabled>
+                下载 ICS
+              </button>
+            </div>
+          </div>
+          <div id="events-calendar" hidden>
+            <div class="events-month-controls">
+              <button id="events-prev-month" type="button" aria-label="上个月">
+                ← 上月
+              </button>
+              <h3
+                id="events-month-heading"
+                aria-live="polite"
+                tabindex="-1"
+              ></h3>
+              <button id="events-next-month" type="button" aria-label="下个月">
+                下月 →
+              </button>
+              <button id="events-current-month" type="button">回到本月</button>
+            </div>
+            <p class="events-help">
+              选择日期查看下方日程；月份切换不改变筛选和导出范围。
+            </p>
+            <div
+              id="events-month-grid"
+              class="events-month-grid"
+              role="group"
+              aria-labelledby="events-month-heading"
+            ></div>
+            <button id="events-show-month" type="button" hidden>
+              显示整月日程
+            </button>
+          </div>
+          <p id="events-list-caption" class="events-list-caption"></p>
+          <div id="events-list"></div>
+          <div id="events-empty" class="events-empty" hidden>
+            <h3>暂无符合条件的已收录活动</h3>
+            <p id="events-empty-reason">
+              尚未收录不代表没有活动。试试其他日期或地区，也可补充可靠官宣。
+            </p>
+            <button id="events-empty-reset" type="button">清除筛选</button>
+            <button id="events-empty-history" type="button">
+              查看历史活动
+            </button>
+            <a href="contribute.html">补充活动资料</a>
+          </div>
+          <noscript
+            ><p>
+              活动筛选需要启用
+              JavaScript。仍可访问团体档案、观演指南或通过邮件补充资料。
+            </p></noscript
+          >
+        </section>
+      </main>
+      <footer class="events-footer">
+        <details class="events-information">
+          <summary>收录、更新时间与日历导出说明</summary>
+          <p id="events-updated" class="events-meta"></p>
+          <p>
+            仅覆盖编辑已收录资料，不是完整或实时日程。每场活动的官宣与观察日期见详情。
+          </p>
+          <p>
+            ICS
+            下载当前筛选结果，需手动导入日历应用；不提供自动同步订阅。取消与延期请核对最新官宣。
+          </p>
+        </details>
+        公益资料整理 · 非官方日程 ·
+        <a href="about.html">收录边界与来源说明</a> ·
+        <a href="contribute.html">投稿纠错</a>
+      </footer>
+    </div>
+  </body>
+</html>

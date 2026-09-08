@@ -56,15 +56,25 @@
 
 ## 本地运行
 
-下载或克隆仓库后，用浏览器打开 [`index.html`](index.html) 即可。页面需要启用 JavaScript，无需构建，也不依赖服务端。
+下载包含全部已生成脚本的发布版本后，用浏览器打开 [`discover.html`](discover.html) 开始发现，或从 [`index.html`](index.html) 进入原风格图。所有页面使用相对链接和普通脚本，支持 file:// 与静态 HTTP/HTTPS，访问者无需 Node.js。
 
-如需检查代码，安装 Node.js 后在仓库目录运行：
+开发或编辑资料需要 Node.js 22.14.0 或受支持的更新版本。在仓库目录运行：
 
 ```sh
-npm test
+npm ci
+npm run verify
+npm run preview
 ```
 
-该命令运行页面可访问性、公开补充资料与历史隔离检查，并检查 `app.js`、`data.js` 的 JavaScript 语法。
+`verify` 依次运行 TypeScript strict、ESLint、Prettier、esbuild IIFE 构建和全部旧/新测试。`npm test` 仍保留页面可访问性、公开补充资料与历史隔离以及原脚本语法检查，不刷新数据。`preview` 仅监听本机 127.0.0.1:4174，按 Ctrl+C 停止。
+
+页面主导航为发现、团体、演出、风格图与观演指南，页脚保留邮件投稿纠错和关于入口。团体列表与独立档案使用轻量公开索引；`group.html?group=g001` 进入独立档案，旧 `index.html?group=g001` 仍可定位原图表。完整399条保留，历史条目可从全部档案访问。演出默认显示今天及未来的已收录资料，`period=past|all` 可看往期或全部，旧日期查询和活动锚点继续可用。活动为人工核验的部分收录，非实时全国排期；“尚未收录”不代表没有活动。
+
+纠错入口允许 `group`、`event`、`page`、`kind` 四类公开标识，预填内容可见且可编辑；未知、重复、过长或不合法参数回退至手动填写。页面只生成邮件草稿，由用户检查并发送。离线访问不会把本机文件地址写入草稿。
+
+修改 TypeScript 或活动 JSON 后执行 `npm run build` 更新普通脚本。参数、数据与时态契约见 [活动维护说明](docs/EVENTS.md)。构建配置参考 [TypeScript strict](https://www.typescriptlang.org/tsconfig/strict.html)、[esbuild IIFE](https://esbuild.github.io/api/#iife)、[typescript-eslint](https://typescript-eslint.io/getting-started/) 和 [Prettier CLI](https://prettier.io/docs/cli)。
+
+`npm run package:site` 完成验证后生成 `.build/site` 及 SHA-256 文件清单。该目录仅含页面、样式、普通脚本与白名单图像，不包含开发环境、Git、私有缓存或收据。此命令只生成本地候选；备案展示、站长确认及独立验收是公开发布前另行完成的步骤。
 
 在线站点由自有服务器上的 Nginx 托管，GitHub 用于保存公开发布源码。
 

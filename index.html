@@ -14,11 +14,25 @@
     <link rel="icon" href="data:," />
     <title>中国地下偶像势力分布档案 · 2026-09-01</title>
     <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="styles/site.css" />
   </head>
   <body>
     <a class="skip-link" href="#map-heading">跳至分布图</a>
 
     <div class="app-shell">
+      <nav class="site-nav" aria-label="主导航">
+        <a href="discover.html">发现</a>
+        <a href="groups.html">团体</a>
+        <a href="events.html">演出</a>
+        <a href="index.html" aria-current="page">风格图</a>
+        <a href="guide.html">观演指南</a>
+      </nav>
+      <p
+        id="group-link-status"
+        class="site-link-status"
+        role="status"
+        hidden
+      ></p>
       <header class="topbar">
         <div class="identity-block">
           <p class="archive-code">
@@ -26,7 +40,7 @@
           </p>
           <div class="title-row">
             <span class="signal-mark" aria-hidden="true"></span>
-            <h1>地下偶像势力分布档案</h1>
+            <h1>地下偶像风格分布图</h1>
           </div>
           <p class="subtitle">
             横轴为公开粉丝量；五个主带呈现宽口径编辑风格，轴外与未判定结论在同一横轴的分类带中独立归档。严格音乐定位仅在团体详情中展示。
@@ -167,7 +181,11 @@
               <p class="section-kicker">POSITIONING MATRIX</p>
               <h2 id="map-heading" tabindex="-1">粉丝量 × 风格分布</h2>
             </div>
-            <p id="coverage-line" class="coverage-line" aria-live="polite"></p>
+            <p
+              id="public-coverage-line"
+              class="coverage-line"
+              aria-live="polite"
+            ></p>
           </div>
 
           <div
@@ -181,43 +199,51 @@
             <button id="clear-region-filter" type="button">清空地域</button>
           </div>
 
-          <div class="evidence-filter-bar" aria-label="资料状态筛选">
-            <span class="evidence-filter-label">资料状态</span>
-            <div class="evidence-filter-options">
-              <button
-                type="button"
-                data-evidence-filter="strict_uid_match"
-                aria-pressed="false"
-              >
-                API 严格匹配 <span data-filter-count="strict_uid_match">0</span>
-              </button>
-              <button
-                type="button"
-                data-evidence-filter="manual_review"
-                aria-pressed="false"
-              >
-                候选待复核 <span data-filter-count="manual_review">0</span>
-              </button>
-              <button
-                type="button"
-                data-evidence-filter="timeline_available"
-                aria-pressed="false"
-              >
-                有官号动态 <span data-filter-count="timeline_available">0</span>
-              </button>
-              <button
-                type="button"
-                data-evidence-filter="data_gap"
-                aria-pressed="false"
-              >
-                资料有缺口 <span data-filter-count="data_gap">0</span>
+          <details class="site-evidence-details">
+            <summary>
+              资料状态与收录口径 <span id="evidence-selection-note"></span>
+            </summary>
+            <p id="coverage-line" class="coverage-line"></p>
+            <div class="evidence-filter-bar" aria-label="资料状态筛选">
+              <span class="evidence-filter-label">资料状态</span>
+              <div class="evidence-filter-options">
+                <button
+                  type="button"
+                  data-evidence-filter="strict_uid_match"
+                  aria-pressed="false"
+                >
+                  API 严格匹配
+                  <span data-filter-count="strict_uid_match">0</span>
+                </button>
+                <button
+                  type="button"
+                  data-evidence-filter="manual_review"
+                  aria-pressed="false"
+                >
+                  候选待复核 <span data-filter-count="manual_review">0</span>
+                </button>
+                <button
+                  type="button"
+                  data-evidence-filter="timeline_available"
+                  aria-pressed="false"
+                >
+                  有官号动态
+                  <span data-filter-count="timeline_available">0</span>
+                </button>
+                <button
+                  type="button"
+                  data-evidence-filter="data_gap"
+                  aria-pressed="false"
+                >
+                  资料有缺口 <span data-filter-count="data_gap">0</span>
+                </button>
+              </div>
+              <button id="clear-evidence-filter" type="button" hidden>
+                清空资料筛选
               </button>
             </div>
-            <button id="clear-evidence-filter" type="button" hidden>
-              清空资料筛选
-            </button>
-          </div>
-          <p id="api-coverage-line" class="api-coverage-line"></p>
+            <p id="api-coverage-line" class="api-coverage-line"></p>
+          </details>
 
           <div class="chart-tools" aria-label="图表控制">
             <p id="viewport-note">
@@ -595,11 +621,37 @@
             >
           </div>
 
+          <section
+            id="group-events"
+            class="site-group-events"
+            aria-labelledby="group-events-heading"
+            hidden
+          >
+            <h3 id="group-events-heading">相关活动</h3>
+            <p id="group-events-summary"></p>
+            <ul id="group-events-list" hidden></ul>
+            <div class="site-detail-actions">
+              <a id="group-profile-link" href="groups.html"
+                >查看独立团体档案 →</a
+              >
+              <a id="group-events-link" href="events.html?period=all"
+                >查看全部活动资料 →</a
+              >
+              <a id="group-correction-link" href="contribute.html?page=index"
+                >纠正这条资料</a
+              >
+              <a href="guide.html#announcement">观演前先核对官宣</a>
+            </div>
+          </section>
           <p id="profile-observed" class="observed-line"></p>
         </aside>
       </main>
 
       <footer class="method-strip" aria-label="资料口径、联系与免责声明">
+        <div class="site-footer-links">
+          <a href="contribute.html">投稿纠错</a>
+          <a href="about.html">关于本站</a>
+        </div>
         <p>
           <strong>口径：</strong><span id="method-total-count">399</span>
           个官号全部进入数据集，默认显示
@@ -636,6 +688,7 @@
       >此页面需要浏览器启用 JavaScript 才能完成搜索、缩放和团体选择。</noscript
     >
     <script src="data.js"></script>
+    <script src="assets/site.js"></script>
     <script src="app.js"></script>
   </body>
 </html>

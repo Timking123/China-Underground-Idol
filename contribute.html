@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="选择反馈类型，写清相关页面与原始来源。本站仅在本机生成邮件草稿，由你检查后自行发送。"
+    />
+    <link rel="icon" href="data:," />
+    <title>补充资料，纠正细节 · 地下偶像势力分布档案</title>
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="styles/content.css" />
+    <link rel="stylesheet" href="styles/site.css" />
+    <script src="assets/groups-data.js" defer></script>
+    <script src="assets/contribute.js" defer></script>
+  </head>
+  <body class="content-page">
+    <a class="skip-link" href="#content-main">跳至正文</a>
+    <div class="content-shell">
+      <nav class="site-nav" aria-label="主导航">
+        <a href="discover.html">发现</a>
+        <a href="groups.html">团体</a>
+        <a href="events.html">演出</a>
+        <a href="index.html">风格图</a>
+        <a href="guide.html">观演指南</a>
+      </nav>
+      <header class="content-header">
+        <p class="content-kicker">CN-IDOL / CONTRIBUTE / LOCAL DRAFT</p>
+        <h1>补充资料，纠正细节</h1>
+        <p class="content-lead">
+          选择反馈类型，写清相关页面与原始来源。本站仅在本机生成邮件草稿，由你检查后自行发送。
+        </p>
+        <p class="content-meta">地下偶像势力分布档案 · 编辑日期 2026-09-05</p>
+      </header>
+      <main id="content-main" tabindex="-1">
+        <div class="content-layout">
+          <aside class="content-toc" aria-label="投稿说明">
+            <p>收件邮箱</p>
+            <a href="mailto:1243222867@QQ.com">1243222867@QQ.com</a>
+            <p class="content-hint">
+              不需要账号或敏感证件。来信不会自动公开，内容需经编辑核对。
+            </p>
+            <a href="about.html#rights">素材与纠错说明</a>
+          </aside>
+          <div class="content-article">
+            <p id="script-notice" class="content-callout">
+              草稿工具尚未就绪。若脚本不可用，请自行写信至
+              1243222867@QQ.com，说明反馈类型、相关页面、公开来源与具体诉求。
+            </p>
+            <p
+              id="draft-context"
+              class="content-callout"
+              role="status"
+              hidden
+            ></p>
+            <form id="contribute-form" class="content-form" autocomplete="off">
+              <fieldset id="draft-fields" disabled>
+                <legend>01 / 整理反馈</legend>
+                <div class="content-field">
+                  <label for="draft-kind">反馈类型</label
+                  ><select id="draft-kind" aria-describedby="template-hint">
+                    <option value="error">资料错误</option>
+                    <option value="event">活动补充</option>
+                    <option value="outdated">过时资料</option>
+                    <option value="rights">素材权利</option>
+                  </select>
+                  <p id="template-hint" class="content-hint">
+                    指出哪一项有误、建议改成什么，并附可核对的原始来源。
+                  </p>
+                </div>
+                <div class="content-field">
+                  <label for="draft-target">相关页面或名称（必填）</label
+                  ><input
+                    id="draft-target"
+                    required
+                    maxlength="160"
+                    aria-describedby="target-help"
+                    placeholder="团体名称、活动名称或本站页面地址"
+                  /><small id="target-help"
+                    >最多 160 个字符。可写页面中的具体位置。</small
+                  >
+                </div>
+                <div class="content-field">
+                  <label for="draft-source">公开来源链接（选填）</label
+                  ><input
+                    id="draft-source"
+                    type="url"
+                    maxlength="800"
+                    aria-describedby="source-help"
+                    placeholder="https://"
+                  /><small id="source-help"
+                    >最多 800 个字符，仅接受 HTTP /
+                    HTTPS。优先提供团体、主办方或场地原帖；没有来源可留空并说明。</small
+                  >
+                </div>
+                <div class="content-field">
+                  <label for="draft-details">具体说明（必填）</label
+                  ><textarea
+                    id="draft-details"
+                    required
+                    maxlength="3000"
+                    rows="7"
+                    aria-describedby="details-help"
+                    placeholder="说明发现的问题或补充内容；尚未确认的部分请标明。"
+                  ></textarea
+                  ><small id="details-help"
+                    >最多 3000
+                    个字符。不要填写身份证号、住址、完整入场凭证或其他敏感资料。</small
+                  >
+                </div>
+                <button
+                  class="content-button content-button-primary"
+                  type="submit"
+                >
+                  生成邮件草稿
+                </button>
+              </fieldset>
+            </form>
+            <p
+              id="draft-status"
+              class="content-status"
+              role="status"
+              aria-live="polite"
+            >
+              尚未发送。输入仅在本页处理，不上传至本站，也不保存账号。
+            </p>
+            <section
+              id="draft-result"
+              class="content-section"
+              hidden
+              aria-labelledby="result-heading"
+            >
+              <h2 id="result-heading">02 / 检查草稿，再自行发送</h2>
+              <p>
+                尚未发送，请在邮件客户端检查并发送。若未安装邮件客户端、链接没有打开或草稿过长，可复制下方全文，自行粘贴到邮箱中。
+              </p>
+              <label for="draft-preview">可选中的完整草稿</label
+              ><textarea
+                id="draft-preview"
+                readonly
+                spellcheck="false"
+              ></textarea>
+              <div class="content-actions">
+                <a id="open-mail" class="content-button content-button-primary"
+                  >打开邮件客户端</a
+                ><button id="copy-draft" class="content-button" type="button">
+                  复制草稿</button
+                ><button id="select-draft" class="content-button" type="button">
+                  选中全文
+                </button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+      <footer class="content-footer">
+        <p>独立公益资料整理 · 收录不完整，信息请回到原始来源核对。</p>
+        <a href="contribute.html" aria-current="page">投稿纠错</a>
+        <a href="about.html">关于本站</a>
+      </footer>
+    </div>
+  </body>
+</html>

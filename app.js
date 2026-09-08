@@ -29,6 +29,8 @@
     selectionRing: document.querySelector("#selection-ring"),
     chartLive: document.querySelector("#chart-live"),
     coverageLine: document.querySelector("#coverage-line"),
+    publicCoverageLine: document.querySelector("#public-coverage-line"),
+    evidenceSelectionNote: document.querySelector("#evidence-selection-note"),
     scopeActiveCount: document.querySelector("#scope-active-count"),
     scopeTotalCount: document.querySelector("#scope-total-count"),
     methodActiveCount: document.querySelector("#method-active-count"),
@@ -1942,6 +1944,7 @@
     elements.selectionRing.style.transform = `translate(${group.x}px, ${group.y}px)`;
     elements.selectionRing.classList.add("is-visible");
     updateDetails(group);
+    window.IDOL_SITE?.renderGroupEvents(group.id);
     const placement = normalizedStylePlacement(group);
     const editorialStyle = normalizedEditorialStyle(group);
     elements.chartLive.textContent = `已选择${group.name}，公开粉丝量${followersLabel(group)}，宽口径编辑风格${editorialStyle.displayLabel}，图上位置${placement.label}${placement.comparable ? "，可纵向比较" : "，仅作分类"}。严格音乐定位请在团体详情查看。`;
@@ -2245,6 +2248,8 @@
   }
 
   function clearFilteredSelection() {
+    const groupEvents = document.querySelector("#group-events");
+    if (groupEvents) groupEvents.hidden = true;
     const selected = nodeElements.get(state.selectedId);
     selected?.classList.remove("is-selected");
     selected?.removeAttribute("aria-current");
@@ -2327,6 +2332,10 @@
       safeAssetPath(group.profileCoverPath, "profile-covers"),
     ).length;
     const evidenceFilterCount = state.selectedEvidenceFilters.size;
+    elements.publicCoverageLine.textContent = `已显示 ${visibleCount}/${data.groups.length} 条团体档案${evidenceFilterCount ? ` · 已选 ${evidenceFilterCount} 项资料条件` : ""}`;
+    elements.evidenceSelectionNote.textContent = evidenceFilterCount
+      ? `（已选 ${evidenceFilterCount} 项）`
+      : "";
     elements.coverageLine.textContent = `已显示 ${visibleCount}/${data.groups.length}${evidenceFilterCount ? ` · 资料筛选 ${evidenceFilterCount} 项` : ""} · 当前粉丝量 ${visibleFollowers}（UID 高置信 ${visibleHighUid} / 中置信 ${visibleMediumUid}） · 头像 ${visibleAvatars} · 官号背景 ${visibleProfileCovers}`;
     const regionCount = selectedRegionCount();
     const regionScopeLabel = {
@@ -2794,6 +2803,57 @@
     });
   }
 
+  function applyGroupDeepLink() {
+    const result = window.IDOL_SITE?.parseGroupLink(
+      window.location.search,
+      new Set(groupsById.keys()),
+    );
+    const notice = document.querySelector("#group-link-status");
+    if (!result) return false;
+    elements.searchInput.value = "";
+    closeSearchResults();
+    if (result.state !== "valid") {
+      state.selectedProvinces.clear();
+      state.selectedCities.clear();
+      state.selectedEvidenceFilters.clear();
+      renderRegionTree();
+      renderRegionChips();
+      applyScope("active");
+      fitWorld(false);
+      const preferred =
+        data.groups.find((group) => group.name === "惑星VORTEX") ||
+        data.groups.find((group) => group.isActive);
+      if (preferred) selectGroup(preferred.id);
+    }
+    if (result.state === "none") {
+      if (notice) notice.hidden = true;
+      return true;
+    }
+    if (result.state === "invalid") {
+      if (notice) {
+        notice.hidden = false;
+        notice.textContent = "团体链接无效或未收录，已保留默认档案视图。";
+      }
+      return true;
+    }
+    const group = groupsById.get(result.groupId);
+    // 深链优先定位；返回历史页面时清除可能遮住目标的筛选。
+    state.selectedProvinces.clear();
+    state.selectedCities.clear();
+    state.selectedEvidenceFilters.clear();
+    renderRegionTree();
+    renderRegionChips();
+    applyScope(group.isActive ? "active" : "all");
+    selectGroup(group.id, { focus: true });
+    if (notice) {
+      notice.hidden = false;
+      notice.textContent = group.isActive
+        ? `已定位 ${group.name}。`
+        : `已定位 ${group.name}；为显示历史条目，筛选已切换为全部 399 条。历史快照与当前展示口径不变。`;
+    }
+    return true;
+  }
+
   configureWorld();
   renderBands();
   renderAxes();
@@ -2805,9 +2865,11 @@
   applyScope("active");
   requestAnimationFrame(() => {
     fitWorld(false);
+    if (applyGroupDeepLink()) return;
     const preferred =
       data.groups.find((group) => group.name === "惑星VORTEX") ||
       data.groups.find((group) => group.isActive);
     if (preferred) selectGroup(preferred.id);
   });
+  window.addEventListener("popstate", applyGroupDeepLink);
 })();

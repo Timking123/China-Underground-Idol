@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="按团名、城市和编辑风格分类查找地下偶像团体，查看公开官号、资料来源与相关活动。"
+    />
+    <title>团体列表 · 地下偶像资料档案</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="styles/site.css" />
+    <link rel="stylesheet" href="styles/groups.css" />
+    <script src="assets/groups-data.js" defer></script>
+    <script src="assets/groups.js" defer></script>
+  </head>
+  <body class="groups-page">
+    <a class="skip-link" href="#groups-heading">跳至团体列表</a>
+    <div class="groups-shell">
+      <nav class="site-nav" aria-label="主导航">
+        <a href="discover.html">发现</a
+        ><a href="groups.html" aria-current="page">团体</a
+        ><a href="events.html">演出</a><a href="index.html">风格图</a
+        ><a href="guide.html">观演指南</a>
+      </nav>
+      <header class="groups-header">
+        <p class="groups-kicker">CN-IDOL / GROUP ARCHIVE</p>
+        <h1 id="groups-heading">从一支团，发现下一场现场</h1>
+        <p id="groups-archive" class="groups-subtitle">
+          公开资料档案 · 收录范围不完整，状态以所列来源时点为准。
+        </p>
+      </header>
+      <main id="groups-app">
+        <form
+          id="groups-filters"
+          class="groups-filters"
+          aria-label="查找团体"
+          hidden
+        >
+          <div class="groups-search-row">
+            <label for="groups-query" class="sr-only"
+              >搜索团名、别名或官号</label
+            >
+            <input
+              id="groups-query"
+              name="q"
+              type="search"
+              maxlength="120"
+              placeholder="搜索团名、别名或官号"
+              autocomplete="off"
+            />
+            <button type="submit" class="groups-primary">查找</button>
+          </div>
+          <details class="groups-filter-details" id="groups-advanced">
+            <summary>
+              筛选条件
+              <span id="groups-filter-summary">存续 · 主要活动城市</span>
+            </summary>
+            <div class="groups-selects">
+              <label
+                >资料状态<select id="groups-status" name="status">
+                  <option value="active">仅存续标记</option>
+                  <option value="all">全部，含历史团体</option>
+                </select></label
+              >
+              <label
+                >地域口径<select id="groups-region-role" name="regionRole">
+                  <option value="activity">主要活动城市</option>
+                  <option value="founding">建团城市</option>
+                </select></label
+              >
+              <label
+                >编辑风格<select id="groups-style" name="style">
+                  <option value="">不限风格</option>
+                </select></label
+              >
+              <label
+                >排列方式<select id="groups-sort" name="sort">
+                  <option value="archive">原归档顺序</option>
+                  <option value="followers">账号粉丝观察值</option>
+                </select></label
+              >
+            </div>
+            <fieldset class="groups-region-field">
+              <legend>省市多选</legend>
+              <p class="groups-help">
+                省与市可以混选，符合任一地区即可；未知地区不会归入所选城市。
+              </p>
+              <div
+                id="groups-region-options"
+                class="groups-region-options"
+              ></div>
+            </fieldset>
+            <div class="groups-actions">
+              <button type="submit" class="groups-primary">应用筛选</button
+              ><button type="reset">清除筛选</button>
+            </div>
+          </details>
+        </form>
+        <p id="groups-notice" class="groups-notice" role="status" hidden></p>
+        <section aria-label="团体查询结果">
+          <div class="groups-results-bar">
+            <h2 id="groups-results-title">团体列表</h2>
+            <p id="groups-count" role="status">正在加载资料…</p>
+          </div>
+          <div id="groups-results" class="groups-grid" aria-busy="true">
+            <p class="groups-loading">若资料未能显示，请重新打开页面。</p>
+          </div>
+          <nav
+            id="groups-pagination"
+            class="groups-pagination"
+            aria-label="团体列表分页"
+            hidden
+          >
+            <button id="groups-prev" type="button">上一页</button>
+            <p id="groups-page-info"></p>
+            <button id="groups-next" type="button">下一页</button>
+          </nav>
+        </section>
+        <noscript
+          ><p class="groups-empty">
+            团体搜索需要启用
+            JavaScript。你也可以查阅观演指南，或通过投稿纠错联系管理者。
+          </p></noscript
+        >
+      </main>
+      <footer class="groups-footer">
+        <p>独立公益资料整理 · 非官方档案</p>
+        <a href="contribute.html">投稿纠错</a
+        ><a href="about.html">关于与资料口径</a>
+      </footer>
+    </div>
+  </body>
+</html>

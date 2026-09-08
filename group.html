@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="查阅地下偶像团体档案、公开官号、相关活动及资料来源。历史状态与当前动态请结合各项观察日期核实。"
+    />
+    <title>团体档案 · 地下偶像资料档案</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="styles/site.css" />
+    <link rel="stylesheet" href="styles/groups.css" />
+    <script src="assets/groups-data.js" defer></script>
+    <script src="assets/group.js" defer></script>
+  </head>
+  <body class="groups-page">
+    <a class="skip-link" href="#group-main">跳至团体档案</a>
+    <div class="groups-shell">
+      <nav class="site-nav" aria-label="主导航">
+        <a href="discover.html">发现</a
+        ><a href="groups.html" aria-current="page">团体</a
+        ><a href="events.html">演出</a><a href="index.html">风格图</a
+        ><a href="guide.html">观演指南</a>
+      </nav>
+      <div class="groups-breadcrumb">
+        <a href="groups.html">← 团体列表</a><span>GROUP DOSSIER</span>
+      </div>
+      <main id="group-main" aria-busy="true">
+        <h1 class="groups-detail-loading">正在打开团体档案…</h1>
+        <p class="groups-help">若资料未能显示，请重新打开页面。</p>
+      </main>
+      <noscript
+        ><p class="groups-empty">
+          读取团体资料需要启用
+          JavaScript。请返回团体列表，或通过投稿纠错联系管理者。
+        </p></noscript
+      >
+      <footer class="groups-footer">
+        <p>独立公益资料整理 · 非官方档案</p>
+        <a href="contribute.html">投稿纠错</a
+        ><a href="about.html">关于与资料口径</a>
+      </footer>
+    </div>
+  </body>
+</html>

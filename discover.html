@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="从团体档案、城市和已收录演出认识地下偶像。公益资料整理，保留官宣与来源，不是完整或实时日程。"
+    />
+    <link rel="icon" href="data:," />
+    <title>发现团体与现场 · 地下偶像资料档案</title>
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="styles/site.css" />
+    <link rel="stylesheet" href="styles/discover.css" />
+    <script src="assets/groups-data.js" defer></script>
+    <script src="assets/discover.js" defer></script>
+  </head>
+  <body class="discover-page">
+    <a class="skip-link" href="#discover-groups-heading">跳至团体与演出</a>
+    <div class="discover-shell">
+      <nav class="site-nav" aria-label="主导航">
+        <a href="discover.html" aria-current="page">发现</a>
+        <a href="groups.html">团体</a>
+        <a href="events.html">演出</a>
+        <a href="index.html">风格图</a>
+        <a href="guide.html">观演指南</a>
+      </nav>
+      <header class="discover-header">
+        <div>
+          <p class="discover-code">CN-IDOL / DISCOVER</p>
+          <h1>发现团体与现场</h1>
+        </div>
+        <form
+          class="discover-search"
+          action="groups.html"
+          method="get"
+          role="search"
+          aria-label="搜索团体档案"
+        >
+          <label for="discover-query" class="sr-only">团名、别名或官号</label>
+          <input
+            id="discover-query"
+            name="q"
+            type="search"
+            maxlength="120"
+            autocomplete="off"
+            placeholder="团名、别名或官号"
+          />
+          <button type="submit">查团体</button>
+          <a class="discover-city-jump" href="#discover-cities-heading"
+            >按城市找</a
+          >
+        </form>
+      </header>
+      <main>
+        <div class="discover-content">
+          <section
+            class="discover-groups"
+            aria-labelledby="discover-groups-heading"
+          >
+            <div class="discover-section-heading">
+              <h2 id="discover-groups-heading">从一支团开始认识</h2>
+              <a class="discover-link" href="groups.html">全部团体</a>
+            </div>
+            <p id="discover-group-status" class="discover-status" role="status">
+              正在读取团体档案…
+            </p>
+            <div id="discover-feature"></div>
+            <ul
+              id="discover-group-list"
+              class="discover-group-list"
+              aria-label="更多已收录团体"
+            ></ul>
+          </section>
+          <section
+            class="discover-events"
+            aria-labelledby="discover-events-heading"
+          >
+            <div class="discover-section-heading">
+              <h2 id="discover-events-heading">近期演出</h2>
+              <a class="discover-link" href="events.html?period=upcoming"
+                >全部日程</a
+              >
+            </div>
+            <p id="discover-event-status" class="discover-status" role="status">
+              正在读取活动资料…
+            </p>
+            <div id="discover-agenda"></div>
+            <div class="discover-agenda-links">
+              <a class="discover-link" href="events.html?period=past"
+                >查看历史活动</a
+              ><a
+                class="discover-link"
+                href="contribute.html?page=discover&amp;kind=event"
+                >补充活动官宣</a
+              >
+            </div>
+            <p id="discover-events-updated" class="discover-footnote"></p>
+          </section>
+        </div>
+        <section
+          class="discover-cities"
+          aria-labelledby="discover-cities-heading"
+        >
+          <div class="discover-section-heading">
+            <h2 id="discover-cities-heading">按城市找</h2>
+            <a class="discover-link" href="groups.html">不限城市浏览</a>
+          </div>
+          <p id="discover-city-status" class="discover-status" role="status">
+            正在读取已知城市…
+          </p>
+          <ul
+            id="discover-city-list"
+            class="discover-city-list"
+            aria-label="已知城市入口"
+          ></ul>
+        </section>
+        <aside class="discover-guide" aria-label="第一次观演与资料说明">
+          <div>
+            <h2>第一次观演，从这里开始</h2>
+            <p>确认官宣、准备入场，再了解现场规则。</p>
+          </div>
+          <a class="discover-link" href="guide.html">阅读观演指南</a>
+        </aside>
+        <noscript
+          ><p class="discover-error">
+            浏览团体与活动需要启用 JavaScript。你仍可阅读<a href="guide.html"
+              >观演指南</a
+            >、<a href="about.html">资料说明</a>，或<a href="contribute.html"
+              >补充与纠错</a
+            >。
+          </p></noscript
+        >
+      </main>
+      <footer class="discover-footer">
+        <p>非官方公益资料整理 · 收录不完整，资料以对应来源和观察日期为准。</p>
+        <div>
+          <a href="about.html">关于与来源说明</a
+          ><a href="contribute.html?page=discover&amp;kind=error">投稿纠错</a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
