@@ -125,16 +125,16 @@ function scopeRecord(current, observedAt = "2026-09-09T01:00:00Z") {
   });
 }
 
-test("v2 正式数据严格为空，未制造真实采集或刷新日期", async () => {
-  const formal = JSON.parse(
-    await readFile(new URL("data/follower-observations.v2.json", root), "utf8"),
-  );
-  assert.deepEqual(formal, emptyScopedFollowerObservations());
-  assert.deepEqual(validateScopedFollowerObservations(formal, now), {
+test("v2 正式数据通过公开合同，重读不刷新任何数值或观察日期", async () => {
+  const file = new URL("data/follower-observations.v2.json", root);
+  const before = await readFile(file, "utf8");
+  const formal = JSON.parse(before);
+  assert.deepEqual(validateScopedFollowerObservations(formal, new Date()), {
     valid: true,
     data: formal,
     errors: [],
   });
+  assert.equal(await readFile(file, "utf8"), before);
 });
 
 test("精确零值、近似标识及公开字段白名单严格验证", () => {

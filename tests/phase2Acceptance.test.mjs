@@ -315,6 +315,9 @@ test("A01/A02/A03 实际399条索引确定性、身份说明与既有事实完�
   const context = { window: {} };
   vm.runInNewContext(sourceBytes.toString("utf8"), context, { timeout: 5000 });
   const original = JSON.parse(JSON.stringify(context.window.IDOL_MAP_DATA));
+  const observations = JSON.parse(
+    await readFile(new URL("data/follower-observations.v2.json", root), "utf8"),
+  );
   const first = await buildGroupCatalog(fileURLToPath(root));
   const second = await buildGroupCatalog(fileURLToPath(root));
   assert.equal(catalog.validateCatalog(first).valid, true);
@@ -347,11 +350,18 @@ test("A01/A02/A03 实际399条索引确定性、身份说明与既有事实完�
         ),
         `${source.id} 必须保留完整身份复核说明`,
       );
-    if (source.followersValue != null) {
-      assert.equal(output.followers.value, source.followersValue, source.id);
+    const observed = observations.records.find(
+      (item) => item.groupId === source.id,
+    );
+    if (observed || source.followersValue != null) {
+      assert.equal(
+        output.followers.value,
+        observed?.followersValue ?? source.followersValue,
+        source.id,
+      );
       assert.equal(
         output.followers.observedAt,
-        source.profileObservedAt ?? null,
+        observed?.followersObservedAt ?? source.profileObservedAt ?? null,
         source.id,
       );
     }

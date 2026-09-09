@@ -31,6 +31,9 @@ const raw = await readFile(path.join(root, "data.js"), "utf8");
 const source = JSON.parse(
   raw.replace(/^window.IDOL_MAP_DATA\s*=\s*/u, "").replace(/;\s*$/u, ""),
 );
+const observations = JSON.parse(
+  await readFile(path.join(root, "data/follower-observations.v2.json"), "utf8"),
+);
 const clone = (value) => JSON.parse(JSON.stringify(value));
 const filters = (overrides) => ({
   ...model.defaultCatalogFilters(),
@@ -112,7 +115,7 @@ test("白名单投影没有UID、内部缓存或候选原始字段", () => {
   );
 });
 
-test("来源时间不刷新，未知地区不猜填，猜测标签不升级", () => {
+test("粉丝沿用已采用观察时间，其他来源与未知地区不变，猜测标签不升级", () => {
   assert.equal(catalog.archiveDate, "2026-09-01");
   for (const group of catalog.groups) {
     const original = source.groups.find((item) => item.id === group.id);
@@ -122,12 +125,17 @@ test("来源时间不刷新，未知地区不猜填，猜测标签不升级", ()
         city: original.regionPlacement[role].city,
       });
     }
+    const observed = observations.records.find(
+      (item) => item.groupId === group.id,
+    );
     assert.equal(
       group.followers?.observedAt ?? null,
-      original.followersValue == null
-        ? null
-        : (original.profileObservedAt ?? null),
+      observed?.followersObservedAt ??
+        (original.followersValue == null
+          ? null
+          : (original.profileObservedAt ?? null)),
     );
+    if (observed) assert.equal(group.followers.value, observed.followersValue);
     assert.equal(group.styleLabel, original.editorialStyle.displayLabel);
     if (original.editorialStyle.epistemicStatus === "guess")
       assert.match(group.styleNote, /猜测/u);
@@ -138,7 +146,11 @@ test("事务所沿革、明确别名、粉丝口径及品牌图保留", () => {
   const group = known("g060");
   assert.deepEqual(group.aliases, ["neokoro", "ne♡koro", "糖心SugarHeart"]);
   assert.match(group.followers.display, /事务所账号/u);
-  assert.equal(group.followers.observedAt, "2026-09-05T03:46:13.026Z");
+  assert.equal(
+    group.followers.observedAt,
+    observations.records.find((item) => item.groupId === "g060")
+      ?.followersObservedAt ?? "2026-09-05T03:46:13.026Z",
+  );
   assert.match(group.visual.src, /g060-brand-20260905/u);
   assert.match(group.visual.label, /不是当前成员海报/u);
   assert.ok(group.sources.some((item) => item.label === "组合更名通告"));
