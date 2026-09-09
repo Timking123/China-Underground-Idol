@@ -1,4 +1,4 @@
-import { chromium } from "playwright";
+import { chromium, type Locator } from "playwright";
 import { mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import {
@@ -9,6 +9,17 @@ import {
   type BrowserSourceProof,
 } from "../src/sourceCapture.ts";
 import { requireState, type RegisteredSource } from "../src/sourceRegistry.ts";
+
+export const WEIBO_PRIMARY_BODY_SELECTOR =
+  ".wbpro-feed-ogText > div[class*='_wbtext_']";
+
+/** 只接受唯一且可见的主正文；模板歧义不能靠首项或文本长度解决。 */
+export async function uniqueVisiblePrimaryBody(article: Locator) {
+  const content = article.locator(WEIBO_PRIMARY_BODY_SELECTOR);
+  requireState((await content.count()) === 1, "browser_body_template_changed");
+  requireState(await content.isVisible(), "browser_body_not_visible");
+  return content;
+}
 
 /** 正文来自唯一可见的完整正文节点，首尾锚点仅用于原管线的证据重建。 */
 export function selectionForVisibleBody(
@@ -73,11 +84,7 @@ export async function collectBrowserSource(
       await expand.click();
       await expand.waitFor({ state: "hidden", timeout: 15_000 });
     }
-    const content = article.locator("div[class*='_wbtext_']");
-    requireState(
-      (await content.count()) === 1,
-      "browser_body_template_changed",
-    );
+    const content = await uniqueVisiblePrimaryBody(article);
     requireState(
       !(await expand.isVisible().catch(() => false)),
       "browser_body_incomplete",
