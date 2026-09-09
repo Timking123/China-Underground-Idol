@@ -1,6 +1,7 @@
 import rawDataset from "../../data/events.v1.json";
 import followerDataset from "../../data/follower-observations.v1.json";
-import { overlayFollowerObservations } from "../catalog/followerObservations";
+import scopedFollowerDataset from "../../data/follower-observations.v2.json";
+import { overlayCombinedFollowerObservations } from "../catalog/scopedFollowerObservations";
 import {
   filterEvents,
   getEventTemporalState,
@@ -144,9 +145,10 @@ if (typeof window !== "undefined") {
       // 图位与主粉丝值仍保持归档口径，新观察仅在详情中独立呈现。
       holder.IDOL_MAP_DATA = {
         ...holder.IDOL_MAP_DATA,
-        groups: overlayFollowerObservations(
+        groups: overlayCombinedFollowerObservations(
           holder.IDOL_MAP_DATA.groups,
           followerDataset,
+          scopedFollowerDataset,
           new Date(),
           "archive",
         ),

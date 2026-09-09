@@ -1,10 +1,9 @@
 import { readFile, writeFile, mkdir, lstat, realpath } from "node:fs/promises";
 import path from "node:path";
 import ts from "typescript";
-import {
-  readFollowerObservations,
-  overlayFollowerObservations,
-} from "./followerObservations.mjs";
+import { build } from "esbuild";
+import { fileURLToPath } from "node:url";
+import { readFollowerObservations } from "./followerObservations.mjs";
 
 /** @typedef {import('../src/catalog/model').GroupCatalog} GroupCatalog */
 
@@ -22,6 +21,34 @@ const compiled = ts.transpileModule(modelSource, {
 const model = await import(
   `data:text/javascript;base64,${Buffer.from(compiled).toString("base64")}`
 );
+
+// 与浏览器共享组合校验器；内存打包不写生成资产。
+const followerBuild = await build({
+  entryPoints: [
+    fileURLToPath(
+      new URL("../src/catalog/scopedFollowerObservations.ts", import.meta.url),
+    ),
+  ],
+  bundle: true,
+  platform: "node",
+  format: "esm",
+  write: false,
+});
+const followers = await import(
+  `data:text/javascript;base64,${Buffer.from(followerBuild.outputFiles[0].text).toString("base64")}`
+);
+
+async function readScopedFollowerObservations(root) {
+  let target;
+  try {
+    target = await ordinaryPath(root, "data/follower-observations.v2.json");
+  } catch (error) {
+    if (error.code === "ENOENT")
+      return followers.emptyScopedFollowerObservations();
+    throw error;
+  }
+  return JSON.parse(await readFile(target, "utf8"));
+}
 
 async function ordinaryPath(root, relative) {
   const base = await realpath(root);
@@ -230,10 +257,13 @@ export async function buildGroupCatalog(root) {
   const catalog = {
     schemaVersion: "idol-catalog-v1",
     archiveDate: source.meta.archiveCutoffDate,
-    groups: overlayFollowerObservations(
-      source.groups,
-      await readFollowerObservations(root),
-    ).map(project),
+    groups: followers
+      .overlayCombinedFollowerObservations(
+        source.groups,
+        await readFollowerObservations(root),
+        await readScopedFollowerObservations(root),
+      )
+      .map(project),
   };
   const result = model.validateCatalog(catalog);
   if (!result.valid)

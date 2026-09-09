@@ -386,7 +386,21 @@
     records: []
   };
 
+  // data/follower-observations.v2.json
+  var follower_observations_v2_default = {
+    schemaVersion: "idol-follower-observations-v2",
+    updatedAt: null,
+    records: []
+  };
+
   // src/catalog/followerObservations.ts
+  function emptyFollowerObservations() {
+    return {
+      schemaVersion: "idol-follower-observations-v1",
+      updatedAt: null,
+      records: []
+    };
+  }
   function object(value) {
     return typeof value === "object" && value !== null && !Array.isArray(value);
   }
@@ -468,15 +482,6 @@
       )
     } : null;
   }
-  function followerObservationConflict(record, baseline) {
-    if (!baseline) return null;
-    if (baseline.conflict) return "baseline_observation_conflict";
-    const time = Date.parse(record.followersObservedAt);
-    if (time < baseline.time) return "older_observation";
-    if (time === baseline.time && (record.followersValue !== baseline.value || record.followersApproximate !== baseline.approximate))
-      return "same_time_conflict";
-    return null;
-  }
   var keys = [
     "groupId",
     "uid",
@@ -521,29 +526,191 @@
       errors: []
     };
   }
-  function overlayFollowerObservations(groups, input, now = /* @__PURE__ */ new Date(), mode = "current") {
-    const validation = validateFollowerObservations(input, now);
-    if (!validation.valid) throw new Error(validation.errors.join(","));
-    const ids = new Set(groups.map((group) => group.id));
-    if (ids.size !== groups.length) throw new Error("duplicate_display_group_id");
-    for (const record of validation.data.records) {
-      const group = groups.find((candidate) => candidate.id === record.groupId);
-      if (!group || !strictFollowerIdentity(group, record.uid) || groups.filter(
+
+  // src/catalog/scopedFollowerObservations.ts
+  function emptyScopedFollowerObservations() {
+    return {
+      schemaVersion: "idol-follower-observations-v2",
+      updatedAt: null,
+      records: []
+    };
+  }
+  var REVIEWED_SCOPES = Object.freeze({
+    g060: "2030310713",
+    g360: "8257746955"
+  });
+  var RECORD_KEYS = [
+    "groupId",
+    "uid",
+    "followersValue",
+    "followersDisplay",
+    "followersApproximate",
+    "followersObservedAt",
+    "sourceUrl",
+    "slotId",
+    "identityGate",
+    "entityKind",
+    "scopeNote",
+    "responseSha256"
+  ];
+  function exactKeys2(value, keys2) {
+    return Object.keys(value).length === keys2.length && keys2.every((key) => Object.hasOwn(value, key));
+  }
+  function publicText(value, limit) {
+    return typeof value === "string" && value.trim().length > 0 && value.length <= limit && !/[<>]/u.test(value) && [...value].every((character) => {
+      const code = character.charCodeAt(0);
+      return code >= 32 && code !== 127;
+    });
+  }
+  function observationSlotMatches(observedAt, slotId) {
+    const time = Date.parse(observedAt);
+    const firstScheduledTime = Date.parse("2026-09-11T00:00:00+08:00");
+    if (slotId.startsWith("manual-"))
+      return slotId === "manual-2026-09-09" && time >= Date.parse("2026-09-09T00:00:00+08:00") && time < firstScheduledTime;
+    const date = new Date(time + 8 * 36e5);
+    date.setUTCDate(date.getUTCDate() - (date.getUTCDay() + 2) % 7);
+    return time >= firstScheduledTime && slotId === `scheduled-${date.toISOString().slice(0, 10)}`;
+  }
+  function validateScopedFollowerObservations(input, now = /* @__PURE__ */ new Date()) {
+    if (!object(input) || !exactKeys2(input, ["schemaVersion", "updatedAt", "records"]) || input.schemaVersion !== "idol-follower-observations-v2" || !Array.isArray(input.records))
+      return { valid: false, errors: ["invalid_scoped_follower_dataset"] };
+    const errors = [];
+    const ids = /* @__PURE__ */ new Set();
+    const uids = /* @__PURE__ */ new Set();
+    let latest = null;
+    for (const [index, record] of input.records.entries()) {
+      if (!object(record) || !exactKeys2(record, RECORD_KEYS) || typeof record.groupId !== "string" || !/^g\d{3,8}$/u.test(record.groupId) || typeof record.uid !== "string" || !/^\d{4,20}$/u.test(record.uid) || typeof record.followersValue !== "number" || !Number.isSafeInteger(record.followersValue) || record.followersValue < 0 || typeof record.followersApproximate !== "boolean" || record.followersDisplay !== `${record.followersApproximate ? "约" : ""}${record.followersValue}` || observationTime(record.followersObservedAt, now) === null || record.sourceUrl !== `https://weibo.com/u/${record.uid}` || typeof record.slotId !== "string" || !/^(manual|scheduled)-\d{4}-\d{2}-\d{2}$/u.test(record.slotId) || typeof record.identityGate !== "string" || ![
+        "strict_uid_match",
+        "accepted_candidate",
+        "reviewed_account_scope"
+      ].includes(record.identityGate) || (record.identityGate === "reviewed_account_scope" ? REVIEWED_SCOPES[record.groupId] !== record.uid || !publicText(record.entityKind, 100) || !publicText(record.scopeNote, 2e3) : record.entityKind !== "团体账号" || record.scopeNote !== null) || typeof record.responseSha256 !== "string" || !/^[a-f0-9]{64}$/u.test(record.responseSha256)) {
+        errors.push(`invalid_scoped_follower_record:${index}`);
+        continue;
+      }
+      const observed = record.followersObservedAt;
+      if (!observationSlotMatches(observed, record.slotId))
+        errors.push(`observation_slot_mismatch:${index}`);
+      if (ids.has(record.groupId) || uids.has(record.uid))
+        errors.push(`duplicate_follower_identity:${index}`);
+      ids.add(record.groupId);
+      uids.add(record.uid);
+      if (latest === null || Date.parse(observed) > Date.parse(latest))
+        latest = observed;
+    }
+    if (input.updatedAt !== latest) errors.push("invalid_follower_updated_at");
+    return errors.length ? { valid: false, errors } : {
+      valid: true,
+      data: structuredClone(input),
+      errors: []
+    };
+  }
+  function scopedFollowerIdentity(group, record) {
+    if (!object(group) || group.id !== record.groupId || String(group.weiboUid ?? "") !== record.uid || group.uidConfidence !== "high" || group.profileUrl !== record.sourceUrl)
+      return false;
+    const supplement = group.editorialProfileSupplement;
+    if (record.identityGate === "reviewed_account_scope") {
+      const review = group.publicReview;
+      return REVIEWED_SCOPES[record.groupId] === record.uid && group.uidSource === "public_reviewed_account_scope" && object(review) && review.id === group.id && review.expectedHandle === group.handle && review.entityKind === record.entityKind && review.summary === record.scopeNote && object(review.profile) && String(review.profile.uid ?? "") === record.uid && review.profile.sourceUrl === record.sourceUrl;
+    }
+    if (record.entityKind !== "团体账号" || record.scopeNote !== null || group.uidSource === "public_reviewed_account_scope" || Array.isArray(group.rejectedIdentityCandidates) && group.rejectedIdentityCandidates.some(
+      (candidate) => object(candidate) && String(candidate.uid) === record.uid
+    ))
+      return false;
+    if (record.identityGate === "accepted_candidate")
+      return group.uidSource === "editorial_profile_supplement" && object(supplement) && supplement.state === "accepted_candidate" && String(supplement.uid ?? "") === record.uid && supplement.profileUrl === record.sourceUrl && Array.isArray(supplement.appliedFields) && supplement.appliedFields.includes("identity");
+    return record.identityGate === "strict_uid_match" && group.uidSource !== "editorial_profile_supplement" && !(object(supplement) && supplement.state === "accepted_candidate") && strictFollowerIdentity(group, record.uid);
+  }
+  function sameFollowerValue(left, right) {
+    return left.followersValue === right.followersValue && left.followersApproximate === right.followersApproximate;
+  }
+  function scopedFollowerBaselineSources(group) {
+    if (!object(group)) return [];
+    const sources = [group];
+    const uid = String(group.weiboUid ?? group.uid ?? "");
+    if (!/^\d{4,20}$/u.test(uid)) return structuredClone(sources);
+    const review = group.publicReview;
+    const snapshot = group.strictSnapshot;
+    const profile = object(snapshot) ? snapshot.profile : null;
+    const matches = (source) => object(source) && String(source.weiboUid ?? source.uid ?? "") === uid;
+    for (const source of [
+      group.followerObservation,
+      object(review) ? review.profile : null,
+      profile
+    ])
+      if (matches(source))
+        sources.push({
+          ...source,
+          followersObservedAt: source.followersObservedAt ?? source.profileObservedAt ?? source.observedAt
+        });
+    const supplement = group.editorialProfileSupplement;
+    if (matches(supplement) && supplement.state === "accepted_candidate" && Array.isArray(supplement.appliedFields) && supplement.appliedFields.includes("followers"))
+      sources.push({ ...supplement, followersObservedAt: supplement.observedAt });
+    const evidence = object(profile) ? profile.followerEvidence : null;
+    if (matches(profile) && object(evidence) && evidence.state === "verified" && String(evidence.boundUid ?? "") === uid)
+      sources.push({
+        uid,
+        fieldEvidence: {
+          followers: {
+            ...evidence,
+            followersApproximate: evidence.followersApproximate ?? evidence.approximate ?? (evidence.numericValue === profile.followersValue ? profile.followersApproximate : null)
+          }
+        }
+      });
+    return structuredClone(sources);
+  }
+  function futureBaseline(source, now) {
+    if (!object(source)) return false;
+    const count = (value) => typeof value === "number" && Number.isSafeInteger(value) && value >= 0;
+    const future = (value) => typeof value === "string" && Date.parse(value) > now.getTime();
+    if (source.followersKnown !== false && count(source.followersValue) && future(source.followersObservedAt ?? source.profileObservedAt))
+      return true;
+    const fields = source.fieldEvidence;
+    const evidence = object(fields) ? fields.followers : null;
+    return object(evidence) && evidence.state === "verified" && (evidence.boundUid == null || String(evidence.boundUid) === String(source.weiboUid ?? source.uid ?? "")) && count(evidence.numericValue) && future(evidence.observedAt);
+  }
+  function overlayCombinedFollowerObservations(groups, legacyInput = emptyFollowerObservations(), scopedInput = emptyScopedFollowerObservations(), now = /* @__PURE__ */ new Date(), mode = "current") {
+    const legacy = validateFollowerObservations(legacyInput, now);
+    if (!legacy.valid) throw new Error(legacy.errors.join(","));
+    const scoped = validateScopedFollowerObservations(scopedInput, now);
+    if (!scoped.valid) throw new Error(scoped.errors.join(","));
+    const byGroup = new Map(groups.map((group) => [group.id, group]));
+    if (byGroup.size !== groups.length)
+      throw new Error("duplicate_display_group_id");
+    const latest = /* @__PURE__ */ new Map();
+    for (const record of [...legacy.data.records, ...scoped.data.records]) {
+      const group = byGroup.get(record.groupId);
+      if (!group || !("slotId" in record ? scopedFollowerIdentity(group, record) : strictFollowerIdentity(group, record.uid)) || groups.filter(
         (candidate) => object(candidate) && String(candidate.weiboUid ?? "") === record.uid
       ).length !== 1)
         throw new Error(`display_identity_mismatch:${record.groupId}`);
-      const conflict = followerObservationConflict(
-        record,
-        latestFollowerBaseline([group], now)
-      );
-      if (conflict) throw new Error(`follower_${conflict}:${record.groupId}`);
+      const previous = latest.get(record.groupId);
+      if (previous) {
+        if (previous.uid !== record.uid)
+          throw new Error(`display_identity_mismatch:${record.groupId}`);
+        const difference = Date.parse(record.followersObservedAt) - Date.parse(previous.followersObservedAt);
+        if (difference === 0 && !sameFollowerValue(previous, record))
+          throw new Error(`follower_same_time_conflict:${record.groupId}`);
+        if (difference < 0) continue;
+      }
+      latest.set(record.groupId, record);
     }
-    const byId = new Map(
-      validation.data.records.map((record) => [record.groupId, record])
-    );
+    for (const [id, record] of latest) {
+      const sources = scopedFollowerBaselineSources(byGroup.get(id));
+      if (sources.some((source) => futureBaseline(source, now)))
+        throw new Error(`follower_future_baseline:${id}`);
+      const baseline = latestFollowerBaseline(sources, now);
+      if (!baseline) continue;
+      if (baseline.conflict)
+        throw new Error(`follower_baseline_observation_conflict:${id}`);
+      const time = Date.parse(record.followersObservedAt);
+      if (time < baseline.time)
+        throw new Error(`follower_older_observation:${id}`);
+      if (time === baseline.time && (record.followersValue !== baseline.value || record.followersApproximate !== baseline.approximate))
+        throw new Error(`follower_same_time_conflict:${id}`);
+    }
     return groups.map((group) => {
       const copy = structuredClone(group);
-      const record = byId.get(group.id);
+      const record = latest.get(group.id);
       if (!record) return copy;
       if (mode === "archive")
         return Object.assign(copy, {
@@ -884,9 +1051,10 @@
       try {
         holder.IDOL_MAP_DATA = {
           ...holder.IDOL_MAP_DATA,
-          groups: overlayFollowerObservations(
+          groups: overlayCombinedFollowerObservations(
             holder.IDOL_MAP_DATA.groups,
             follower_observations_v1_default,
+            follower_observations_v2_default,
             /* @__PURE__ */ new Date(),
             "archive"
           )

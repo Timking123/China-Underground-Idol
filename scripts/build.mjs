@@ -14,10 +14,14 @@ export async function buildSite(
     ...Object.values(candidates),
     ...publicFiles.filter((file) => !file.startsWith("assets/")),
     "data/follower-observations.v1.json",
+    "data/follower-observations.v2.json",
   ].filter((file) => !existsSync(path.join(root, file)));
-  if (missing.length && !partial) {
+  const missingScopedFollowers = missing.includes(
+    "data/follower-observations.v2.json",
+  );
+  if (missing.length && (!partial || missingScopedFollowers)) {
     throw new Error(
-      `站点模块尚未齐全：${missing.join("、")}。仅开发中可显式使用 --partial；发布验证不能跳过模块。`,
+      `站点模块尚未齐全：${missing.join("、")}。${missingScopedFollowers ? "粉丝 v2 观察层不可通过 --partial 跳过。" : "仅开发中可显式使用 --partial；发布验证不能跳过模块。"}`,
     );
   }
   const entryPoints = Object.fromEntries(
