@@ -3,3 +3,6 @@ node_modules/
 .env
 .env.*
 *.log
+__pycache__/
+maintenance/.verify/
+reports/

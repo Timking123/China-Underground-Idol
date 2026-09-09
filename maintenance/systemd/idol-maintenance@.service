@@ -1,0 +1,38 @@
+[Unit]
+Description=中国地下偶像站点自动维护（%i）
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+WorkingDirectory=/srv/china-underground-idol/maintenance/workspace/work/phase3-20260909
+EnvironmentFile=/etc/china-underground-idol/maintenance.env
+Environment=NODE_ENV=production
+Environment=APPDATA=/srv/china-underground-idol/maintenance/vendor
+Environment=PLAYWRIGHT_BROWSERS_PATH=/srv/china-underground-idol/maintenance/vendor/browsers
+Environment=TZ=Asia/Shanghai
+UnsetEnvironment=LD_PRELOAD LD_LIBRARY_PATH PYTHONPATH PYTHONHOME NODE_OPTIONS BASH_ENV ENV
+UMask=0077
+ExecStart=/usr/bin/flock --wait 1800 /srv/china-underground-idol/deployments/.maintenance.lock /usr/local/libexec/idol-maintenance-supervisor.sh %i
+ExecStopPost=/usr/sbin/runuser -u idol-maint -- /usr/bin/node --experimental-strip-types private/server/runner.ts service-failure %i
+TimeoutStartSec=45min
+TimeoutStopSec=45s
+KillMode=control-group
+Restart=no
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/srv/china-underground-idol/maintenance /srv/china-underground-idol/releases /srv/china-underground-idol/deployments /srv/china-underground-idol /var/lib/idol-maint
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+MemoryMax=2G
+TasksMax=256
+CPUQuota=150%
+StandardOutput=journal
+StandardError=journal

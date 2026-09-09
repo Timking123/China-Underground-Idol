@@ -2,7 +2,16 @@ import js from "@eslint/js";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["node_modules/**", "assets/**", "data.js", ".build/**"] },
+  {
+    ignores: [
+      "node_modules/**",
+      "assets/**",
+      "data.js",
+      ".build/**",
+      "maintenance/**",
+      "reports/**",
+    ],
+  },
   js.configs.recommended,
   {
     files: ["src/**/*.ts"],

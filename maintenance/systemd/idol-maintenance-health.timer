@@ -1,0 +1,11 @@
+[Unit]
+Description=检查网站可用性与维护漏跑
+
+[Timer]
+OnCalendar=*-*-* *:30:00 Asia/Shanghai
+Persistent=true
+AccuracySec=1min
+Unit=idol-maintenance@health.service
+
+[Install]
+WantedBy=timers.target

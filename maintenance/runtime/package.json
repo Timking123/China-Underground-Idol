@@ -1,0 +1,29 @@
+{
+  "name": "idol-controlled-updates",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "scripts": {
+    "pipeline": "node --experimental-strip-types private/cli.ts",
+    "test:private": "node --experimental-strip-types --test private/tests/*.test.mjs",
+    "typecheck:private": "tsc --project private/tsconfig.json --noEmit",
+    "lint:private": "eslint private --max-warnings 0",
+    "format:private": "prettier private/src private/server private/tests private/cli.ts private/tsconfig.json private/sources.v1.json package.json eslint.config.mjs --check",
+    "verify:private": "npm run typecheck:private && npm run lint:private && npm run format:private && npm run test:private",
+    "verify": "npm run verify:private && npm --prefix site run package:site"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "25.9.5",
+    "esbuild": "0.28.2",
+    "eslint": "10.10.0",
+    "prettier": "3.9.6",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.69.0"
+  },
+  "dependencies": {
+    "playwright": "1.63.0"
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "idol-update-sources-v1",
+  "timezone": "Asia/Shanghai",
+  "activities": {
+    "state": "PAUSED",
+    "localTime": "09:00",
+    "firstWindowDays": 30,
+    "focusDays": 7
+  },
+  "profiles": {
+    "state": "PAUSED",
+    "weekday": "SU",
+    "localTime": "10:00",
+    "paidBudgetCredits": 0
+  },
+  "sources": [
+    {
+      "id": "weibo-board",
+      "label": "地下偶像相关揭示板活动汇总",
+      "publisher": "地下偶像相关揭示板",
+      "kind": "aggregator",
+      "state": "pilot",
+      "collector": "manual-browser",
+      "pinnedUrls": ["https://weibo.com/7716940453/R3Ka7g7s0"],
+      "allowedUrlPrefixes": ["https://weibo.com/7716940453/"],
+      "note": "投稿聚合线索；整帖编辑与共用详情必须复核，不能从缺席推断取消。"
+    },
+    {
+      "id": "weibo-freya",
+      "label": "舫Freya教师节专场原预告",
+      "publisher": "舫Freya",
+      "kind": "organizer",
+      "state": "pilot",
+      "collector": "manual-browser",
+      "pinnedUrls": ["https://weibo.com/4028711630/Rh1KjF7tZ"],
+      "allowedUrlPrefixes": ["https://weibo.com/4028711630/"],
+      "note": "官号原文；主办名称不自动算作出演团体。"
+    },
+    {
+      "id": "weibo-season",
+      "label": "时季SeasonMemories Mini Oneman原预告",
+      "publisher": "时季SeasonMemories",
+      "kind": "official",
+      "state": "pilot",
+      "collector": "manual-browser",
+      "pinnedUrls": ["https://weibo.com/7931467523/RgPxIvAGu"],
+      "allowedUrlPrefixes": ["https://weibo.com/7931467523/"],
+      "note": "官号原文；特典开始时间不算整场结束。"
+    },
+    {
+      "id": "weibo-jadx",
+      "label": "JADX CAMPUS NOISE北京原预告",
+      "publisher": "JADX_official",
+      "kind": "official",
+      "state": "pilot",
+      "collector": "manual-browser",
+      "pinnedUrls": ["https://weibo.com/8013127107/RgnpRiZ0w"],
+      "allowedUrlPrefixes": ["https://weibo.com/8013127107/"],
+      "note": "原活动预告；免费需预登记，尚未核实的阵容保留空。"
+    },
+    {
+      "id": "weibo-mogu",
+      "label": "MOGUMOGU RED²原预告",
+      "publisher": "MOGUMOGU",
+      "kind": "official",
+      "state": "pilot",
+      "collector": "manual-browser",
+      "pinnedUrls": ["https://weibo.com/6579150992/RgdcNn1Bz"],
+      "allowedUrlPrefixes": ["https://weibo.com/6579150992/"],
+      "note": "与已发布9月13日活动沿用同一ID；账号IP属地不作为活动城市。"
+    },
+    {
+      "id": "weibo-meguri",
+      "label": "Meguri-Kaado Last one-man原预告",
+      "publisher": "Meguri-Kaado",
+      "kind": "official",
+      "state": "pilot",
+      "collector": "manual-browser",
+      "pinnedUrls": ["https://weibo.com/8000320501/RgfpSbTLH"],
+      "allowedUrlPrefixes": ["https://weibo.com/8000320501/"],
+      "note": "与已发布9月15日活动沿用同一ID；不据Last one-man推断团体解散，协力不算出演。"
+    },
+    {
+      "id": "showstart-glory",
+      "label": "秀动Glory偶像事务所演出列表",
+      "publisher": "Glory偶像事务所（秀动）",
+      "kind": "organizer",
+      "state": "pilot",
+      "collector": "showstart-public-http",
+      "pinnedUrls": ["https://www.showstart.com/host/16689619"],
+      "allowedUrlPrefixes": ["https://www.showstart.com/event/"],
+      "note": "仅获取此厂牌SSR首页及窗口内活动详情；首页可能不完整，不代表全国覆盖；票种名称不作为阵容。"
+    },
+    {
+      "id": "weibo-trueworld",
+      "label": "TrueWorld活动来源候选",
+      "publisher": "TrueWorld-",
+      "kind": "organizer",
+      "state": "candidate",
+      "collector": "provider-unavailable",
+      "pinnedUrls": ["https://weibo.com/u/7845127268"],
+      "allowedUrlPrefixes": ["https://weibo.com/7845127268/"],
+      "note": "待确认可持续公开入口，尚未自动采集。"
+    },
+    {
+      "id": "weibo-summer2",
+      "label": "summer2活动来源候选",
+      "publisher": "summer2",
+      "kind": "organizer",
+      "state": "candidate",
+      "collector": "provider-unavailable",
+      "pinnedUrls": ["https://weibo.com/u/8005276891"],
+      "allowedUrlPrefixes": ["https://weibo.com/8005276891/"],
+      "note": "待核实账号与入口，尚未自动采集。"
+    },
+    {
+      "id": "showstart-door",
+      "label": "秀动门空间场馆候选",
+      "publisher": "门空间（秀动）",
+      "kind": "venue",
+      "state": "candidate",
+      "collector": "provider-unavailable",
+      "pinnedUrls": ["https://www.showstart.com/venue/15302011"],
+      "allowedUrlPrefixes": [],
+      "note": "场馆含非偶像活动，待定义筛选与首轮核验后再启用。"
+    },
+    {
+      "id": "showstart-sd",
+      "label": "秀动广州SD场馆候选",
+      "publisher": "广州SD（秀动）",
+      "kind": "venue",
+      "state": "candidate",
+      "collector": "provider-unavailable",
+      "pinnedUrls": ["https://www.showstart.com/venue/77038"],
+      "allowedUrlPrefixes": [],
+      "note": "场馆含非偶像活动，待定义筛选与首轮核验后再启用。"
+    }
+  ]
+}

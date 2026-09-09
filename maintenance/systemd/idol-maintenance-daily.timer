@@ -1,0 +1,11 @@
+[Unit]
+Description=每日零点更新公开活动来源
+
+[Timer]
+OnCalendar=*-*-* 00:00:00 Asia/Shanghai
+Persistent=true
+AccuracySec=1min
+Unit=idol-maintenance@daily.service
+
+[Install]
+WantedBy=timers.target

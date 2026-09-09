@@ -1,0 +1,11 @@
+[Unit]
+Description=每周五零点更新资料观察
+
+[Timer]
+OnCalendar=Fri *-*-* 00:00:00 Asia/Shanghai
+Persistent=true
+AccuracySec=1min
+Unit=idol-maintenance@weekly.service
+
+[Install]
+WantedBy=timers.target
