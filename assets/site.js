@@ -3,7 +3,7 @@
   // data/events.v1.json
   var events_v1_default = {
     schemaVersion: "idol-events-v1",
-    updatedAt: "2026-09-08T08:36:19Z",
+    updatedAt: "2026-09-09T08:02:08.854Z",
     coverage: "partial",
     events: [
       {
@@ -18,7 +18,12 @@
         startsAt: null,
         endsAt: null,
         status: "scheduled",
-        performers: [{ groupId: "g263", name: "TakeBlue" }],
+        performers: [
+          {
+            groupId: "g263",
+            name: "TakeBlue"
+          }
+        ],
         sources: [
           {
             url: "https://weibo.com/detail/5338755200452940",
@@ -43,7 +48,12 @@
         startsAt: null,
         endsAt: null,
         status: "scheduled",
-        performers: [{ groupId: "g032", name: "SIN RETORNO" }],
+        performers: [
+          {
+            groupId: "g032",
+            name: "SIN RETORNO"
+          }
+        ],
         sources: [
           {
             url: "https://weibo.com/detail/5339142341002069",
@@ -69,8 +79,14 @@
         endsAt: null,
         status: "scheduled",
         performers: [
-          { groupId: "g192", name: "PokaPokaTime" },
-          { groupId: "g190", name: "風時計Kazetoke" }
+          {
+            groupId: "g192",
+            name: "PokaPokaTime"
+          },
+          {
+            groupId: "g190",
+            name: "風時計Kazetoke"
+          }
         ],
         sources: [
           {
@@ -92,20 +108,23 @@
         poster: null
       },
       {
-        id: "e-weibo-5338640013852929",
-        title: "MOGUMOGU生长计划4 · RED²红色的二次方",
-        date: "2026-09-13",
         province: "内蒙古",
         city: "呼和浩特",
-        venue: null,
-        address: null,
+        venue: "WHOHOT LIVEHOUSE",
+        address: "呼和浩特市赛罕区尚好家快捷酒店南巷",
         opensAt: "13:40",
         startsAt: "14:00",
         endsAt: null,
         status: "scheduled",
         performers: [
-          { groupId: "g185", name: "绯色苏打" },
-          { groupId: null, name: "MOGUMOGU" }
+          {
+            groupId: "g185",
+            name: "绯色苏打"
+          },
+          {
+            groupId: null,
+            name: "MOGUMOGU"
+          }
         ],
         sources: [
           {
@@ -121,15 +140,22 @@
             publisher: "绯色苏打_Official",
             observedAt: "2026-09-08T08:33:36Z",
             kind: "official"
+          },
+          {
+            url: "https://weibo.com/6579150992/RgdcNn1Bz",
+            label: "MOGUMOGU RED²原预告",
+            publisher: "MOGUMOGU",
+            observedAt: "2026-09-09T07:27:48.327Z",
+            kind: "official"
           }
         ],
-        notes: "归档正文明确活动日期、OPEN 13:40 与 START 14:00。2026-09-08 补核绯色苏打 8 月 12 日预告，同名活动及同日日期明确指向内蒙古呼和浩特；具体场地及地址仍未确认。MOGUMOGU 按官宣名称收录，未独立核验身份绑定。补核历史预告不表示已排除后续取消、延期或阵容变更。",
-        poster: null
+        notes: "2026-09-09复核MOGUMOGU原预告，补充呼和浩特WHOHOT LIVEHOUSE及地址；日期与OPEN 13:40 / START 14:00和既有绯色苏打预告一致，沿用同一活动ID。MOGUMOGU身份未独立绑定，结束时刻未知。历史预告复核不表示已排除后续取消、延期或阵容变更。",
+        poster: null,
+        id: "e-weibo-5338640013852929",
+        title: "MOGUMOGU生长计划4 · RED²红色的二次方",
+        date: "2026-09-13"
       },
       {
-        id: "e-weibo-5339115526292485",
-        title: "Meguri-Kaado Last one-man",
-        date: "2026-09-15",
         province: "北京",
         city: "北京",
         venue: "门空间TheDoorSpace",
@@ -138,7 +164,12 @@
         startsAt: "19:00",
         endsAt: null,
         status: "scheduled",
-        performers: [{ groupId: null, name: "Meguri-Kaado" }],
+        performers: [
+          {
+            groupId: null,
+            name: "Meguri-Kaado"
+          }
+        ],
         sources: [
           {
             url: "https://weibo.com/detail/5339115526292485",
@@ -160,13 +191,375 @@
             publisher: "TrueWorld-",
             observedAt: "2026-09-08T08:33:36Z",
             kind: "organizer"
+          },
+          {
+            url: "https://weibo.com/8000320501/RgfpSbTLH",
+            label: "Meguri-Kaado Last one-man原预告",
+            publisher: "Meguri-Kaado",
+            observedAt: "2026-09-09T07:27:58.794Z",
+            kind: "official"
           }
         ],
-        notes: "2026-09-08 补核 Meguri-Kaado 9 月 2 日原预告，确认日期、入场、开演及场地，与原邀请转发一致。结合 TrueWorld 其他场次的同场馆、区、院号、楼层资料交叉确认城市北京；该来源仅用于城市，不证明本场排期。街名存在廊坊头条与廊房头条异写，完整地址仍留空。主出演未绑定团体档案，未据致谢文案推断其他出演者。补核历史预告不表示已排除后续取消、延期或阵容变更。",
-        poster: null
+        notes: "2026-09-09复核Meguri-Kaado原帖，确认日期、入场18:45、开演19:00和门空间，沿用同一活动ID。街名廊坊/廊房仍有异写，完整地址继续留空。Stardust为协力致谢，不能据此认定出演；彩色心形不能代替成员名字，Last one-man不能单独证明解散。结束时刻未知，出发前请核对最新变更。",
+        poster: null,
+        id: "e-weibo-5339115526292485",
+        title: "Meguri-Kaado Last one-man",
+        date: "2026-09-15"
+      },
+      {
+        province: "上海",
+        city: "上海",
+        venue: "新歌空间",
+        address: "上海市长宁区工人文化宫三楼",
+        opensAt: "18:15",
+        startsAt: "18:30",
+        endsAt: null,
+        status: "scheduled",
+        performers: [
+          {
+            groupId: null,
+            name: "ReRa"
+          },
+          {
+            groupId: null,
+            name: "EMBEFUSE"
+          },
+          {
+            groupId: null,
+            name: "ANNIHILATE"
+          },
+          {
+            groupId: null,
+            name: "Arena组合"
+          },
+          {
+            groupId: null,
+            name: "第六页序"
+          },
+          {
+            groupId: null,
+            name: "BubbleLabo"
+          },
+          {
+            groupId: null,
+            name: "心跳序曲Prologue"
+          },
+          {
+            groupId: null,
+            name: "Token"
+          },
+          {
+            groupId: null,
+            name: "RAIJIN"
+          }
+        ],
+        sources: [
+          {
+            url: "https://weibo.com/4028711630/Rh1KjF7tZ",
+            label: "舫Freya教师节专场原预告",
+            publisher: "舫Freya",
+            observedAt: "2026-09-09T07:26:58.540Z",
+            kind: "organizer"
+          }
+        ],
+        notes: "据9月7日原预告及其已编辑正文整理；仅列原文明确的9个演出团体，身份尚未逐一绑定。持教师资格证可无料入场，普通观众票种另列，不能把活动整体标作免费。结束时间未确认；出发前请核对最新变更。",
+        poster: null,
+        id: "e-weibo-rh1kjf7tz",
+        title: "舫Freya Fes 6.0 · 教师节专场",
+        date: "2026-09-10"
+      },
+      {
+        province: "上海",
+        city: "上海",
+        venue: "日不落剧场（世界树剧场）",
+        address: "南京东路800号第一百货C馆7楼 星空间96号",
+        opensAt: "18:30",
+        startsAt: "19:00",
+        endsAt: null,
+        status: "scheduled",
+        performers: [
+          {
+            groupId: null,
+            name: "时季SeasonMemories"
+          },
+          {
+            groupId: null,
+            name: "蛋黄πSizzle"
+          }
+        ],
+        sources: [
+          {
+            url: "https://weibo.com/7931467523/RgPxIvAGu",
+            label: "时季SeasonMemories Mini Oneman原预告",
+            publisher: "时季SeasonMemories",
+            observedAt: "2026-09-09T07:27:09.426Z",
+            kind: "official"
+          },
+          {
+            url: "https://weibo.com/7716940453/R3Ka7g7s0",
+            label: "地下偶像相关揭示板活动汇总",
+            publisher: "地下偶像相关揭示板",
+            observedAt: "2026-09-09T07:17:25.069Z",
+            kind: "aggregator"
+          }
+        ],
+        notes: "日期月日、场地、地址和入场/开演来自时季原预告；2026年及上海由同期聚合汇总同场条目交叉核对。21:30为特典开始，不作为演出结束。普通入场与VIP礼包规则不同；阵容未独立绑定团体档案。出发前请核对最新变更。",
+        poster: null,
+        id: "e-weibo-rgpxivagu",
+        title: "时季 1st Mini Oneman「似季」",
+        date: "2026-09-11"
+      },
+      {
+        province: "北京",
+        city: "北京",
+        venue: "门空间TheDoorSpace",
+        address: "北京市西城区廊房头条2号院1号楼二层",
+        opensAt: "19:15",
+        startsAt: "19:30",
+        endsAt: null,
+        status: "scheduled",
+        performers: [
+          {
+            groupId: null,
+            name: "JADX"
+          }
+        ],
+        sources: [
+          {
+            url: "https://weibo.com/8013127107/RgnpRiZ0w",
+            label: "JADX CAMPUS NOISE北京原预告",
+            publisher: "JADX_official",
+            observedAt: "2026-09-09T07:27:37.476Z",
+            kind: "official"
+          }
+        ],
+        notes: "据JADX原发布者的巡演北京场预告整理。无料入场需提前登记，按当天排队顺序入场；原文注明全程禁止摄影/录像。结束时刻未确认，未推断其他出演者。出发前请核对最新变更。",
+        poster: null,
+        id: "e-weibo-rgnpriz0w",
+        title: "JADX LIVE TOUR 2026「CAMPUS NOISE」北京场",
+        date: "2026-09-11"
+      },
+      {
+        province: "北京",
+        city: "北京",
+        venue: "MASK LIVE",
+        address: null,
+        opensAt: "12:25",
+        startsAt: "12:30",
+        endsAt: "16:50",
+        status: "scheduled",
+        performers: [
+          {
+            groupId: null,
+            name: "SHIRIUSU天狼星"
+          }
+        ],
+        sources: [
+          {
+            url: "https://www.showstart.com/event/308732",
+            label: "秀动Glory偶像事务所演出列表",
+            publisher: "Glory偶像事务所（秀动）",
+            observedAt: "2026-09-09T07:54:05.166Z",
+            kind: "organizer"
+          },
+          {
+            url: "https://www.showstart.com/host/16689619",
+            label: "秀动Glory偶像事务所演出列表",
+            publisher: "Glory偶像事务所（秀动）",
+            observedAt: "2026-09-09T07:54:02.475Z",
+            kind: "organizer"
+          }
+        ],
+        notes: "据秀动厂牌页和活动详情交叉核对：厂牌列表明确2026年，详情列OPEN 12:25、START 12:30及票务时间段结束16:50。仅列艺人栏明确的SHIRIUSU天狼星，指名票种名称不作为完整阵容。详情上方与主办正文的街址/楼层写法不同，完整地址留空，请向主办核实。临期安排与阵容可能调整。",
+        poster: null,
+        id: "e-showstart-308732",
+        title: "GLORY星际搭车指南 Vol.40",
+        date: "2026-09-12"
       }
     ]
   };
+
+  // data/follower-observations.v1.json
+  var follower_observations_v1_default = {
+    schemaVersion: "idol-follower-observations-v1",
+    updatedAt: null,
+    records: []
+  };
+
+  // src/catalog/followerObservations.ts
+  function object(value) {
+    return typeof value === "object" && value !== null && !Array.isArray(value);
+  }
+  function observationTime(value, now) {
+    if (typeof value !== "string") return null;
+    const match = /^(\d{4}-\d{2}-\d{2})T([01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d{1,9})?(?:Z|[+-](?:0\d|1[0-4]):[0-5]\d)$/u.exec(
+      value
+    );
+    const time = Date.parse(value);
+    const day = match ? /* @__PURE__ */ new Date(`${match[1]}T00:00:00Z`) : null;
+    return match && day && Number.isFinite(day.getTime()) && day.toISOString().slice(0, 10) === match[1] && Number.isFinite(time) && Number.isFinite(now.getTime()) && time <= now.getTime() ? time : null;
+  }
+  function observationWeek(value) {
+    const date = new Date(Date.parse(value) + 8 * 36e5);
+    date.setUTCHours(0, 0, 0, 0);
+    date.setUTCDate(date.getUTCDate() - (date.getUTCDay() + 6) % 7);
+    return `week-${date.toISOString().slice(0, 10)}`;
+  }
+  function strictFollowerIdentity(group, uid) {
+    if (!object(group) || !/^\d{4,20}$/u.test(uid)) return false;
+    const fields = group.fieldEvidence;
+    const identity = object(fields) ? fields.profileIdentity : null;
+    return String(group.weiboUid ?? "") === uid && group.uidConfidence === "high" && object(identity) && identity.state === "verified" && identity.confidence === "high" && String(identity.candidateUid ?? "") === uid && !(Array.isArray(group.rejectedIdentityCandidates) && group.rejectedIdentityCandidates.some(
+      (item) => object(item) && String(item.uid) === uid
+    ));
+  }
+  function latestFollowerBaseline(sources, now) {
+    const points = [];
+    const count = (value) => typeof value === "number" && Number.isSafeInteger(value) && value >= 0;
+    const add = (value, approximate, observedAt) => {
+      const time = observationTime(observedAt, now);
+      if (!count(value) || time === null || typeof observedAt !== "string")
+        return;
+      points.push({
+        value,
+        approximate: typeof approximate === "boolean" ? approximate : null,
+        observedAt,
+        time
+      });
+    };
+    for (const source of sources) {
+      if (!object(source)) continue;
+      const fields = source.fieldEvidence;
+      const evidence = object(fields) && object(fields.followers) ? fields.followers : null;
+      const uid = String(source.weiboUid ?? source.uid ?? "");
+      const evidenceMatches = evidence && !["blocked", "conflict", "not_found"].includes(String(evidence.state)) && (evidence.boundUid == null || String(evidence.boundUid) === uid);
+      if (source.followersKnown !== false && count(source.followersValue)) {
+        const times = [source.followersObservedAt];
+        if (observationTime(source.followersObservedAt, now) === null) {
+          times.push(source.profileObservedAt);
+          if (evidenceMatches && (evidence.numericValue == null || evidence.numericValue === source.followersValue))
+            times.push(evidence.observedAt);
+        }
+        for (const time of times)
+          add(source.followersValue, source.followersApproximate, time);
+      }
+      if (evidenceMatches && evidence.state === "verified") {
+        add(
+          evidence.numericValue,
+          evidence.followersApproximate ?? (evidence.numericValue === source.followersValue ? source.followersApproximate : null),
+          evidence.observedAt
+        );
+      }
+      const review = source.publicReview;
+      const profile = object(review) ? review.profile : null;
+      if (object(profile) && String(profile.uid ?? "") === uid && profile.followersValue === source.followersValue)
+        add(
+          profile.followersValue,
+          profile.followersApproximate,
+          profile.observedAt
+        );
+    }
+    points.sort((a, b) => b.time - a.time);
+    const latest = points[0];
+    return latest ? {
+      ...latest,
+      conflict: points.some(
+        (point) => point.time === latest.time && (point.value !== latest.value || point.approximate !== latest.approximate)
+      )
+    } : null;
+  }
+  function followerObservationConflict(record, baseline) {
+    if (!baseline) return null;
+    if (baseline.conflict) return "baseline_observation_conflict";
+    const time = Date.parse(record.followersObservedAt);
+    if (time < baseline.time) return "older_observation";
+    if (time === baseline.time && (record.followersValue !== baseline.value || record.followersApproximate !== baseline.approximate))
+      return "same_time_conflict";
+    return null;
+  }
+  var keys = [
+    "groupId",
+    "uid",
+    "followersValue",
+    "followersDisplay",
+    "followersApproximate",
+    "followersObservedAt",
+    "sourceUrl",
+    "weekId",
+    "identityGate",
+    "responseSha256"
+  ];
+  function exactKeys(value, allowed) {
+    return Object.keys(value).length === allowed.length && allowed.every((key) => Object.hasOwn(value, key));
+  }
+  function validateFollowerObservations(input, now = /* @__PURE__ */ new Date()) {
+    const errors = [];
+    if (!object(input) || !exactKeys(input, ["schemaVersion", "updatedAt", "records"]) || input.schemaVersion !== "idol-follower-observations-v1" || !Array.isArray(input.records))
+      return { valid: false, errors: ["invalid_follower_dataset"] };
+    const ids = /* @__PURE__ */ new Set();
+    const uids = /* @__PURE__ */ new Set();
+    let latest = null;
+    for (const [index, record] of input.records.entries()) {
+      if (!object(record) || !exactKeys(record, keys) || typeof record.groupId !== "string" || !/^g\d{3,8}$/u.test(record.groupId) || typeof record.uid !== "string" || !/^\d{4,20}$/u.test(record.uid) || typeof record.followersValue !== "number" || !Number.isSafeInteger(record.followersValue) || record.followersValue < 0 || typeof record.followersApproximate !== "boolean" || typeof record.followersDisplay !== "string" || record.followersDisplay !== `${record.followersApproximate ? "约" : ""}${record.followersValue}` || observationTime(record.followersObservedAt, now) === null || record.sourceUrl !== `https://weibo.com/u/${record.uid}` || record.identityGate !== "strict_uid_match" || typeof record.responseSha256 !== "string" || !/^[a-f0-9]{64}$/u.test(record.responseSha256)) {
+        errors.push(`invalid_follower_record:${index}`);
+        continue;
+      }
+      const observed = record.followersObservedAt;
+      if (record.weekId !== observationWeek(observed))
+        errors.push(`observation_week_mismatch:${index}`);
+      if (ids.has(record.groupId) || uids.has(record.uid))
+        errors.push(`duplicate_follower_identity:${index}`);
+      ids.add(record.groupId);
+      uids.add(record.uid);
+      if (latest === null || Date.parse(observed) > Date.parse(latest))
+        latest = observed;
+    }
+    if (input.updatedAt !== latest) errors.push("invalid_follower_updated_at");
+    return errors.length ? { valid: false, errors } : {
+      valid: true,
+      data: structuredClone(input),
+      errors: []
+    };
+  }
+  function overlayFollowerObservations(groups, input, now = /* @__PURE__ */ new Date(), mode = "current") {
+    const validation = validateFollowerObservations(input, now);
+    if (!validation.valid) throw new Error(validation.errors.join(","));
+    const ids = new Set(groups.map((group) => group.id));
+    if (ids.size !== groups.length) throw new Error("duplicate_display_group_id");
+    for (const record of validation.data.records) {
+      const group = groups.find((candidate) => candidate.id === record.groupId);
+      if (!group || !strictFollowerIdentity(group, record.uid) || groups.filter(
+        (candidate) => object(candidate) && String(candidate.weiboUid ?? "") === record.uid
+      ).length !== 1)
+        throw new Error(`display_identity_mismatch:${record.groupId}`);
+      const conflict = followerObservationConflict(
+        record,
+        latestFollowerBaseline([group], now)
+      );
+      if (conflict) throw new Error(`follower_${conflict}:${record.groupId}`);
+    }
+    const byId = new Map(
+      validation.data.records.map((record) => [record.groupId, record])
+    );
+    return groups.map((group) => {
+      const copy = structuredClone(group);
+      const record = byId.get(group.id);
+      if (!record) return copy;
+      if (mode === "archive")
+        return Object.assign(copy, {
+          followerObservation: structuredClone(record)
+        });
+      return Object.assign(copy, {
+        followersValue: record.followersValue,
+        followersDisplay: record.followersDisplay,
+        followersApproximate: record.followersApproximate,
+        followersObservedAt: record.followersObservedAt,
+        followersKnown: true,
+        followersText: record.followersDisplay,
+        followerObservation: structuredClone(record)
+      });
+    });
+  }
 
   // src/events/model.ts
   var DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
@@ -175,7 +568,7 @@
   var UTC8_MS = 8 * 60 * 60 * 1e3;
   var DAY_MS = 24 * 60 * 60 * 1e3;
   var STATUS_LABELS = {
-    scheduled: "按官宣计划",
+    scheduled: "计划举行",
     postponed: "已延期，请核实新日期",
     cancelled: "已取消",
     unconfirmed: "安排待确认"
@@ -224,17 +617,17 @@
     const fail = (path, message) => {
       errors.push({ path, message });
     };
-    const shape = (value, path, keys) => {
+    const shape = (value, path, keys2) => {
       if (!isObject(value)) {
         fail(path, "必须为对象");
         return false;
       }
-      for (const key of keys) {
+      for (const key of keys2) {
         if (!Object.prototype.hasOwnProperty.call(value, key))
           fail(`${path}.${key}`, "缺少必需字段");
       }
       for (const key of Object.keys(value)) {
-        if (!keys.includes(key)) fail(`${path}.${key}`, "不接受未定义字段");
+        if (!keys2.includes(key)) fail(`${path}.${key}`, "不接受未定义字段");
       }
       return true;
     };
@@ -345,7 +738,14 @@
           text(source.publisher, `${sp}.publisher`, 160);
           if (!isTimestamp(source.observedAt))
             fail(`${sp}.observedAt`, "必须为含明确时区的有效观察时间");
-          if (typeof source.kind !== "string" || !["official", "organizer", "venue", "wiki"].includes(source.kind))
+          if (typeof source.kind !== "string" || ![
+            "official",
+            "organizer",
+            "venue",
+            "wiki",
+            "aggregator",
+            "ticketing"
+          ].includes(source.kind))
             fail(`${sp}.kind`, "来源种类无效");
         });
       }
@@ -479,6 +879,22 @@
     list.hidden = result.upcoming.length === 0;
   }
   if (typeof window !== "undefined") {
+    const holder = window;
+    if (holder.IDOL_MAP_DATA?.groups) {
+      try {
+        holder.IDOL_MAP_DATA = {
+          ...holder.IDOL_MAP_DATA,
+          groups: overlayFollowerObservations(
+            holder.IDOL_MAP_DATA.groups,
+            follower_observations_v1_default,
+            /* @__PURE__ */ new Date(),
+            "archive"
+          )
+        };
+      } catch {
+        holder.IDOL_FOLLOWER_LAYER_ERROR = true;
+      }
+    }
     window.IDOL_SITE = { parseGroupLink, groupEventsHref, renderGroupEvents };
   }
 })();

@@ -1,4 +1,6 @@
 import rawDataset from "../../data/events.v1.json";
+import followerDataset from "../../data/follower-observations.v1.json";
+import { overlayFollowerObservations } from "../catalog/followerObservations";
 import {
   filterEvents,
   getEventTemporalState,
@@ -133,5 +135,25 @@ declare global {
 }
 
 if (typeof window !== "undefined") {
+  const holder = window as unknown as {
+    IDOL_MAP_DATA?: { groups: { id: string }[] };
+    IDOL_FOLLOWER_LAYER_ERROR?: boolean;
+  };
+  if (holder.IDOL_MAP_DATA?.groups) {
+    try {
+      // 图位与主粉丝值仍保持归档口径，新观察仅在详情中独立呈现。
+      holder.IDOL_MAP_DATA = {
+        ...holder.IDOL_MAP_DATA,
+        groups: overlayFollowerObservations(
+          holder.IDOL_MAP_DATA.groups,
+          followerDataset,
+          new Date(),
+          "archive",
+        ),
+      };
+    } catch {
+      holder.IDOL_FOLLOWER_LAYER_ERROR = true;
+    }
+  }
   window.IDOL_SITE = { parseGroupLink, groupEventsHref, renderGroupEvents };
 }

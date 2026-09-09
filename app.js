@@ -1920,6 +1920,20 @@
       ? `主页公开资料观察：${observed}（中国标准时间） · ${profileBasis}`
       : `未取得单团主页观察时间 · 采集批次：${batchObserved || "未记录"}（中国标准时间） · ${profileBasis}`;
     elements.profileObserved.textContent += coverObservedSuffix;
+    const followerObservation = group.followerObservation;
+    if (followerObservation) {
+      const latest = document.createElement("span");
+      latest.textContent = ` · 粉丝独立观察：${followerObservation.followersDisplay} 人（${formatObservedDate(followerObservation.followersObservedAt)}，中国标准时间）；图位与图中主值仍为归档时点。`;
+      const source = document.createElement("a");
+      source.href = safeHttpsUrl(followerObservation.sourceUrl);
+      source.target = "_blank";
+      source.rel = "noopener noreferrer";
+      source.textContent = "粉丝来源 ↗";
+      elements.profileObserved.append(latest, source);
+    } else if (window.IDOL_FOLLOWER_LAYER_ERROR) {
+      elements.profileObserved.textContent +=
+        " · 粉丝独立观察层校验失败，当前仍显示归档粉丝值。";
+    }
   }
 
   function selectGroup(id, options = {}) {

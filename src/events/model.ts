@@ -7,7 +7,8 @@ export interface EventSource {
   label: string;
   publisher: string;
   observedAt: string;
-  kind: "official" | "organizer" | "venue" | "wiki";
+  kind:
+    "official" | "organizer" | "venue" | "wiki" | "aggregator" | "ticketing";
 }
 
 export interface EventRecord {
@@ -59,7 +60,7 @@ const ID_PATTERN = /^e-[a-z0-9-]+$/;
 const UTC8_MS = 8 * 60 * 60 * 1000;
 const DAY_MS = 24 * 60 * 60 * 1000;
 const STATUS_LABELS: Record<EventStatus, string> = {
-  scheduled: "按官宣计划",
+  scheduled: "计划举行",
   postponed: "已延期，请核实新日期",
   cancelled: "已取消",
   unconfirmed: "安排待确认",
@@ -309,7 +310,14 @@ export function validateEventDataset(
           fail(`${sp}.observedAt`, "必须为含明确时区的有效观察时间");
         if (
           typeof source.kind !== "string" ||
-          !["official", "organizer", "venue", "wiki"].includes(source.kind)
+          ![
+            "official",
+            "organizer",
+            "venue",
+            "wiki",
+            "aggregator",
+            "ticketing",
+          ].includes(source.kind)
         )
           fail(`${sp}.kind`, "来源种类无效");
       });

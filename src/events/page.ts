@@ -178,7 +178,7 @@ function eventEntry(event: EventRecord, now: Date): HTMLElement {
   }
   body.append(performers);
   const details = element("details", "", "events-detail");
-  details.append(element("summary", "展开详情与官宣来源"));
+  details.append(element("summary", "展开详情与信息来源"));
   const detailBody = element("div", "", "events-detail-body");
   detailBody.append(
     element(

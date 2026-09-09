@@ -1,6 +1,10 @@
 import { readFile, writeFile, mkdir, lstat, realpath } from "node:fs/promises";
 import path from "node:path";
 import ts from "typescript";
+import {
+  readFollowerObservations,
+  overlayFollowerObservations,
+} from "./followerObservations.mjs";
 
 /** @typedef {import('../src/catalog/model').GroupCatalog} GroupCatalog */
 
@@ -138,6 +142,12 @@ function project(group) {
     visual?.label || "",
   );
   const image = avatar(group, officialUrl);
+  add(
+    "粉丝独立观察来源",
+    group.followerObservation?.sourceUrl,
+    group.followerObservation?.followersObservedAt ?? null,
+    "仅更新粉丝量；不代表团体存续、成员、城市、风格或整个主页资料已刷新。",
+  );
   const supplement = group.editorialProfileSupplement;
   const avatarObservedAt = !image
     ? null
@@ -191,7 +201,10 @@ function project(group) {
                 ? null
                 : `${group.followersText ?? group.followersDisplay}${review?.entityKind?.includes("事务所") ? "（事务所账号）" : ""}`,
             value: group.followersValue,
-            observedAt: group.profileObservedAt ?? null,
+            observedAt:
+              group.followerObservation?.followersObservedAt ??
+              group.profileObservedAt ??
+              null,
           },
     sources,
   };
@@ -217,7 +230,10 @@ export async function buildGroupCatalog(root) {
   const catalog = {
     schemaVersion: "idol-catalog-v1",
     archiveDate: source.meta.archiveCutoffDate,
-    groups: source.groups.map(project),
+    groups: overlayFollowerObservations(
+      source.groups,
+      await readFollowerObservations(root),
+    ).map(project),
   };
   const result = model.validateCatalog(catalog);
   if (!result.valid)

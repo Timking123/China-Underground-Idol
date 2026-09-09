@@ -16,7 +16,7 @@ import {
 } from "./model";
 
 const STATUS_LABELS: Record<EventRecord["status"], string> = {
-  scheduled: "按官宣计划",
+  scheduled: "计划举行",
   postponed: "已延期，请核实新日期",
   cancelled: "已取消",
   unconfirmed: "安排待确认",

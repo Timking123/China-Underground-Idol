@@ -13,6 +13,7 @@ export async function buildSite(
   const missing = [
     ...Object.values(candidates),
     ...publicFiles.filter((file) => !file.startsWith("assets/")),
+    "data/follower-observations.v1.json",
   ].filter((file) => !existsSync(path.join(root, file)));
   if (missing.length && !partial) {
     throw new Error(
