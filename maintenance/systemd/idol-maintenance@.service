@@ -5,7 +5,7 @@ After=network-online.target
 
 [Service]
 Type=oneshot
-User=root
+# 系统级服务默认以 root 启动；避免 systemd 255 在显式 User=root 与过滤器组合下提前移除降权能力。
 Group=root
 WorkingDirectory=/srv/china-underground-idol/maintenance/workspace/work/phase3-20260909
 EnvironmentFile=/etc/china-underground-idol/maintenance.env
