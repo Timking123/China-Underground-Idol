@@ -47,6 +47,8 @@ const FAILURE_CODES = new Set([
   "RESPONSE_TOO_LARGE",
 ]);
 const ACTIONS: Record<string, string> = {
+  accounts_skipped:
+    "个别账号本轮无法读取，已保留其旧资料，其余账号继续更新。账号清单与原因见服务器本轮回执。",
   inspect_logs: "请登录服务器核查维护记录，并按失败码处理。",
   configure_credentials: "请在服务器安全配置中核查所需凭据。",
   check_source: "请核查对应来源的可用性及访问配置。",

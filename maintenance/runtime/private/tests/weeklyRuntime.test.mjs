@@ -94,6 +94,8 @@ async function harness(count = 3, options = {}) {
       const response = {
         cliVersion: "0.9.1",
         stdout: JSON.stringify({
+          total_number: uids.length,
+          states: uids.map((uid) => ({ [uid]: 1 })),
           users: uids.map((uid) => ({
             idstr: uid,
             followers_count: 1001,

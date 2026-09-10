@@ -1,7 +1,14 @@
 import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
+import { readFile } from "node:fs/promises";
+import { sha256 } from "../src/sourceCapture.ts";
+import {
+  readWeeklyRunReceipt,
+  requestWeeklyRunRecovery,
+  completeWeeklyRunRecovery,
+} from "./weeklyRunRecovery.ts";
 import type { Incident } from "./notify.ts";
-import { sendMaintenanceIncident } from "./incident.ts";
+import { sendMaintenanceIncident, sendMaintenanceNotice } from "./incident.ts";
 import {
   listDirectories,
   privateDirectory,
@@ -32,6 +39,21 @@ async function notify(incident: Omit<Incident, "message">) {
 
 async function health() {
   const now = new Date();
+  if (
+    now.getTime() >= Date.parse("2026-09-11T00:00:00+08:00") &&
+    !(await readOptional(resolve(STATE, "publish/pending.json")))
+  ) {
+    const { selectWeeklyRunId } = await import("./weeklyPreflight.ts");
+    const selected = await selectWeeklyRunId(STATE, now);
+    const receipt = await readWeeklyRunReceipt(STATE, selected, now);
+    // 每次仅处理一个槽，交由 supervisor 消费发布后，下次健康检查再处理本周。
+    if (receipt?.status !== "complete")
+      return {
+        status: "complete",
+        checkedAt: now.toISOString(),
+        weeklyMaintenance: await maintenance("weekly"),
+      };
+  }
   if (await readOptional(resolve(STATE, "publish/pending.json")))
     await notify({
       runId: `health-${day()}`,
@@ -44,18 +66,22 @@ async function health() {
     ["daily", 27 * 3600_000],
     ["weekly", 8 * 86400_000],
   ] as const) {
-    if (
-      kind === "weekly" &&
-      now.getTime() < Date.parse("2026-09-12T00:00:00+08:00")
-    )
-      continue;
     const names = (await listDirectories(resolve(STATE, "runs"))).filter(
       (name) => name.startsWith(`${kind}-`),
     );
     const name = names.at(-1);
     const receipt = name
-      ? await readOptional(resolve(STATE, "runs", name, "receipt.json"))
+      ? kind === "weekly"
+        ? await readWeeklyRunReceipt(STATE, name)
+        : await readOptional(resolve(STATE, "runs", name, "receipt.json"))
       : null;
+    if (
+      !receipt &&
+      !name &&
+      kind === "weekly" &&
+      now.getTime() < Date.parse("2026-09-12T00:00:00+08:00")
+    )
+      continue;
     if (
       !receipt ||
       receipt.status !== "complete" ||
@@ -68,6 +94,17 @@ async function health() {
         code: "scheduled_run_missing",
         source: kind,
         action: "inspect_logs",
+      });
+    if (
+      Array.isArray(receipt?.notificationFailures) &&
+      receipt.notificationFailures.length
+    )
+      await notify({
+        runId: `health-${day()}`,
+        kind: "health",
+        code: "notification_pending",
+        source: kind,
+        action: "configure_credentials",
       });
   }
   const response = await fetch("https://idol.hi-veblen.com/manifest.sha256", {
@@ -89,26 +126,57 @@ async function health() {
 async function maintenance(kind: "daily" | "weekly") {
   let slot = day();
   if (kind === "weekly") {
-    const { weeklySlot } = await import("../src/weeklyScope.ts");
-    slot = weeklySlot("scheduled", new Date()).date;
+    const { selectWeeklyRunId } = await import("./weeklyPreflight.ts");
+    slot = (await selectWeeklyRunId(STATE)).slice(7);
+    requireState(
+      !(await readOptional(resolve(STATE, "publish/pending.json"))),
+      "publication_unconfirmed",
+    );
   }
   const runId = `${kind}-${slot}`;
   const folder = resolve(STATE, "runs", runId);
-  const existing = await readOptional(resolve(folder, "receipt.json"));
+  const existing =
+    kind === "weekly"
+      ? await readWeeklyRunReceipt(STATE, runId)
+      : await readOptional(resolve(folder, "receipt.json"));
+  let recovery: { runId: string; expectedReceiptSha256: string } | undefined;
   if (existing) {
-    requireState(existing.status === "complete", "failed_run_requires_review");
-    return { runId, reused: true, status: "complete" };
+    if (existing.status === "complete") {
+      if (kind === "weekly") {
+        const { assertWeeklyApplicationReady } =
+          await import("./weeklyPreflight.ts");
+        await assertWeeklyApplicationReady(STAGE, STATE);
+      }
+      return { runId, reused: true, status: "complete" };
+    }
+    requireState(
+      kind === "weekly" && existing.code === "incomplete_weekly_response",
+      "failed_run_requires_review",
+    );
+    recovery = {
+      runId,
+      expectedReceiptSha256: sha256(
+        await readFile(resolve(folder, "receipt.json")),
+      ),
+    };
+    await requestWeeklyRunRecovery(
+      STATE,
+      runId,
+      recovery.expectedReceiptSha256,
+    );
   }
-  requireState(
-    !(await readOptional(resolve(folder, "attempt.json"))),
-    "unfinished_run_requires_review",
-  );
-  await writeOnce(resolve(folder, "attempt.json"), {
-    schemaVersion: "idol-server-attempt-v1",
-    runId,
-    kind,
-    startedAt: new Date().toISOString(),
-  });
+  if (!recovery) {
+    requireState(
+      !(await readOptional(resolve(folder, "attempt.json"))),
+      "unfinished_run_requires_review",
+    );
+    await writeOnce(resolve(folder, "attempt.json"), {
+      schemaVersion: "idol-server-attempt-v1",
+      runId,
+      kind,
+      startedAt: new Date().toISOString(),
+    });
+  }
   try {
     let changed = false;
     let result: unknown;
@@ -126,28 +194,25 @@ async function maintenance(kind: "daily" | "weekly") {
     } else {
       const { assertWeeklyApplicationReady } =
         await import("./weeklyPreflight.ts");
-      await assertWeeklyApplicationReady(STAGE, STATE);
-      const { runWeeklyRuntime } = await import("../src/weeklyRuntime.ts");
-      const planned = await runWeeklyRuntime({
-        trigger: "scheduled",
-        live: false,
+      await assertWeeklyApplicationReady(STAGE, STATE, new Date(), recovery);
+      const { runWeeklyRuntime, reconcileRecurringWeeklyBatch } =
+        await import("../src/weeklyRuntime.ts");
+      const { collectWeeklyWithRecovery } =
+        await import("./weeklyCollection.ts");
+      const { refreshWeeklyPrice } = await import("./weeklyProbe.ts");
+      const collection = await collectWeeklyWithRecovery(`scheduled-${slot}`, {
+        run: (live) =>
+          runWeeklyRuntime({
+            trigger: "scheduled",
+            live,
+            budgetCredits: "auto",
+            expectedSlot: `scheduled-${slot}`,
+            ...(recovery ? { resumeSlot: `scheduled-${slot}` } : {}),
+          }),
+        refreshPrice: () =>
+          refreshWeeklyPrice({ stageRoot: STAGE, profileRoot: PROFILE }),
+        reconcile: (slotId) => reconcileRecurringWeeklyBatch(slotId, PROFILE),
       });
-      requireState(
-        planned.status !== "blocked",
-        planned.blocker ?? "weekly_plan_blocked",
-      );
-      if (planned.status !== "complete") {
-        const { refreshWeeklyPrice } = await import("./weeklyProbe.ts");
-        await refreshWeeklyPrice({ stageRoot: STAGE, profileRoot: PROFILE });
-      }
-      const collection =
-        planned.status === "complete"
-          ? planned
-          : await runWeeklyRuntime({
-              trigger: "scheduled",
-              live: true,
-              budgetCredits: "auto",
-            });
       requireState(
         collection.status === "complete" && collection.slotId,
         collection.blocker ?? "weekly_collection_blocked",
@@ -169,10 +234,27 @@ async function maintenance(kind: "daily" | "weekly") {
           requests: collection.requests,
           cachedBatches: collection.cachedBatches,
           reused: collection.reused,
+          reconciledBatches: collection.reconciledBatches,
         },
         application,
       };
-      if (application.review.length)
+      if (
+        application.review.some(
+          (item) =>
+            item.reason === "provider_profile_unavailable_preserve_previous",
+        )
+      )
+        incidents.push({
+          code: "weekly_accounts_skipped",
+          source: "weekly",
+          action: "accounts_skipped",
+        });
+      if (
+        application.review.some(
+          (item) =>
+            item.reason !== "provider_profile_unavailable_preserve_previous",
+        )
+      )
         incidents.push({
           code: "weekly_changes_need_review",
           source: "weekly",
@@ -190,16 +272,37 @@ async function maintenance(kind: "daily" | "weekly") {
       });
     }
     // 同类来源故障合并一次通知；具名来源与细节保留在私有回执。
+    const notificationFailures: {
+      code: string;
+      status: string;
+      notificationCode: string;
+    }[] = [];
     for (const incident of new Map(
       incidents.map((item) => [item.code, item]),
-    ).values())
-      await notify({
-        runId,
-        kind,
-        code: incident.code,
-        source: kind,
-        action: incident.action ?? "inspect_logs",
-      });
+    ).values()) {
+      const notice = await sendMaintenanceNotice(
+        {
+          runId,
+          kind,
+          code: incident.code,
+          source: kind,
+          action: incident.action ?? "inspect_logs",
+        },
+        { stateRoot: STATE, sendKey: process.env.SERVERCHAN_SENDKEY },
+      );
+      console.log(
+        JSON.stringify({ notification: notice.status, code: notice.code }),
+      );
+      if (
+        notice.status === "blocked" ||
+        (notice.status === "suppressed" && notice.code !== "DUPLICATE")
+      )
+        notificationFailures.push({
+          code: incident.code,
+          status: notice.status,
+          notificationCode: notice.code,
+        });
+    }
     const receipt = {
       schemaVersion: "idol-server-run-v1",
       runId,
@@ -207,19 +310,28 @@ async function maintenance(kind: "daily" | "weekly") {
       changed,
       result,
       publication,
+      notificationFailures,
       finishedAt: new Date().toISOString(),
     };
-    await writeOnce(resolve(folder, "receipt.json"), receipt);
+    if (recovery)
+      await completeWeeklyRunRecovery(
+        STATE,
+        runId,
+        recovery.expectedReceiptSha256,
+        receipt,
+      );
+    else await writeOnce(resolve(folder, "receipt.json"), receipt);
     return { runId, status: "complete", changed, incidents: incidents.length };
   } catch (error) {
     const code = safeFailure(error);
-    await writeOnce(resolve(folder, "receipt.json"), {
-      schemaVersion: "idol-server-run-v1",
-      runId,
-      status: "blocked",
-      code,
-      finishedAt: new Date().toISOString(),
-    });
+    if (!recovery)
+      await writeOnce(resolve(folder, "receipt.json"), {
+        schemaVersion: "idol-server-run-v1",
+        runId,
+        status: "blocked",
+        code,
+        finishedAt: new Date().toISOString(),
+      });
     await notify({
       runId,
       kind: "service",

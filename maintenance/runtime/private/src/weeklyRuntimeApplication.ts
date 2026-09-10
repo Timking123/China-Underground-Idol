@@ -32,6 +32,7 @@ import {
   buildWeeklyScope,
   parseWeeklyRuntimeInputs,
   readWeeklyRuntimeInputs,
+  weeklySlot,
   WEEKLY_STAGE,
   type WeeklyInputs,
 } from "./weeklyScope.ts";
@@ -162,14 +163,24 @@ export function prepareWeeklyRuntimeProjection(options: {
     const previousLegacy = new Map(
       legacy.data.records.map((row) => [row.groupId, row]),
     );
-    const withheld = inspection.snapshot.knownWithheld ?? [];
+    const recurring =
+      inspection.snapshot.schemaVersion === "idol-weekly-snapshot-v4";
+    const withheld = recurring
+      ? (inspection.snapshot.unavailableProfiles ?? [])
+      : (inspection.snapshot.knownWithheld ?? []);
     requireState(
       (inspection.snapshot.schemaVersion === "idol-weekly-snapshot-v2" &&
         !Object.hasOwn(inspection.snapshot, "knownWithheld") &&
+        !Object.hasOwn(inspection.snapshot, "unavailableProfiles") &&
         !Object.hasOwn(inspection.snapshot, "profileObservationsComplete")) ||
         (inspection.snapshot.schemaVersion === "idol-weekly-snapshot-v3" &&
           inspection.snapshot.profileObservationsComplete === false &&
-          withheld.length === 1),
+          !Object.hasOwn(inspection.snapshot, "unavailableProfiles") &&
+          withheld.length === 1) ||
+        (recurring &&
+          !Object.hasOwn(inspection.snapshot, "knownWithheld") &&
+          inspection.snapshot.profileObservationsComplete === false &&
+          withheld.length > 0),
       "weekly_projection_result_schema_mismatch",
     );
     const population = [...inspection.snapshot.candidates, ...withheld];
@@ -229,10 +240,17 @@ export function prepareWeeklyRuntimeProjection(options: {
             "reconciliationSha256",
           ].sort(),
         ) &&
-          item.id === WITHHELD_GROUP &&
-          item.uid === WITHHELD_UID &&
+          (recurring ||
+            (item.id === WITHHELD_GROUP && item.uid === WITHHELD_UID)) &&
           target?.uid === item.uid &&
-          item.reason === "provider_european_user" &&
+          (recurring
+            ? [
+                "provider_european_user",
+                "provider_profile_unavailable",
+                "provider_invalid_followers_count",
+                "provider_missing_profile",
+              ].includes(item.reason)
+            : item.reason === "provider_european_user") &&
           isTimestamp(item.observedAt) &&
           Date.parse(item.observedAt) <= now.getTime() &&
           [
@@ -253,7 +271,9 @@ export function prepareWeeklyRuntimeProjection(options: {
       result.review.push({
         id: item.id,
         uid: item.uid,
-        reason: "known_provider_withheld_preserve_previous",
+        reason: recurring
+          ? "provider_profile_unavailable_preserve_previous"
+          : "known_provider_withheld_preserve_previous",
       });
       result.unchanged.push(item.id);
     }
@@ -285,7 +305,11 @@ export function prepareWeeklyRuntimeProjection(options: {
         followersApproximate: candidate.followersApproximate,
         followersObservedAt: candidate.followersObservedAt,
         sourceUrl: candidate.sourceUrl,
-        slotId: inspection.slotId,
+        // 公开记录按实际观察时间归周，私有恢复计划仍绑定原任务槽。
+        slotId: weeklySlot(
+          inspection.plan.slot.trigger,
+          new Date(candidate.followersObservedAt),
+        ).id,
         identityGate: candidate.identityGate,
         entityKind: candidate.entityKind,
         scopeNote: candidate.scopeNote,

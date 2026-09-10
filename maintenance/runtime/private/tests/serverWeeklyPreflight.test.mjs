@@ -38,6 +38,9 @@ try {
 }
 const { assertWeeklyApplicationReady } =
   await import("../server/weeklyPreflight.ts");
+const { requestWeeklyRunRecovery, completeWeeklyRunRecovery } =
+  await import("../server/weeklyRunRecovery.ts");
+const { writeOnce } = await import("../server/state.ts");
 const { createPipelineStore } = await import("../src/pipelineStore.ts");
 const { prepareWeeklyRuntimeProjection } =
   await import("../src/weeklyRuntimeApplication.ts");
@@ -370,8 +373,12 @@ for (const outcome of [
           schemaVersion: "idol-server-run-v1",
           runId: id,
           status: outcome === "blocked" ? "blocked" : "complete",
+          ...(outcome === "blocked"
+            ? { code: "incomplete_weekly_response" }
+            : {}),
           changed: false,
           result: {
+            collection: { slotId: "scheduled-2026-09-11" },
             application: {
               slotId: "scheduled-2026-09-11",
               status:
@@ -385,7 +392,10 @@ for (const outcome of [
       );
     if (outcome === "complete") await h.check();
     else
-      await assert.rejects(h.next(), /prior_weekly_server_(run|application)/);
+      await assert.rejects(
+        h.next(),
+        /prior_weekly_server_(run|application)|weekly_run_recovery_invalid_completion/,
+      );
     assert.deepEqual(h.calls, { prices: 0, queries: 0 });
   });
 }
@@ -415,6 +425,176 @@ test("本槽新 attempt 可继续，归档符号链接必须拒绝", async (t) =
   await assert.rejects(h.next(), /symbolic_link/);
   assert.deepEqual(h.calls, { prices: 0, queries: 0 });
   assert.deepEqual(await readdir(outside), []);
+});
+
+async function failedServerRun(h, date = weeklySlot("scheduled", NOW).date) {
+  const runId = `weekly-${date}`;
+  const folder = path.join(h.stateRoot, "runs", runId);
+  const attemptPath = path.join(folder, "attempt.json");
+  const receiptPath = path.join(folder, "receipt.json");
+  await writeOnce(attemptPath, {
+    schemaVersion: "idol-server-attempt-v1",
+    runId,
+    kind: "weekly",
+    startedAt: new Date(Date.now() - 1000).toISOString(),
+  });
+  await writeOnce(receiptPath, {
+    schemaVersion: "idol-server-run-v1",
+    runId,
+    status: "blocked",
+    code: "incomplete_weekly_response",
+    finishedAt: new Date().toISOString(),
+  });
+  return {
+    runId,
+    expectedReceiptSha256: sha256(await readFile(receiptPath)),
+    attemptPath,
+    receiptPath,
+  };
+}
+
+async function requestRecovery(h, recovery) {
+  await requestWeeklyRunRecovery(
+    h.stateRoot,
+    recovery.runId,
+    recovery.expectedReceiptSha256,
+  );
+}
+
+async function nextWithRecovery(h, recovery, now = NOW) {
+  await assertWeeklyApplicationReady(h.stageRoot, h.stateRoot, now, recovery);
+  h.calls.prices++;
+  h.calls.queries++;
+}
+
+async function finishRecovery(h, recovery) {
+  return completeWeeklyRunRecovery(
+    h.stateRoot,
+    recovery.runId,
+    recovery.expectedReceiptSha256,
+    {
+      schemaVersion: "idol-server-run-v1",
+      runId: recovery.runId,
+      status: "complete",
+      changed: true,
+      result: {
+        collection: { slotId: recovery.runId.replace("weekly-", "scheduled-") },
+        application: {
+          slotId: recovery.runId.replace("weekly-", "scheduled-"),
+          status: "complete",
+          changed: true,
+          publicWrites: 1,
+        },
+      },
+      publication: { changed: false },
+      finishedAt: new Date().toISOString(),
+    },
+  );
+}
+
+test("当前周恢复必须显式绑定请求，预检不改写原失败", async (t) => {
+  const h = await fixture(t);
+  const recovery = await failedServerRun(h);
+  await assert.rejects(nextWithRecovery(h, recovery), /request_missing/);
+  await requestRecovery(h, recovery);
+  await assert.rejects(nextWithRecovery(h), /prior_weekly_server_run_failed/);
+  const before = await tree(h.temporary);
+  await nextWithRecovery(h, recovery);
+  assert.deepEqual(await tree(h.temporary), before);
+  assert.equal(
+    sha256(await readFile(recovery.receiptPath)),
+    recovery.expectedReceiptSha256,
+  );
+  assert.deepEqual(h.calls, { prices: 1, queries: 1 });
+});
+
+test("恢复错误 SHA 或未来周期不能放行，已绑定旧周期可继续", async (t) => {
+  const h = await fixture(t);
+  const recovery = await failedServerRun(h);
+  await requestRecovery(h, recovery);
+  await assert.rejects(
+    nextWithRecovery(h, { ...recovery, expectedReceiptSha256: "0".repeat(64) }),
+    /original_hash_mismatch/,
+  );
+  const nextWeek = new Date(NOW.getTime() + 7 * 86400_000);
+  await nextWithRecovery(h, recovery, nextWeek);
+  await assert.rejects(
+    nextWithRecovery(h, recovery, new Date(NOW.getTime() - 7 * 86400_000)),
+    /recovery_in_future/,
+  );
+  await assert.rejects(
+    assertWeeklyApplicationReady(h.stageRoot, undefined, NOW, recovery),
+    /invalid_root/,
+  );
+  assert.deepEqual(h.calls, { prices: 1, queries: 1 });
+});
+
+test("当前恢复不能掩盖另一历史失败", async (t) => {
+  const h = await fixture(t);
+  const prior = weeklySlot(
+    "scheduled",
+    new Date(NOW.getTime() - 7 * 86400_000),
+  ).date;
+  await failedServerRun(h, prior);
+  const recovery = await failedServerRun(h);
+  await requestRecovery(h, recovery);
+  await assert.rejects(
+    nextWithRecovery(h, recovery),
+    /prior_weekly_server_run_failed/,
+  );
+  assert.deepEqual(h.calls, { prices: 0, queries: 0 });
+});
+
+test("当前失败已授权恢复也不能绕过真实应用缺收据", async (t) => {
+  const h = await fixture(t);
+  const prior = weeklySlot(
+    "scheduled",
+    new Date(NOW.getTime() - 7 * 86400_000),
+  ).date;
+  await addApplication(h, prior, false);
+  const recovery = await failedServerRun(h);
+  await requestRecovery(h, recovery);
+  const before = await tree(h.temporary);
+  await assert.rejects(
+    nextWithRecovery(h, recovery),
+    /prior_weekly_application_incomplete/,
+  );
+  assert.deepEqual(await tree(h.temporary), before);
+  assert.deepEqual(h.calls, { prices: 0, queries: 0 });
+});
+
+test("恢复完成 JSON 内部自洽但没有真实应用档案仍阻塞", async (t) => {
+  const h = await fixture(t);
+  const recovery = await failedServerRun(h);
+  await requestRecovery(h, recovery);
+  await finishRecovery(h, recovery);
+  await assert.rejects(nextWithRecovery(h), /recovered_application_missing/);
+  await assert.rejects(
+    nextWithRecovery(h, recovery),
+    /recovered_application_missing/,
+  );
+  assert.deepEqual(h.calls, { prices: 0, queries: 0 });
+});
+
+test("有效恢复完成读取原周期档案链，跨周仍拒绝公开输出漂移", async (t) => {
+  const h = await fixture(t);
+  const recovery = await failedServerRun(h);
+  await addApplication(h, recovery.runId.slice(7));
+  const original = await readFile(recovery.receiptPath);
+  await requestRecovery(h, recovery);
+  await finishRecovery(h, recovery);
+  const before = await tree(h.temporary);
+  await nextWithRecovery(h);
+  assert.deepEqual(await tree(h.temporary), before);
+  const nextWeek = new Date(NOW.getTime() + 7 * 86400_000);
+  await nextWithRecovery(h, undefined, nextWeek);
+  assert.deepEqual(await readFile(recovery.receiptPath), original);
+  await writeFile(h.output, encode(empty));
+  await assert.rejects(
+    nextWithRecovery(h, undefined, nextWeek),
+    /public_output_drift/,
+  );
+  assert.deepEqual(h.calls, { prices: 2, queries: 2 });
 });
 
 test("公开输出遗留锁在新调用前阻塞，且不清理锁或接受父级穿越", async (t) => {

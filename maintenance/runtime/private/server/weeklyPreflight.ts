@@ -7,6 +7,10 @@ import { parseWeeklyRuntimeInputs, weeklySlot } from "../src/weeklyScope.ts";
 import { prepareWeeklyRuntimeProjection } from "../src/weeklyRuntimeApplication.ts";
 import type { WeeklyRuntimeInspection } from "../src/weeklyRuntime.ts";
 import { regularPath } from "./state.ts";
+import {
+  assertWeeklyRunRecovery,
+  readWeeklyRunReceipt,
+} from "./weeklyRunRecovery.ts";
 import { validateScopedFollowerObservations } from "../../site/src/catalog/scopedFollowerObservations.ts";
 
 const PLAN = "weekly-application-plans";
@@ -346,10 +350,75 @@ async function emptyOutput(output: string, now: Date) {
   );
 }
 
-async function priorRuns(stateRoot: string, now: Date) {
-  const root = resolve(stateRoot, "runs");
-  if (!(await exists(root))) return;
+export interface WeeklyPreflightRecovery {
+  runId: string;
+  expectedReceiptSha256: string;
+}
+
+/** 只选择既存失败槽；没有旧计划时不生成往期任务，未知失败仍阻塞。 */
+export async function selectWeeklyRunId(
+  stateRoot: string,
+  now = new Date(),
+): Promise<string> {
   const current = `weekly-${weeklySlot("scheduled", now).date}`;
+  const root = resolve(stateRoot, "runs");
+  requireState(
+    isAbsolute(stateRoot) && !stateRoot.split(/[\\/]/u).includes(".."),
+    "weekly_preflight_invalid_root",
+  );
+  if (!(await exists(root))) return current;
+  let earliest: string | undefined;
+  for (const id of (await names(root)).filter((name) =>
+    name.startsWith("weekly-"),
+  )) {
+    requireState(
+      /^weekly-\d{4}-\d{2}-\d{2}$/u.test(id) &&
+        id <= current &&
+        `weekly-${weeklySlot("scheduled", new Date(`${id.slice(7)}T00:00:00+08:00`)).date}` ===
+          id,
+      "weekly_preflight_invalid_server_run",
+    );
+    const receipt = await readWeeklyRunReceipt(stateRoot, id, now);
+    if (!receipt) {
+      requireState(id === current, "prior_weekly_server_run_incomplete");
+      continue;
+    }
+    if (receipt.status === "blocked") {
+      requireState(
+        receipt.code === "incomplete_weekly_response",
+        "prior_weekly_server_run_failed",
+      );
+      earliest ??= id;
+    }
+  }
+  return earliest ?? current;
+}
+
+async function priorRuns(
+  stateRoot: string,
+  now: Date,
+  recovery?: WeeklyPreflightRecovery,
+) {
+  const root = resolve(stateRoot, "runs");
+  const current = `weekly-${weeklySlot("scheduled", now).date}`;
+  if (recovery) {
+    requireState(
+      recovery.runId <= current,
+      "weekly_preflight_recovery_in_future",
+    );
+    await assertWeeklyRunRecovery(
+      stateRoot,
+      recovery.runId,
+      recovery.expectedReceiptSha256,
+      now,
+    );
+    requireState(
+      recovery.runId === (await selectWeeklyRunId(stateRoot, now)),
+      "prior_weekly_server_run_failed",
+    );
+  }
+  const recoveredSlots: string[] = [];
+  if (!(await exists(root))) return recoveredSlots;
   for (const id of (await names(root)).filter((name) =>
     name.startsWith("weekly-"),
   )) {
@@ -378,9 +447,13 @@ async function priorRuns(stateRoot: string, now: Date) {
       await exists(receiptPath),
       "prior_weekly_server_run_incomplete",
     );
-    const receipt = parse(await read(receiptPath));
+    const original = parse(await read(receiptPath));
+    const receipt = await readWeeklyRunReceipt(stateRoot, id, now);
+    // 仅最早既存失败槽的哈希绑定恢复可越过原失败；应用账本检查仍执行。
+    if (receipt?.status === "blocked" && recovery?.runId === id) continue;
     requireState(
-      receipt.schemaVersion === "idol-server-run-v1" &&
+      receipt &&
+        receipt.schemaVersion === "idol-server-run-v1" &&
         receipt.runId === id &&
         receipt.status === "complete" &&
         isTimestamp(receipt.finishedAt),
@@ -397,7 +470,10 @@ async function priorRuns(stateRoot: string, now: Date) {
         receipt.changed === application.changed,
       "prior_weekly_server_application_uncertain",
     );
+    if (original.status === "blocked")
+      recoveredSlots.push(id.replace(/^weekly-/u, "scheduled-"));
   }
+  return recoveredSlots;
 }
 
 /** 调用方持有全局维护锁；必须在价目刷新及任何新业务请求之前调用。 */
@@ -405,6 +481,7 @@ export async function assertWeeklyApplicationReady(
   stageRoot: string,
   stateRoot?: string,
   now = new Date(),
+  recovery?: WeeklyPreflightRecovery,
 ): Promise<void> {
   const safeRoot = (root: string) =>
     isAbsolute(root) &&
@@ -413,11 +490,14 @@ export async function assertWeeklyApplicationReady(
   requireState(
     safeRoot(stageRoot) &&
       (!stateRoot || safeRoot(stateRoot)) &&
+      (!recovery || Boolean(stateRoot)) &&
       Number.isFinite(now.getTime()),
     "weekly_preflight_invalid_root",
   );
   await regularPath(stageRoot);
-  if (stateRoot) await priorRuns(stateRoot, now);
+  const recoveredSlots = stateRoot
+    ? await priorRuns(stateRoot, now, recovery)
+    : [];
   const publicLocks = resolve(stageRoot, ".locks");
   if (await exists(publicLocks))
     requireState(
@@ -432,6 +512,10 @@ export async function assertWeeklyApplicationReady(
   const root = resolve(stageRoot, "private/weekly-application-v2");
   const output = resolve(stageRoot, "site/data/follower-observations.v2.json");
   if (!(await exists(root))) {
+    requireState(
+      recoveredSlots.length === 0,
+      "weekly_preflight_recovered_application_missing",
+    );
     await emptyOutput(output, now);
     return;
   }
@@ -448,6 +532,10 @@ export async function assertWeeklyApplicationReady(
     );
   const runs = resolve(root, "runs");
   if (!(await exists(runs))) {
+    requireState(
+      recoveredSlots.length === 0,
+      "weekly_preflight_recovered_application_missing",
+    );
     requireState(
       (await names(root)).length === 0,
       "weekly_preflight_application_ledger_missing",
@@ -466,6 +554,10 @@ export async function assertWeeklyApplicationReady(
   requireState(
     plans.every((id) => SLOT.test(id)) && same(plans, receipts),
     "prior_weekly_application_incomplete",
+  );
+  requireState(
+    recoveredSlots.every((id) => plans.includes(id)),
+    "weekly_preflight_recovered_application_missing",
   );
   await auxiliaryState(root, plans);
   const completed = [];

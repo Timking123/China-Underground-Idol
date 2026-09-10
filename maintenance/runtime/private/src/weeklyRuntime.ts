@@ -40,7 +40,12 @@ import {
   ACCOUNTING_PROOF_PATH,
   WITHHELD_SLOT,
   extractKnownWithheldProfiles,
+  extractRecurringPartialProfiles,
   prepareWeeklyReconciliation,
+  prepareRecurringWeeklyReconciliation,
+  weeklyGuardDeadline,
+  type HistoricalWeeklyReconciliation,
+  type RecurringWeeklyReconciliation,
   type ReconciliationBatch,
   type WeeklyReconciliation,
 } from "./weeklyReconciliation.ts";
@@ -88,6 +93,7 @@ interface Guard {
   };
   pendingAccounts: number;
   legacyAudit: LegacyWeeklyAudit;
+  resume?: { slotId: string; executionSlotId: string };
 }
 interface Attempt {
   schemaVersion: "idol-weekly-attempt-v2";
@@ -138,7 +144,10 @@ export interface RuntimeWeeklyCandidate {
   responsePath: string;
 }
 export interface WeeklySnapshot {
-  schemaVersion: "idol-weekly-snapshot-v2" | "idol-weekly-snapshot-v3";
+  schemaVersion:
+    | "idol-weekly-snapshot-v2"
+    | "idol-weekly-snapshot-v3"
+    | "idol-weekly-snapshot-v4";
   slotId: string;
   planSha256: string;
   sourceSha256: string;
@@ -147,7 +156,13 @@ export interface WeeklySnapshot {
   observedThrough: string;
   candidates: RuntimeWeeklyCandidate[];
   profileObservationsComplete?: false;
-  knownWithheld?: (WeeklyReconciliation["withheld"] & {
+  knownWithheld?: (HistoricalWeeklyReconciliation["withheld"] & {
+    requestKey: string;
+    responseSha256: string;
+    receiptSha256: string;
+    reconciliationSha256: string;
+  })[];
+  unavailableProfiles?: (RecurringWeeklyReconciliation["unavailable"][number] & {
     requestKey: string;
     responseSha256: string;
     receiptSha256: string;
@@ -311,6 +326,7 @@ async function allRuns(
 }
 function validateGuard(run: CompleteRun, plan: WeeklyPlan, mode: Mode): Guard {
   const guard = content<Guard>(run, "guard.json", "idol-weekly-guard-v2", mode);
+  weeklyGuardDeadline(plan.slot, guard);
   requireState(
     guard.slotId === plan.slot.id &&
       guard.planSha256 === weeklyObjectHash(plan) &&
@@ -383,7 +399,9 @@ function createSnapshot(
   const targets = new Map(plan.scope.targets.map((item) => [item.uid, item]));
   const candidates: RuntimeWeeklyCandidate[] = [],
     responseReferences: WeeklySnapshot["responseReferences"] = [],
-    knownWithheld: NonNullable<WeeklySnapshot["knownWithheld"]> = [];
+    knownWithheld: NonNullable<WeeklySnapshot["knownWithheld"]> = [],
+    unavailableProfiles: NonNullable<WeeklySnapshot["unavailableProfiles"]> =
+      [];
   let observedThrough = "",
     accountScope = "";
   for (const batch of plan.batches) {
@@ -404,7 +422,9 @@ function createSnapshot(
         ? { reconciliationSha256: success.reconciliationSha256 }
         : {}),
     });
-    if (success.reconciliation)
+    if (
+      success.reconciliation?.schemaVersion === "idol-weekly-reconciliation-v1"
+    )
       knownWithheld.push({
         ...success.reconciliation.withheld,
         requestKey: batch.key,
@@ -412,6 +432,17 @@ function createSnapshot(
         receiptSha256: success.receiptSha256,
         reconciliationSha256: success.reconciliationSha256!,
       });
+    if (
+      success.reconciliation?.schemaVersion === "idol-weekly-reconciliation-v2"
+    )
+      for (const unavailable of success.reconciliation.unavailable)
+        unavailableProfiles.push({
+          ...unavailable,
+          requestKey: batch.key,
+          responseSha256: success.responseSha256,
+          receiptSha256: success.receiptSha256,
+          reconciliationSha256: success.reconciliationSha256!,
+        });
     for (const profile of success.profiles) {
       const target = targets.get(profile.uid)!;
       candidates.push({
@@ -436,19 +467,27 @@ function createSnapshot(
     }
   }
   requireState(
-    candidates.length + knownWithheld.length === plan.maximumAccounts &&
-      new Set([...candidates, ...knownWithheld].map((item) => item.uid))
-        .size === plan.maximumAccounts &&
+    candidates.length + knownWithheld.length + unavailableProfiles.length ===
+      plan.maximumAccounts &&
+      new Set(
+        [...candidates, ...knownWithheld, ...unavailableProfiles].map(
+          (item) => item.uid,
+        ),
+      ).size === plan.maximumAccounts &&
       same(
-        [...candidates, ...knownWithheld].map((item) => item.uid).sort(),
+        [...candidates, ...knownWithheld, ...unavailableProfiles]
+          .map((item) => item.uid)
+          .sort(),
         plan.scope.targets.map((item) => item.uid).sort(),
       ),
     "weekly_snapshot_population_mismatch",
   );
   return {
-    schemaVersion: knownWithheld.length
-      ? "idol-weekly-snapshot-v3"
-      : "idol-weekly-snapshot-v2",
+    schemaVersion: unavailableProfiles.length
+      ? "idol-weekly-snapshot-v4"
+      : knownWithheld.length
+        ? "idol-weekly-snapshot-v3"
+        : "idol-weekly-snapshot-v2",
     slotId: plan.slot.id,
     planSha256: weeklyObjectHash(plan),
     sourceSha256: plan.scope.sourceSha256,
@@ -458,6 +497,9 @@ function createSnapshot(
     candidates,
     ...(knownWithheld.length
       ? { profileObservationsComplete: false as const, knownWithheld }
+      : {}),
+    ...(unavailableProfiles.length
+      ? { profileObservationsComplete: false as const, unavailableProfiles }
       : {}),
     responseReferences,
     policy: {
@@ -533,13 +575,22 @@ async function auditLedger(
         Date.parse(record.reviewedAt) <= driver.now().getTime(),
       "invalid_reconciliation_review_time",
     );
-    const plan = plans.get(WITHHELD_SLOT),
-      planRun = runs.get("weekly-plans")!.get(WITHHELD_SLOT);
+    const plan = plans.get(record.slotId),
+      planRun = runs.get("weekly-plans")!.get(record.slotId);
     requireState(plan && planRun, "reconciliation_plan_missing");
+    const lastIndex = plan.batches.findIndex(
+      (batch) => batch.key === record.requestKey,
+    );
+    requireState(lastIndex >= 0, "reconciliation_batch_missing");
     const batches = plan.batches
-      .slice(0, 3)
+      .slice(
+        0,
+        record.schemaVersion === "idol-weekly-reconciliation-v1"
+          ? 3
+          : lastIndex + 1,
+      )
       .map((batch): ReconciliationBatch => {
-        const id = batchId(WITHHELD_SLOT, batch.key),
+        const id = batchId(record.slotId, batch.key),
           attemptRun = attempts.get(id),
           responseRun = responses.get(id),
           receiptRun = receipts.get(id);
@@ -563,7 +614,11 @@ async function auditLedger(
           receipt: receiptRun.files["receipt.json"],
         };
       });
-    const expected = prepareWeeklyReconciliation(
+    const prepare =
+      record.schemaVersion === "idol-weekly-reconciliation-v1"
+        ? prepareWeeklyReconciliation
+        : prepareRecurringWeeklyReconciliation;
+    const expected = prepare(
       batches,
       proofBytes,
       record.reviewedAt,
@@ -585,10 +640,19 @@ async function auditLedger(
       ]),
       "invalid_reconciliation_files",
     );
+    const schema = json(run.files["reconciliation.json"]);
+    requireState(
+      object(schema) &&
+        [
+          "idol-weekly-reconciliation-v1",
+          "idol-weekly-reconciliation-v2",
+        ].includes(String(schema.schemaVersion)),
+      "invalid_reconciliation_schema",
+    );
     const record = content<WeeklyReconciliation>(
       run,
       "reconciliation.json",
-      "idol-weekly-reconciliation-v1",
+      String(schema.schemaVersion),
       driver.mode,
     );
     requireState(
@@ -643,7 +707,7 @@ async function auditLedger(
         attempt.settlement === "pending_reconciliation" &&
         isTimestamp(attempt.startedAt) &&
         Date.parse(attempt.startedAt) >= Date.parse(guard.checkedAt) &&
-        Date.parse(attempt.startedAt) < Date.parse(plan.slot.closesAt),
+        Date.parse(attempt.startedAt) < weeklyGuardDeadline(plan.slot, guard),
       "weekly_attempt_binding_mismatch",
     );
     requireState(responseRun && receiptRun, `weekly_uncertain_attempt:${id}`);
@@ -669,7 +733,8 @@ async function auditLedger(
         receipt.responseSha256 === sha256(responseRun.files["response.json"]) &&
         isTimestamp(receipt.observedAt) &&
         Date.parse(receipt.observedAt) >= Date.parse(attempt.startedAt) &&
-        Date.parse(receipt.observedAt) < Date.parse(plan.slot.closesAt) &&
+        Date.parse(receipt.observedAt) <
+          weeklyGuardDeadline(plan.slot, guard) &&
         Date.parse(receipt.observedAt) <= driver.now().getTime(),
       "weekly_receipt_binding_mismatch",
     );
@@ -683,15 +748,21 @@ async function auditLedger(
           receipt.actualChargedCredits === null),
       `weekly_uncertain_attempt:${id}`,
     );
-    const profiles = reconciliation
-      ? extractKnownWithheldProfiles(
-          json(responseRun.files["response.json"]) as WeeklyRawResponse,
-          batch.uids,
-        )
-      : extractWeeklyProfiles(
-          json(responseRun.files["response.json"]),
-          batch.uids,
-        );
+    const profiles =
+      reconciliation?.schemaVersion === "idol-weekly-reconciliation-v1"
+        ? extractKnownWithheldProfiles(
+            json(responseRun.files["response.json"]) as WeeklyRawResponse,
+            batch.uids,
+          )
+        : reconciliation?.schemaVersion === "idol-weekly-reconciliation-v2"
+          ? extractRecurringPartialProfiles(
+              json(responseRun.files["response.json"]) as WeeklyRawResponse,
+              batch.uids,
+            ).profiles
+          : extractWeeklyProfiles(
+              json(responseRun.files["response.json"]),
+              batch.uids,
+            );
     const success = {
       attempt,
       receipt,
@@ -742,16 +813,13 @@ async function auditLedger(
       plan && same(Object.keys(run.files), ["snapshot.json"]),
       "orphan_weekly_snapshot",
     );
+    const expected = createSnapshot(plan, hits.get(id)!);
     const saved = content<WeeklySnapshot>(
       run,
       "snapshot.json",
-      hits.get(id) &&
-        [...hits.get(id)!.values()].some((hit) => hit.reconciliation)
-        ? "idol-weekly-snapshot-v3"
-        : "idol-weekly-snapshot-v2",
+      expected.schemaVersion,
       driver.mode,
     );
-    const expected = createSnapshot(plan, hits.get(id)!);
     requireState(same(saved, expected), "weekly_snapshot_content_mismatch");
     completed.set(id, expected);
   }
@@ -846,6 +914,234 @@ export async function inspectWeeklyRuntimeSlot(
   return await withWeeklyRuntimeInspection(
     slotId,
     async (inspection) => inspection,
+  );
+}
+
+export interface RecurringWeeklyAccountingContext {
+  expectedAccountScope: string;
+  batches: {
+    uids: string[];
+    startedAt: string;
+    observedAt: string;
+    maximumCredits: number;
+  }[];
+}
+
+/** 仅凭完整已有归档定位已请求前缀；此处不会重新请求任何账号。 */
+async function recurringReconciliationInputs(
+  store: PipelineStore,
+  driver: Driver,
+  slotId: string,
+) {
+  requireState(
+    /^(?:manual|scheduled)-\d{4}-\d{2}-\d{2}$/u.test(slotId),
+    "invalid_recurring_slot",
+  );
+  const planRun = await store.readRun("weekly-plans", slotId);
+  requireState(planRun.status === "complete", "reconciliation_plan_missing");
+  const plan = planFromRun(planRun, driver.mode);
+  const batches: ReconciliationBatch[] = [];
+  const context: RecurringWeeklyAccountingContext = {
+    expectedAccountScope: "",
+    batches: [],
+  };
+  let missing = false;
+  for (const batch of plan.batches) {
+    const id = batchId(slotId, batch.key);
+    const attemptRun = await store.readRun("weekly-attempts", id);
+    if (attemptRun.status === "missing") {
+      missing = true;
+      continue;
+    }
+    requireState(
+      !missing && attemptRun.status === "complete",
+      "incomplete_recurring_request_prefix",
+    );
+    const responseRun = await store.readRun("weekly-responses", id);
+    const receiptRun = await store.readRun("weekly-receipts", id);
+    requireState(
+      responseRun.status === "complete" && receiptRun.status === "complete",
+      "reconciliation_batch_missing",
+    );
+    const attempt = content<Attempt>(
+      attemptRun,
+      "attempt.json",
+      "idol-weekly-attempt-v2",
+      driver.mode,
+    );
+    const receipt = content<Receipt>(
+      receiptRun,
+      "receipt.json",
+      "idol-weekly-receipt-v2",
+      driver.mode,
+    );
+    const guardRun = await store.readRun("weekly-guards", attempt.guardId);
+    requireState(
+      guardRun.status === "complete",
+      "reconciliation_guard_missing",
+    );
+    const guard = validateGuard(guardRun, plan, driver.mode);
+    requireState(
+      attempt.slotId === slotId &&
+        attempt.requestKey === batch.key &&
+        attempt.planSha256 === weeklyObjectHash(plan) &&
+        attempt.guardSha256 === weeklyObjectHash(guard) &&
+        attempt.accountScope === guard.capability.accountScope &&
+        same(attempt.uids, batch.uids) &&
+        same(attempt.groupIds, batch.groupIds) &&
+        same(attempt.command, weeklyProfileArguments(batch.uids)) &&
+        receipt.slotId === slotId &&
+        receipt.requestKey === batch.key &&
+        receipt.attemptSha256 === sha256(attemptRun.files["attempt.json"]) &&
+        receipt.responseSha256 === sha256(responseRun.files["response.json"]) &&
+        isTimestamp(attempt.startedAt) &&
+        isTimestamp(receipt.observedAt) &&
+        Date.parse(attempt.startedAt) <= Date.parse(receipt.observedAt) &&
+        Date.parse(receipt.observedAt) <= driver.now().getTime() &&
+        (!context.expectedAccountScope ||
+          context.expectedAccountScope === attempt.accountScope),
+      "recurring_archive_binding_mismatch",
+    );
+    if (receipt.outcome === "success")
+      extractWeeklyProfiles(
+        json(responseRun.files["response.json"]),
+        batch.uids,
+      );
+    else {
+      requireState(receipt.outcome === "blocked", "recurring_receipt_invalid");
+      const partial = extractRecurringPartialProfiles(
+        json(responseRun.files["response.json"]) as WeeklyRawResponse,
+        batch.uids,
+      );
+      requireState(
+        partial.unavailable.length > 0,
+        "recurring_response_not_partial",
+      );
+    }
+    context.expectedAccountScope = attempt.accountScope;
+    context.batches.push({
+      uids: batch.uids,
+      startedAt: attempt.startedAt,
+      observedAt: receipt.observedAt,
+      maximumCredits: attempt.maximumCredits,
+    });
+    batches.push({
+      plan: planRun.files["plan.json"],
+      guard: guardRun.files["guard.json"],
+      attempt: attemptRun.files["attempt.json"],
+      response: responseRun.files["response.json"],
+      receipt: receiptRun.files["receipt.json"],
+    });
+  }
+  requireState(
+    batches.length > 0 && batches.length <= WEEKLY_LIMITS.maximumBatches,
+    "invalid_recurring_request_prefix",
+  );
+  const last = json(batches.at(-1)!.receipt) as Receipt;
+  requireState(last.outcome === "blocked", "recurring_last_batch_not_blocked");
+  return { batches, context, id: batchId(slotId, last.requestKey) };
+}
+
+async function appendRecurringWeeklyReconciliation(
+  store: PipelineStore,
+  driver: Driver,
+  slotId: string,
+  loadProof: (context: RecurringWeeklyAccountingContext) => Promise<Buffer>,
+) {
+  return await store.withStoreLock("weekly", async () => {
+    const inputs = await recurringReconciliationInputs(store, driver, slotId);
+    const existing = await store.readRun("weekly-reconciliations", inputs.id);
+    if (existing.status === "complete") {
+      await auditLedger(store, driver);
+      const record = content<RecurringWeeklyReconciliation>(
+        existing,
+        "reconciliation.json",
+        "idol-weekly-reconciliation-v2",
+        driver.mode,
+      );
+      return {
+        status: "complete" as const,
+        reused: true,
+        requests: 0,
+        managementQueries: 0,
+        slotId,
+        reconciliationSha256: weeklyObjectHash(record),
+      };
+    }
+    requireState(
+      existing.status === "missing",
+      "incomplete_weekly_reconciliation",
+    );
+    const proofBytes = await loadProof(inputs.context);
+    const record = prepareRecurringWeeklyReconciliation(
+      inputs.batches,
+      proofBytes,
+      driver.now().toISOString(),
+      driver.mode,
+    );
+    // 完整核验所有历史账本，且双读原件一致后才追加处置；原失败回执永不改写。
+    await auditLedger(store, driver, null, { record, proofBytes });
+    const recheck = await recurringReconciliationInputs(store, driver, slotId);
+    requireState(
+      same(
+        recheck.batches.map((batch) => Object.values(batch).map(sha256)),
+        inputs.batches.map((batch) => Object.values(batch).map(sha256)),
+      ),
+      "recurring_archive_changed",
+    );
+    await commit(
+      store,
+      "weekly-reconciliations",
+      inputs.id,
+      "reconciliation.json",
+      record,
+      driver.mode,
+      { "official-accounting.json": proofBytes },
+    );
+    await auditLedger(store, driver);
+    return {
+      status: "complete" as const,
+      reused: false,
+      requests: 0,
+      managementQueries: 3,
+      slotId,
+      reconciliationSha256: weeklyObjectHash(record),
+    };
+  });
+}
+
+/** 服务器正常登录只读核账；生产入口不接受外部价格、账单或原始响应。 */
+export async function reconcileRecurringWeeklyBatch(
+  slotId: string,
+  profileRoot: string,
+) {
+  const unavailable = async (): Promise<never> => {
+    throw new Error("reconciliation_business_query_forbidden");
+  };
+  const driver: Driver = {
+    mode: "provider",
+    now: () => new Date(),
+    inputs: unavailable,
+    capability: unavailable,
+    queryProfiles: unavailable,
+    wait: unavailable,
+    legacyAudit: () => inspectLegacyWeeklyLedger(new Date()),
+  };
+  const { collectWeeklyAccounting } =
+    await import("../server/weeklyAccounting.ts");
+  return await appendRecurringWeeklyReconciliation(
+    await createPipelineStore(WEEKLY_RUNTIME_ROOT),
+    driver,
+    slotId,
+    async (context) =>
+      await collectWeeklyAccounting({
+        stageRoot: WEEKLY_STAGE,
+        profileRoot,
+        ...context,
+      }).catch((error: unknown) => {
+        // 已验证为部分账号响应；核账暂不可用不抹掉可恢复阶段。
+        throw new Error("incomplete_weekly_response", { cause: error });
+      }),
   );
 }
 
@@ -996,8 +1292,10 @@ async function execute(
     trigger: "manual" | "scheduled";
     live: boolean;
     budgetCredits?: number | "auto";
+    expectedSlot?: string;
     recoverCollection?: boolean;
     recoverSlot?: string;
+    resumeSlot?: string;
   },
 ): Promise<WeeklyRuntimeResult> {
   let requests = 0,
@@ -1008,6 +1306,32 @@ async function execute(
   try {
     return await store.withStoreLock("weekly", async () => {
       let recoveredPlan: WeeklyPlan | undefined;
+      if (options.resumeSlot !== undefined) {
+        const executionSlot = weeklySlot("scheduled", driver.now());
+        requireState(
+          options.trigger === "scheduled" &&
+            options.recoverCollection !== true &&
+            options.recoverSlot === undefined &&
+            /^scheduled-\d{4}-\d{2}-\d{2}$/u.test(options.resumeSlot) &&
+            options.expectedSlot === options.resumeSlot &&
+            options.resumeSlot <= executionSlot.id,
+          "weekly_resume_slot_not_allowed",
+        );
+        const existingPlan = await store.readRun(
+          "weekly-plans",
+          options.resumeSlot,
+        );
+        requireState(
+          existingPlan.status === "complete",
+          "weekly_resume_existing_plan_required",
+        );
+        recoveredPlan = planFromRun(existingPlan, driver.mode);
+        requireState(
+          recoveredPlan.slot.id === options.resumeSlot &&
+            recoveredPlan.slot.trigger === options.trigger,
+          "weekly_resume_slot_mismatch",
+        );
+      }
       if (options.recoverSlot !== undefined) {
         requireState(
           options.recoverCollection === true &&
@@ -1032,9 +1356,16 @@ async function execute(
           "weekly_recovery_slot_mismatch",
         );
       }
-      const slot =
-        recoveredPlan?.slot ?? weeklySlot(options.trigger, driver.now());
+      const executionSlot =
+        options.recoverSlot !== undefined
+          ? recoveredPlan!.slot
+          : weeklySlot(options.trigger, driver.now());
+      const slot = recoveredPlan?.slot ?? executionSlot;
       slotId = slot.id;
+      requireState(
+        options.expectedSlot === undefined || options.expectedSlot === slot.id,
+        "weekly_expected_slot_mismatch",
+      );
       let legacyAudit = await driver.legacyAudit();
       requireState(
         legacyAudit.status === "clear",
@@ -1057,7 +1388,7 @@ async function execute(
       if (saved) requireState(same(plan, saved), "frozen_weekly_scope_changed");
       else {
         requireState(
-          !options.recoverCollection,
+          !options.recoverCollection && options.resumeSlot === undefined,
           "weekly_recovery_plan_missing",
         );
         const sourceFiles = Object.fromEntries(
@@ -1184,6 +1515,9 @@ async function execute(
           budget,
           pendingAccounts,
           legacyAudit,
+          ...(options.resumeSlot
+            ? { resume: { slotId: slot.id, executionSlotId: executionSlot.id } }
+            : {}),
         };
         const guardId = weeklyObjectHash(guard);
         const guardRun = await commit(
@@ -1219,7 +1553,7 @@ async function execute(
             "weekly_interval_not_elapsed",
           );
           requireState(
-            same(weeklySlot(options.trigger, driver.now()), slot),
+            same(weeklySlot(options.trigger, driver.now()), executionSlot),
             "weekly_slot_changed_during_run",
           );
           legacyAudit = await driver.legacyAudit();
@@ -1304,13 +1638,21 @@ async function execute(
               driver.mode,
             );
             responseSha256 = sha256(response.files["response.json"]);
-            profiles = extractWeeklyProfiles(
-              json(response.files["response.json"]),
+            // 新响应仅消费根层账号；历史完整响应保留原核验语义。
+            const partial = extractRecurringPartialProfiles(
+              json(response.files["response.json"]) as WeeklyRawResponse,
               batch.uids,
             );
             requireState(
-              same(weeklySlot(options.trigger, new Date(observedAt)), slot) &&
-                Date.parse(observedAt) >= Date.parse(startedAt),
+              partial.unavailable.length === 0,
+              "incomplete_weekly_response",
+            );
+            profiles = partial.profiles;
+            requireState(
+              same(
+                weeklySlot(options.trigger, new Date(observedAt)),
+                executionSlot,
+              ) && Date.parse(observedAt) >= Date.parse(startedAt),
               "weekly_response_time_outside_slot",
             );
           } catch (error) {
@@ -1389,9 +1731,11 @@ export async function runWeeklyRuntime(options: {
   trigger: "manual" | "scheduled";
   live: boolean;
   budgetCredits?: number | "auto";
+  expectedSlot?: string;
   evidence?: unknown;
   recoverCollection?: boolean;
   recoverSlot?: string;
+  resumeSlot?: string;
 }): Promise<WeeklyRuntimeResult> {
   requireState(
     !Object.hasOwn(options, "evidence"),
@@ -1426,6 +1770,10 @@ export async function createSyntheticWeeklyRuntime(options: {
   reconcile: (
     proofBytes: Buffer,
   ) => Promise<Awaited<ReturnType<typeof appendKnownWithheldReconciliation>>>;
+  reconcileRecurring: (
+    slotId: string,
+    proofBytes: Buffer,
+  ) => Promise<Awaited<ReturnType<typeof appendRecurringWeeklyReconciliation>>>;
   withInspection: <T>(
     slotId: string,
     action: WeeklyInspectionAction<T>,
@@ -1434,8 +1782,10 @@ export async function createSyntheticWeeklyRuntime(options: {
     trigger: "manual" | "scheduled";
     live: boolean;
     budgetCredits?: number | "auto";
+    expectedSlot?: string;
     recoverCollection?: boolean;
     recoverSlot?: string;
+    resumeSlot?: string;
   }) => Promise<WeeklyRuntimeResult>;
 }> {
   const target = resolve(options.root),
@@ -1479,6 +1829,13 @@ export async function createSyntheticWeeklyRuntime(options: {
     run: (request) => execute(store, driver, request),
     reconcile: (proofBytes) =>
       appendKnownWithheldReconciliation(store, driver, proofBytes),
+    reconcileRecurring: (slotId, proofBytes) =>
+      appendRecurringWeeklyReconciliation(
+        store,
+        driver,
+        slotId,
+        async () => proofBytes,
+      ),
     inspect: (slotId) =>
       withInspection(slotId, async (inspection) => inspection),
     withInspection,

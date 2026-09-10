@@ -96,7 +96,7 @@ async function fixture(t) {
   return { root, options, materialize, modulePath };
 }
 
-test("来源清单覆盖43个原文件，核心与旧工具 SHA 不变", () => {
+test("来源清单覆盖43个原文件，原始 SHA 与当前打包 SHA 分开保存", () => {
   assert.equal(SOURCE_PROVENANCE.length, 43);
   assert.equal(
     SOURCE_PROVENANCE.filter((entry) =>
@@ -121,9 +121,111 @@ test("来源清单覆盖43个原文件，核心与旧工具 SHA 不变", () => {
         "26ad1e8366d23526c5069bcc0ae0075bdc95637f349ee426a84177cc4b9214fd",
       );
       assert.notEqual(entry.sha256, entry.packagedSha256);
-    } else if (/\/(?:src|tests|tools)\/|\/cli\.ts$/u.test(entry.path))
+    } else if (
+      [
+        "maintenance/runtime/private/src/weeklyReconciliation.ts",
+        "maintenance/runtime/private/src/weeklyRuntime.ts",
+        "maintenance/runtime/private/src/weeklyRuntimeApplication.ts",
+        "maintenance/runtime/private/tests/weeklyRuntime.test.mjs",
+        "maintenance/runtime/private/tests/weeklyRuntimeApplication.test.mjs",
+      ].includes(entry.path)
+    )
+      assert.notEqual(entry.sha256, entry.packagedSha256);
+    else if (/\/(?:src|tests|tools)\/|\/cli\.ts$/u.test(entry.path))
       assert.equal(entry.sha256, entry.packagedSha256);
   }
+});
+
+test("维护源码CRLF与LF产生相同打包字节，公开文件和私有种子原样保留", async (t) => {
+  const { options, materialize } = await fixture(t);
+  const controlled = new Map([
+    ...Object.entries(originals),
+    ["maintenance/runtime/private/server/runner.ts", "export {};\n"],
+    ["maintenance/runtime/private/tests/serverRunner.test.mjs", "export {};\n"],
+  ]);
+  for (const [name, text] of controlled)
+    await put(options.repoRoot, name, text.replace(/\n/gu, "\r\n"));
+  const publicBytes = Buffer.from(
+    "<!doctype html>\r\n<title>公开字节</title>\r\n",
+  );
+  await put(options.repoRoot, "index.html", publicBytes);
+  const imageBytes = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+  await put(options.repoRoot, "assets/synthetic.png", imageBytes);
+  const seedBytes = Buffer.from('{"secret":"合成种子"}\r\n');
+  await put(options.privateSeedRoot, "ledger/private.json", seedBytes);
+  const before = new Map(
+    await Promise.all(
+      [...controlled.keys()].map(async (name) => [
+        name,
+        await readFile(path.join(options.repoRoot, name)),
+      ]),
+    ),
+  );
+  const plan = await materialize({ ...options, planOnly: true });
+  await assert.rejects(lstat(options.workspaceRoot), { code: "ENOENT" });
+  const created = await materialize(options);
+  assert.equal(created.mode, "created");
+  assert.equal(created.sourceSha256, plan.sourceSha256);
+  for (const [name, text] of controlled) {
+    const entry = created.files.find((file) => file.source === name);
+    assert.equal(entry.sha256, hash(text));
+    assert.equal(entry.bytes, Buffer.byteLength(text));
+    assert.deepEqual(
+      await readFile(path.join(options.workspaceRoot, entry.destination)),
+      Buffer.from(text),
+    );
+    assert.deepEqual(
+      await readFile(path.join(options.repoRoot, name)),
+      before.get(name),
+    );
+    const historical = fakeProvenance.find((file) => file.path === name);
+    if (historical) assert.equal(entry.originalSha256, historical.sha256);
+  }
+  assert.deepEqual(
+    await readFile(path.join(options.workspaceRoot, STAGE, "site/index.html")),
+    publicBytes,
+  );
+  assert.deepEqual(
+    await readFile(
+      path.join(options.workspaceRoot, STAGE, "site/assets/synthetic.png"),
+    ),
+    imageBytes,
+  );
+  assert.deepEqual(
+    await readFile(path.join(options.privateSeedRoot, "ledger/private.json")),
+    seedBytes,
+  );
+  for (const [name, text] of controlled)
+    await put(options.repoRoot, name, text);
+  const repeated = await materialize(options);
+  assert.equal(repeated.mode, "verified");
+  assert.equal(repeated.sourceSha256, created.sourceSha256);
+});
+
+test("规范化不放宽既有输出的逐字节校验", async (t) => {
+  const { options, materialize } = await fixture(t);
+  await materialize(options);
+  const target = path.join(options.workspaceRoot, STAGE, "private/src/core.ts");
+  const changed = (await readFile(target, "utf8")).replace(/\n/gu, "\r\n");
+  await writeFile(target, changed);
+  await assert.rejects(materialize(options), /existing_source_conflict/u);
+  assert.equal(await readFile(target, "utf8"), changed);
+});
+
+test("受控源码非法UTF8与独立CR不被规范化掩盖", async (t) => {
+  const { options, materialize } = await fixture(t);
+  const runner = "maintenance/runtime/private/server/runner.ts";
+  await put(options.repoRoot, runner, Buffer.from([0xff, 13, 10]));
+  await assert.rejects(materialize(options), /invalid_source_utf8/u);
+  await assert.rejects(lstat(options.workspaceRoot), { code: "ENOENT" });
+  await put(options.repoRoot, runner, "export {};\n");
+  await put(
+    options.repoRoot,
+    "maintenance/runtime/private/src/core.ts",
+    originals["maintenance/runtime/private/src/core.ts"].replace(/\n/gu, "\r"),
+  );
+  await assert.rejects(materialize(options), /source_hash_mismatch/u);
+  await assert.rejects(lstat(options.workspaceRoot), { code: "ENOENT" });
 });
 
 test("清单模式无写入，首次复制为普通文件且只保留白名单", async (t) => {

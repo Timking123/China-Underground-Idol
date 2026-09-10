@@ -152,7 +152,7 @@ export const SOURCE_PROVENANCE = Object.freeze([
     source: "private/src/weeklyReconciliation.ts",
     sha256: "cfd43e64b6c9d07ff69a5125bb868f76ce67a52b0bdcbaca55e346963b6e04b8",
     packagedSha256:
-      "cfd43e64b6c9d07ff69a5125bb868f76ce67a52b0bdcbaca55e346963b6e04b8",
+      "057a60826d98edf139914ed2c198e6e5c3b00e9906b3a0f56671a452258f7522",
     bytes: 12244,
   },
   {
@@ -161,7 +161,7 @@ export const SOURCE_PROVENANCE = Object.freeze([
     source: "private/src/weeklyRuntime.ts",
     sha256: "866310f5a85c16031381af635a766f5530e87dfd851732657d470b5aa541ea4e",
     packagedSha256:
-      "866310f5a85c16031381af635a766f5530e87dfd851732657d470b5aa541ea4e",
+      "1d2e789467cde91a5e2060809c0dcabc466012ea2857c5dc0dfa72aaa7323961",
     bytes: 47360,
   },
   {
@@ -179,7 +179,7 @@ export const SOURCE_PROVENANCE = Object.freeze([
     source: "private/src/weeklyRuntimeApplication.ts",
     sha256: "8d4ca1f58963c6ed1b31b30761381cd320afe8be19a4c9158d228d663e600608",
     packagedSha256:
-      "8d4ca1f58963c6ed1b31b30761381cd320afe8be19a4c9158d228d663e600608",
+      "52e9ee0b70eab1d17a64d0eb3c511bc5fd860be48d2e059740729bcb7aa1d98d",
     bytes: 37615,
   },
   {
@@ -287,7 +287,7 @@ export const SOURCE_PROVENANCE = Object.freeze([
     source: "private/tests/weeklyRuntime.test.mjs",
     sha256: "b905b6caf9eef2c798a02039171dcd5b8a9762fc67ae4f897cc34b71ae70d34d",
     packagedSha256:
-      "b905b6caf9eef2c798a02039171dcd5b8a9762fc67ae4f897cc34b71ae70d34d",
+      "140dec1e2050f2cf869cb1131246906e07dc3b8b0a5f2e3a0a684b5d75c080bf",
     bytes: 22565,
   },
   {
@@ -305,7 +305,7 @@ export const SOURCE_PROVENANCE = Object.freeze([
     source: "private/tests/weeklyRuntimeApplication.test.mjs",
     sha256: "3e17e9c67981fdec0943b7fcded630127223bbd1a87c29d4e0db4d05cade1302",
     packagedSha256:
-      "3e17e9c67981fdec0943b7fcded630127223bbd1a87c29d4e0db4d05cade1302",
+      "5907c7fd7256af23c70c69ef3839cbfbbed02114ec53f51002d56e522986d63f",
     bytes: 29285,
   },
   {
@@ -532,6 +532,29 @@ async function regularBytes(target) {
   );
   return readFile(target);
 }
+// 只规范化受控维护源码；公开站点、私有种子和运行账本始终保留原字节。
+async function packagedSourceBytes(repoRoot, relative) {
+  const bytes = await regularBytes(resolveChild(repoRoot, relative));
+  const controlledText =
+    (relative.startsWith("maintenance/runtime/") &&
+      /\.(?:mjs|ts|json)$/u.test(relative)) ||
+    SOURCE_PROVENANCE.some(
+      (entry) =>
+        entry.path === relative &&
+        /^maintenance\/legacy\/tools\/[a-z_]+\.mjs$/u.test(relative),
+    );
+  if (!controlledText) return bytes;
+  let text;
+  try {
+    // fatal 防止损坏的 UTF-8 被替换字符掩盖；BOM 和单独 CR 不在规范化范围。
+    text = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(
+      bytes,
+    );
+  } catch {
+    throw new Error(`invalid_source_utf8:${relative}`);
+  }
+  return Buffer.from(text.replace(/\r\n/gu, "\n"), "utf8");
+}
 function absoluteRoot(value, label) {
   requireState(
     typeof value === "string" && path.isAbsolute(value),
@@ -573,7 +596,7 @@ async function rootsFor(options) {
 async function sourceEntries(repoRoot) {
   const files = [];
   const add = async (relative, destination, original) => {
-    const bytes = await regularBytes(resolveChild(repoRoot, relative));
+    const bytes = await packagedSourceBytes(repoRoot, relative);
     const hash = sha256(bytes);
     if (original)
       requireState(
@@ -833,9 +856,7 @@ export async function materialize(options) {
     await mkdir(absolute);
   }
   for (const entry of files) {
-    const bytes = await regularBytes(
-      resolveChild(roots.repoRoot, entry.source),
-    );
+    const bytes = await packagedSourceBytes(roots.repoRoot, entry.source);
     requireState(
       bytes.length === entry.bytes && sha256(bytes) === entry.sha256,
       `source_changed_during_copy:${entry.source}`,
