@@ -193,6 +193,81 @@
   outline: 2px solid var(--focus);
   outline-offset: 4px;
 }
+.guide-page {
+  min-width: 0;
+}
+.guide-page .content-toc {
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  padding-right: 8px;
+}
+.guide-page .content-toc a {
+  min-height: 36px;
+  padding: 5px 0;
+}
+.guide-page .guide-intro {
+  padding: 0 0 20px;
+}
+.guide-page .content-section h3 {
+  margin-top: 30px;
+  scroll-margin-top: 24px;
+}
+.guide-page dl {
+  margin: 20px 0;
+}
+.guide-page dt {
+  margin-top: 24px;
+  line-height: 1.65;
+}
+.guide-page dd {
+  margin: 8px 0 0;
+}
+.guide-page dd p:last-child {
+  margin-bottom: 0;
+}
+.guide-page .guide-refs {
+  display: inline;
+  margin-left: 4px;
+  font-size: 12px;
+  white-space: normal;
+}
+.guide-page .guide-ref {
+  display: inline-block;
+  margin-left: 3px;
+  color: var(--accent-hot);
+  scroll-margin-top: 90px;
+}
+.guide-page .guide-table {
+  width: 100%;
+  overflow-x: auto;
+  margin: 24px 0;
+}
+.guide-page table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 470px;
+  font-size: 14px;
+  text-align: left;
+}
+.guide-page th,
+.guide-page td {
+  border-bottom: 1px solid var(--line-strong);
+  padding: 12px;
+  vertical-align: top;
+}
+.guide-page th {
+  background: var(--surface-2);
+}
+.guide-page #sources p {
+  color: var(--text-soft);
+  font-size: 14px;
+}
+.guide-page #sources h3 {
+  overflow-wrap: anywhere;
+}
+.guide-page #sources :target {
+  color: var(--accent-hot);
+}
 .content-page .content-status {
   min-height: 3.6em;
   color: var(--text);
@@ -207,6 +282,15 @@
   }
 }
 @media (max-width: 680px) {
+  .guide-page .content-toc {
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
+  }
+  .guide-page .content-toc a {
+    min-height: 44px;
+    padding: 8px 0;
+  }
   .content-shell {
     padding: 16px 20px 32px;
   }
