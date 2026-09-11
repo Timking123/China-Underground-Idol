@@ -123,6 +123,8 @@ test("来源清单覆盖43个原文件，原始 SHA 与当前打包 SHA 分开�
       assert.notEqual(entry.sha256, entry.packagedSha256);
     } else if (
       [
+        "maintenance/runtime/private/cli.ts",
+        "maintenance/runtime/private/src/eventApplication.ts",
         "maintenance/runtime/private/src/weeklyReconciliation.ts",
         "maintenance/runtime/private/src/weeklyRuntime.ts",
         "maintenance/runtime/private/src/weeklyRuntimeApplication.ts",
@@ -134,6 +136,37 @@ test("来源清单覆盖43个原文件，原始 SHA 与当前打包 SHA 分开�
     else if (/\/(?:src|tests|tools)\/|\/cli\.ts$/u.test(entry.path))
       assert.equal(entry.sha256, entry.packagedSha256);
   }
+});
+
+test("活动发现代码和显式绑定进入私有运行包，其他JSON不能夹带", async (t) => {
+  const { options, materialize } = await fixture(t);
+  const additions = {
+    "maintenance/runtime/private/src/eventDiscovery.ts": "export {};\n",
+    "maintenance/runtime/private/tests/eventDiscovery.test.mjs": "export {};\n",
+    "maintenance/runtime/private/discovery-bindings.v1.json":
+      '{"schemaVersion":"idol-discovery-bindings-v1","bindings":[]}\n',
+  };
+  for (const [name, text] of Object.entries(additions))
+    await put(options.repoRoot, name, text);
+  const plan = await materialize({ ...options, planOnly: true });
+  for (const [name, text] of Object.entries(additions)) {
+    const entry = plan.files.find((file) => file.source === name);
+    assert.ok(entry);
+    assert.equal(
+      entry.destination,
+      `${STAGE}/${name.slice("maintenance/runtime/".length)}`,
+    );
+    assert.equal(entry.sha256, hash(text));
+  }
+  await put(
+    options.repoRoot,
+    "maintenance/runtime/private/arbitrary.json",
+    "{}\n",
+  );
+  await assert.rejects(
+    materialize({ ...options, planOnly: true }),
+    /package_file_not_allowed:maintenance\/runtime\/private\/arbitrary.json/u,
+  );
 });
 
 test("维护源码CRLF与LF产生相同打包字节，公开文件和私有种子原样保留", async (t) => {

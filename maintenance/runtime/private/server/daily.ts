@@ -13,7 +13,6 @@ import {
 } from "../src/pipelineStore.ts";
 import {
   encode,
-  extractAggregation,
   isTimestamp,
   sha256,
   type SourceCapture,
@@ -26,6 +25,15 @@ import {
 } from "../src/sourceRegistry.ts";
 import type { CandidateSnapshot } from "../src/eventCandidates.ts";
 import type { EventUpdateDraft } from "../src/eventApplication.ts";
+import type { EventRecord } from "../../site/src/events/model.ts";
+import { buildAggregationDiscoveries } from "../src/eventDiscovery.ts";
+import {
+  pendingApplicationIntents,
+  readDiscoveryBindings,
+  retainAggregationSnapshot,
+  saveApplicationIntent,
+  saveDiscoveryBindings,
+} from "./discoveryBootstrap.ts";
 import {
   evaluateEventPolicy,
   type EventTimeChange,
@@ -59,6 +67,7 @@ export interface DailyResult {
   sources: DailySourceResult[];
   /** 本次新增人工项数量；零不表示历史待复核事项已经解决。 */
   reviewCount: number;
+  discovery?: ReturnType<typeof buildAggregationDiscoveries>["summary"];
 }
 interface DailyCollectors {
   browser: (
@@ -353,7 +362,7 @@ function retainedSnapshots(
   now: Date,
 ): CandidateSnapshot[] {
   if (capture.source.kind === "aggregator")
-    return [extractAggregation(capture, now).snapshot];
+    return retainAggregationSnapshot(capture, now);
   const old = matchingSnapshot(history, capture);
   return old
     ? [{ source: capture.source, items: structuredClone(old.items) }]
@@ -364,10 +373,10 @@ function retainedSnapshots(
 export function dailyWithCollectorsForTest(
   collectors: DailyCollectors,
 ): (options: DailyOptions) => Promise<DailyResult> {
-  return (options) => executeDaily(options, collectors);
+  return (options) => lockedDaily(options, collectors);
 }
 export async function runDaily(options: DailyOptions): Promise<DailyResult> {
-  return executeDaily(options, {
+  return lockedDaily(options, {
     browser: async (source, profileRoot) =>
       (await import("./browserCollector.ts")).collectBrowserSource(
         source,
@@ -375,6 +384,16 @@ export async function runDaily(options: DailyOptions): Promise<DailyResult> {
       ),
     http: collectPublicRun,
   });
+}
+
+async function lockedDaily(
+  options: DailyOptions,
+  collectors: DailyCollectors,
+): Promise<DailyResult> {
+  const lock = await createPipelineStore(resolve(options.stateRoot));
+  return lock.withStoreLock("daily-workflow", () =>
+    executeDaily(options, collectors),
+  );
 }
 
 async function executeDaily(
@@ -408,6 +427,9 @@ async function executeDaily(
       incidents: [],
       sources: saved.sources.map((source) => ({ ...source, reused: true })),
       reviewCount: 0,
+      ...(saved.discovery
+        ? { discovery: { ...saved.discovery, created: 0 } }
+        : {}),
     };
   }
   const history = await historyOf(store, registry, now);
@@ -417,7 +439,7 @@ async function executeDaily(
   );
   const dataset = parse(baselineBytes) as {
     updatedAt: string;
-    events: PolicyEvent[];
+    events: EventRecord[];
   };
   requireState(Array.isArray(dataset.events), "daily_invalid_events");
   const result: DailyResult = {
@@ -429,7 +451,9 @@ async function executeDaily(
   const imports: CaptureImport[] = [];
   const previous: SourceCapture[] = [];
   const freshCaptureIds: string[] = [];
-  const blockedEvents = new Set<string>();
+  const applicationState = await pendingApplicationIntents(state);
+  const blockedEvents = applicationState.blockedEvents;
+  const discoveryBindings = await readDiscoveryBindings(stageRoot, state);
   const incident = async (
     code: string,
     source: string,
@@ -453,39 +477,7 @@ async function executeDaily(
     result.reviewCount++;
   };
   // 观测归档不代表正式应用。完成意图归档后仍须另有应用回执，否则逐日提醒。
-  for (const intent of await state.listRuns("daily-application-intents")) {
-    requireState(
-      intent.status === "complete",
-      "daily_application_intent_requires_review",
-    );
-    const completed = await optional(
-      state,
-      `daily/applied/${intent.runId}.json`,
-    );
-    if (completed) {
-      const receipt = parse(completed) as { intentSha256: string };
-      requireState(
-        receipt.intentSha256 === intent.intentSha256,
-        "daily_application_receipt_mismatch",
-      );
-      continue;
-    }
-    const pending = parse(intent.files["changes.json"]) as EventTimeChange[];
-    const baseline = parse(intent.files["baseline.json"]) as {
-      events: PolicyEvent[];
-    };
-    requireState(
-      Array.isArray(pending) &&
-        pending.length > 0 &&
-        Array.isArray(baseline.events) &&
-        pending.every(
-          (change) =>
-            typeof change.eventId === "string" &&
-            baseline.events.some((event) => event.id === change.eventId),
-        ),
-      "daily_application_intent_invalid",
-    );
-    for (const change of pending) blockedEvents.add(change.eventId);
+  for (const intent of applicationState.pending) {
     await incident(
       "daily_unapplied_changes_require_review",
       "daily",
@@ -702,10 +694,15 @@ async function executeDaily(
     freshCaptureIds.includes(capture.captureId),
   );
   const bindings = bindingsFor(history, previous, dataset.events);
-  const policy = fresh.length
+  const primaryFresh = fresh.filter(
+    (capture) => capture.source.kind !== "aggregator",
+  );
+  const policy = primaryFresh.length
     ? evaluateEventPolicy({
-        previousCaptures: previous,
-        currentCaptures: fresh,
+        previousCaptures: previous.filter(
+          (capture) => capture.source.kind !== "aggregator",
+        ),
+        currentCaptures: primaryFresh,
         freshCaptureIds,
         bindings,
         events: dataset.events,
@@ -732,18 +729,37 @@ async function executeDaily(
   const changes = (policy?.changes ?? []).filter(
     (change) => !blockedEvents.has(change.eventId),
   );
+  const discovery = buildAggregationDiscoveries({
+    captures: allCaptures,
+    freshCaptureIds,
+    events: dataset.events,
+    now: currentTime(),
+    bindings: [...discoveryBindings, ...applicationState.bindings],
+  });
+  for (const review of discovery.reviews) {
+    const capture = allCaptures.find(
+      (item) => item.captureId === review.captureId,
+    );
+    await incident(
+      review.code,
+      review.registryId,
+      {
+        line: review.line,
+        eventIds: review.eventIds,
+        evidence: capture
+          ? review.line === null
+            ? contentKey(capture)
+            : capture.bodyText.split("\n")[review.line - 1]
+          : null,
+      },
+      review.message,
+    );
+    const receipt = result.sources.find(
+      (source) => source.source === review.registryId,
+    );
+    if (receipt) receipt.reviewCount++;
+  }
   const runId = `server-daily-${day}`;
-  // 在构造聚合归档或调用 apply 之前保存前像，任何后续异常均保留明确的未完成状态。
-  const intent = changes.length
-    ? await state.withStoreLock("daily-state", () =>
-        state.commitRun(
-          "daily-application-intents",
-          runId,
-          { "baseline.json": baselineBytes, "changes.json": encode(changes) },
-          { registrySha256, baselineSha256: sha256(baselineBytes), day },
-        ),
-      )
-    : null;
   let draft: EventUpdateDraft | undefined;
   const snapshots = imports.flatMap((input) => input.snapshots);
   if (changes.length) {
@@ -774,6 +790,52 @@ async function executeDaily(
       snapshots.push({ source: capture.source, items: [item] });
     }
   }
+  const readyDiscoveries = discovery.changes.filter(
+    (change) => !blockedEvents.has(change.event.id),
+  );
+  const capacity = Math.max(0, 100 - (draft?.changes.length ?? 0));
+  const creates = readyDiscoveries.slice(0, capacity);
+  const overflow = readyDiscoveries.length - creates.length;
+  if (overflow)
+    await incident(
+      "daily_discovery_limit_exceeded",
+      "weibo-board",
+      { day, overflow },
+      "本次混合应用最多 100 项；超出活动保留原文，等待下一次新鲜采集。",
+    );
+  result.discovery = {
+    ...discovery.summary,
+    created: 0,
+    overflow: discovery.summary.overflow + overflow,
+  };
+  if (creates.length)
+    draft = {
+      schemaVersion: "idol-reviewed-event-update-v1",
+      baselineSha256: sha256(baselineBytes),
+      reviewedAt: currentTime().toISOString(),
+      reviewedBy: "server-deterministic-event-policy",
+      changes: [...(draft?.changes ?? []), ...creates],
+    };
+  const confirmedIds = new Set([
+    ...dataset.events.map((event) => event.id),
+    ...creates.map((change) => change.event.id),
+  ]);
+  const confirmedBindings = discovery.bindings.filter((binding) =>
+    confirmedIds.has(binding.eventId),
+  );
+  // 在构造聚合归档或调用 apply 之前保存前像，任何后续异常均保留明确的未完成状态。
+  const intent = draft
+    ? await saveApplicationIntent(
+        state,
+        runId,
+        baselineBytes,
+        draft,
+        changes,
+        confirmedBindings,
+        registrySha256,
+        day,
+      )
+    : null;
   if (allCaptures.length) {
     const input: CaptureImport = {
       schemaVersion: "idol-capture-import-v1",
@@ -811,6 +873,7 @@ async function executeDaily(
           Buffer.from(encode(draft)),
         );
         result.changed = applied.changed;
+        result.discovery.created = applied.changed ? creates.length : 0;
         requireState(intent, "daily_application_intent_missing");
         await immutable(state, `daily/applied/${runId}.json`, {
           intentSha256: intent.intentSha256,
@@ -819,6 +882,7 @@ async function executeDaily(
           appliedAt: currentTime().toISOString(),
         });
       }
+      await saveDiscoveryBindings(state, runId, confirmedBindings);
     } catch (error) {
       await incident(failureCode(error), "daily", {
         runId,

@@ -6276,7 +6276,7 @@
       eventLink.href = `${groupEventsHref(groupId)}#${encodeURIComponent(event.id)}`;
       eventLink.textContent = `${event.date} · ${event.title}`;
       const note = document.createElement("p");
-      note.textContent = `${statuses[event.status]} · ${event.startsAt ? `开演 ${event.startsAt}（UTC+8）` : "开演时间未确认"}`;
+      note.textContent = `${statuses[event.status]} · ${event.startsAt ? `开演 ${event.startsAt}（UTC+8）` : "开演时间待公布"}`;
       item.append(eventLink, note);
       list.append(item);
     }

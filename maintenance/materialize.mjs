@@ -44,7 +44,7 @@ export const SOURCE_PROVENANCE = Object.freeze([
     source: "private/cli.ts",
     sha256: "dc5253d077e998b2c8a1448d68f886d92c447986c0d953e44c1f64a0f46d2e14",
     packagedSha256:
-      "dc5253d077e998b2c8a1448d68f886d92c447986c0d953e44c1f64a0f46d2e14",
+      "ab35de29305de7325b06142e46fb56010a7f296f4f11ba418ec4a546d46be2b8",
     bytes: 12309,
   },
   {
@@ -62,7 +62,7 @@ export const SOURCE_PROVENANCE = Object.freeze([
     source: "private/src/eventApplication.ts",
     sha256: "e3ba7fe9042e307a3ac69e5037df2d23a06e8c3c375138503aa3ab3b7959c68d",
     packagedSha256:
-      "e3ba7fe9042e307a3ac69e5037df2d23a06e8c3c375138503aa3ab3b7959c68d",
+      "35cc012789763b757e71575ef386838965f59a8a9cb52200569596237d7dbfb3",
     bytes: 7310,
   },
   {
@@ -674,7 +674,12 @@ async function sourceEntries(repoRoot) {
           ) ||
             /^maintenance\/runtime\/private\/tests\/server[a-zA-Z0-9_.-]*\.mjs$/u.test(
               child,
-            ),
+            ) ||
+            [
+              "maintenance/runtime/private/src/eventDiscovery.ts",
+              "maintenance/runtime/private/tests/eventDiscovery.test.mjs",
+              "maintenance/runtime/private/discovery-bindings.v1.json",
+            ].includes(child),
           `package_file_not_allowed:${child}`,
         );
         await add(

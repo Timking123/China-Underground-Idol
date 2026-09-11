@@ -67,6 +67,7 @@ try {
         "  collect-public --source showstart-glory",
         "  review --run 运行ID",
         "  apply-events --run 运行ID [--draft private/inbox/复核稿.json]",
+        "  discover-events（从当日已归档揭示板补录，不重新请求来源）",
         "  weekly-plan --trigger manual|scheduled",
         "  weekly-run --trigger manual|scheduled --budget auto|明确额度",
         "  weekly-recover-collection --slot 既有manual-日期或scheduled-日期",
@@ -88,6 +89,16 @@ try {
   } else if (command === "sources") {
     only([]);
     print(registry);
+  } else if (command === "discover-events") {
+    only([]);
+    const { runDiscoveryBootstrap } =
+      await import("./server/discoveryBootstrap.ts");
+    print(
+      await runDiscoveryBootstrap({
+        stageRoot: stage,
+        stateRoot: resolve(stage, "../../../state"),
+      }),
+    );
   } else if (command === "weekly-reconcile-known-withheld") {
     only(["proof-sha256"]);
     print(await reconcileKnownWithheldWeeklyBatch(option("proof-sha256")));

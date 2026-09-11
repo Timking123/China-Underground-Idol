@@ -24,6 +24,8 @@ const writeJson = (path, value) =>
 const jsonFile = async (path) => JSON.parse(await readFile(path, "utf8"));
 
 async function setup(t, sourceIds = ["weibo-freya"], { seed = true } = {}) {
+  // 固定实际应用器的测试时钟；生产门仍按应用当天拒绝过去活动。
+  t.mock.timers.enable({ apis: ["Date"], now: new Date(NOW) });
   const root = await mkdtemp(join(tmpdir(), "serverDaily-"));
   t.after(async () => {
     assert.equal(dirname(resolve(root)), resolve(tmpdir()));
@@ -45,6 +47,7 @@ async function setup(t, sourceIds = ["weibo-freya"], { seed = true } = {}) {
     "pipeline",
     "pipelineStore",
     "eventApplication",
+    "eventDiscovery",
     "eventCandidates",
     "sourceCapture",
     "sourceRegistry",
@@ -54,7 +57,7 @@ async function setup(t, sourceIds = ["weibo-freya"], { seed = true } = {}) {
       join(runtimeRoot, `private/src/${name}.ts`),
       join(stageRoot, `private/src/${name}.ts`),
     );
-  for (const name of ["daily", "eventPolicy"])
+  for (const name of ["daily", "eventPolicy", "discoveryBootstrap"])
     await copyFile(
       join(runtimeRoot, `private/server/${name}.ts`),
       join(stageRoot, `private/server/${name}.ts`),
@@ -114,6 +117,7 @@ async function setup(t, sourceIds = ["weibo-freya"], { seed = true } = {}) {
   const stores = await load("src/pipelineStore");
   const showstart = await load("src/showstart");
   const daily = await load("server/daily");
+  const discoveryBootstrap = await load("server/discoveryBootstrap");
   const store = await stores.createPipelineStore(
     join(stageRoot, "private/store"),
   );
@@ -337,11 +341,15 @@ async function setup(t, sourceIds = ["weibo-freya"], { seed = true } = {}) {
     pipeline,
     captures,
     run: daily.dailyWithCollectorsForTest(collectors),
+    bootstrap: discoveryBootstrap.runDiscoveryBootstrap,
+    applicationState: discoveryBootstrap.pendingApplicationIntents,
+    stores,
     buildBrowser,
     httpInput,
     setTime: (at) => {
       observation = at;
       options.now = new Date(at);
+      t.mock.timers.setTime(Date.parse(at));
     },
     eventsFile: join(stageRoot, "site/data/events.v1.json"),
   };
@@ -424,7 +432,7 @@ test("当日完成重入直接缓存，不采集、不刷新观察、不重复�
   assert.deepEqual(second.incidents, []);
 });
 
-test("聚合待审与独立官号改时刻同时出现：首日应用，次日保留新值", async (t) => {
+test("聚合新增与独立官号改时刻同时出现：混合应用，次日保留新值", async (t) => {
   const env = await setup(t, ["weibo-board", "weibo-freya"]);
   env.mutations.set("weibo-board", (source, at, build) =>
     build(
@@ -450,9 +458,8 @@ test("聚合待审与独立官号改时刻同时出现：首日应用，次日�
   );
   const first = await env.run(env.options);
   assert.equal(first.changed, true, JSON.stringify(first.incidents));
-  assert.ok(
-    first.incidents.some((incident) => incident.source === "weibo-board"),
-  );
+  assert.deepEqual(first.incidents, []);
+  assert.equal(first.discovery.created, 2);
   const applied = await readFile(env.eventsFile);
   const event = JSON.parse(applied).events[0];
   assert.equal(event.opensAt, "18:25");
@@ -698,7 +705,7 @@ test("未审标题变更跨日不重复告警，后续时间变化也不能绕�
   );
 });
 
-test("新增聚合活动只归档候选并通知，不新增正式活动", async (t) => {
+test("新鲜聚合活动凭名称日期城市收录，缺失字段保留待公布", async (t) => {
   const env = await setup(t, ["weibo-board", "weibo-freya"]);
   env.mutations.set("weibo-board", (source, at, build) =>
     build(
@@ -713,13 +720,20 @@ test("新增聚合活动只归档候选并通知，不新增正式活动", async
       ],
     ),
   );
-  const before = await readFile(env.eventsFile);
+  const before = await jsonFile(env.eventsFile);
   const result = await env.run(env.options);
-  assert.equal(result.changed, false);
-  assert.ok(
-    result.incidents.some((incident) => incident.source === "weibo-board"),
-  );
-  assert.deepEqual(await readFile(env.eventsFile), before);
+  assert.equal(result.changed, true, JSON.stringify(result.incidents));
+  assert.deepEqual(result.incidents, []);
+  const after = await jsonFile(env.eventsFile);
+  assert.equal(after.events.length, before.events.length + 2);
+  const event = after.events.find((event) => event.title === "新活动");
+  assert.equal(event.date, "2026-09-11");
+  assert.equal(event.city, "上海");
+  assert.equal(event.status, "unconfirmed");
+  assert.equal(event.venue, null);
+  assert.equal(event.startsAt, null);
+  assert.deepEqual(event.performers, []);
+  assert.equal(event.sources[0].kind, "aggregator");
   const run = await env.store.readRun("activities", "server-daily-2026-09-10");
   const snapshots = JSON.parse(run.files["snapshots.json"]);
   assert.equal(
@@ -727,6 +741,11 @@ test("新增聚合活动只归档候选并通知，不新增正式活动", async
       .length,
     2,
   );
+  const replay = await env.run(env.options);
+  assert.equal(replay.changed, false);
+  assert.equal(replay.discovery.created, 0);
+  assert.equal(env.calls.length, 2);
+  assert.deepEqual(await jsonFile(env.eventsFile), after);
 });
 
 test("只秀动详情变更：读取实际HTTP run的全部captures，首页不掩盖详情", async (t) => {
@@ -817,4 +836,299 @@ test("状态与浏览器profile根的目录链接在任何采集前阻断", asyn
       assert.deepEqual(await readdir(outside), ["sentinel.txt"]);
     });
   }
+});
+
+test("显式板转发绑定防重复，坏条目和坏官号不阻断其他新增", async (t) => {
+  const env = await setup(t, ["weibo-board", "weibo-freya"]);
+  await writeJson(join(env.stageRoot, "private/discovery-bindings.v1.json"), {
+    schemaVersion: "idol-discovery-bindings-v1",
+    bindings: [
+      {
+        detailUrl: "https://weibo.com/7716940453/5340601463603690",
+        eventId: env.events[0].id,
+        date: "2026-09-10",
+        city: "上海",
+      },
+    ],
+  });
+  env.mutations.set("weibo-board", (source, at, build) =>
+    build(
+      source,
+      at,
+      "活动信息\n2026年\n9/10 上海 舫Freya Fes 微博正文\n9/11 上海 正常新活动 微博正文\n9/31 上海 错误日期\n更多活动随后更新",
+      [
+        {
+          text: "微博正文",
+          href: "https://weibo.com/7716940453/5340128614550286",
+        },
+      ],
+    ),
+  );
+  env.mutations.set("weibo-freya", () => {
+    throw new Error("browser_source_login_required");
+  });
+  const result = await env.run(env.options);
+  assert.equal(result.changed, true, JSON.stringify(result.incidents));
+  assert.equal(result.discovery.created, 1);
+  assert.equal((await jsonFile(env.eventsFile)).events.length, 2);
+  assert.ok(
+    result.incidents.some((incident) => incident.source === "weibo-board"),
+  );
+  assert.ok(
+    result.incidents.some(
+      (incident) => incident.code === "browser_source_login_required",
+    ),
+  );
+  env.setTime("2026-09-11T01:00:00.000Z");
+  const next = await env.run(env.options);
+  assert.equal(next.changed, false);
+  assert.equal((await jsonFile(env.eventsFile)).events.length, 2);
+});
+
+test("旧 changes.json 时间意图仍阻断相关活动，新聚合活动独立应用", async (t) => {
+  const env = await setup(t, ["weibo-board", "weibo-freya"]);
+  const state = await env.stores.createPipelineStore(env.stateRoot);
+  const baseline = await readFile(env.eventsFile);
+  await state.withStoreLock("fixture", () =>
+    state.commitRun(
+      "daily-application-intents",
+      "old-time-intent",
+      {
+        "baseline.json": baseline,
+        "changes.json": env.captures.encode([
+          {
+            eventId: env.events[0].id,
+            field: "opensAt",
+            before: "18:15",
+            after: "18:25",
+          },
+        ]),
+      },
+      {},
+    ),
+  );
+  env.mutations.set("weibo-freya", (source, at, build) =>
+    build(source, at, fixture.captures[0].bodyText.replace("18：15", "18：25")),
+  );
+  const result = await env.run(env.options);
+  assert.equal(result.changed, true, JSON.stringify(result.incidents));
+  assert.ok(
+    result.incidents.some(
+      (incident) => incident.code === "daily_unapplied_changes_require_review",
+    ),
+  );
+  const after = await jsonFile(env.eventsFile);
+  assert.equal(after.events[0].opensAt, "18:15");
+  assert.equal(after.events.length, 2);
+  assert.equal(
+    (await env.applicationState(state)).pending[0].runId,
+    "old-time-intent",
+  );
+});
+
+test("新建意图基线漂移后跨日锁住身份，保留前像与未应用状态", async (t) => {
+  const env = await setup(t, ["weibo-board", "weibo-freya"]);
+  const before = await readFile(env.eventsFile);
+  let drift = true;
+  env.mutations.set("weibo-board", async (source, at, build) => {
+    if (drift) {
+      const changed = JSON.parse(before);
+      changed.events[0].title += "（人工修改）";
+      await writeJson(env.eventsFile, changed);
+      drift = false;
+    }
+    return build(
+      source,
+      at,
+      "活动信息\n2026年\n9/12 上海 稳定新活动 微博正文\n更多活动随后更新",
+    );
+  });
+  const first = await env.run(env.options);
+  assert.equal(first.changed, false);
+  assert.ok(
+    first.incidents.some(
+      (incident) => incident.code === "daily_event_baseline_drift",
+    ),
+  );
+  const state = await env.stores.createPipelineStore(env.stateRoot);
+  const saved = await state.readRun(
+    "daily-application-intents",
+    "server-daily-2026-09-10",
+  );
+  assert.deepEqual(saved.files["baseline.json"], before);
+  const intent = JSON.parse(saved.files["intent.json"]);
+  assert.equal(intent.schemaVersion, "server-daily-application-intent-v2");
+  assert.equal(intent.changes[0].action, "create");
+  assert.deepEqual(JSON.parse(saved.files["changes.json"]), []);
+  env.setTime("2026-09-11T01:00:00.000Z");
+  const next = await env.run(env.options);
+  assert.equal(next.changed, false);
+  assert.ok(
+    next.incidents.some(
+      (incident) => incident.code === "daily_unapplied_changes_require_review",
+    ),
+  );
+  assert.equal((await jsonFile(env.eventsFile)).events.length, 1);
+  assert.equal((await env.store.listRuns("applications")).length, 0);
+});
+
+test("免费补收选当天最新完整归档，保留已完成 daily 结果并可重复执行", async (t) => {
+  const env = await setup(t, ["weibo-board", "weibo-freya"]);
+  const board = env.registry.sources.find(
+    (source) => source.id === "weibo-board",
+  );
+  const archive = async (at, body, runId, extraLinks = []) => {
+    const collected = env.buildBrowser(board, at, body, extraLinks);
+    await env.pipeline.archiveImport(
+      env.store,
+      Buffer.from(
+        env.captures.encode({
+          schemaVersion: "idol-capture-import-v1",
+          captures: [collected.capture],
+          proofs: [collected.proof],
+          snapshots: [],
+          mappings: [],
+        }),
+      ),
+      env.registry,
+      runId,
+      env.options.now,
+    );
+  };
+  await archive(
+    "2026-09-09T16:00:00.000Z",
+    "活动信息\n2026年\n9/12 上海 旧归档活动 微博正文\n更多活动随后更新",
+    "fixture-board-midnight",
+  );
+  const daily = await env.run(env.options);
+  assert.equal(daily.changed, false);
+  assert.deepEqual(env.calls, ["weibo-freya"]);
+  const dailyPath = join(env.stateRoot, "daily/2026-09-10/result.json"),
+    savedDaily = await readFile(dailyPath);
+  await archive(
+    "2026-09-09T16:30:00.000Z",
+    "活动信息\n2026年\n9/12 上海 最新归档活动 微博正文\n9/13 上海 第二场 微博正文\n更多活动随后更新",
+    "fixture-board-latest",
+    [
+      {
+        text: "微博正文",
+        href: "https://weibo.com/7716940453/5340128614550286",
+      },
+    ],
+  );
+  const result = await env.bootstrap(env.options);
+  assert.equal(result.changed, true, JSON.stringify(result.reviews));
+  assert.equal(result.requests, 0);
+  assert.equal(result.discovery.created, 2);
+  const after = await readFile(env.eventsFile);
+  assert.ok(
+    JSON.parse(after).events.some((event) => event.title === "最新归档活动"),
+  );
+  assert.ok(
+    !JSON.parse(after).events.some((event) => event.title === "旧归档活动"),
+  );
+  const again = await env.bootstrap(env.options);
+  assert.equal(again.changed, false);
+  assert.equal(again.reused, true);
+  assert.deepEqual(await readFile(env.eventsFile), after);
+  assert.deepEqual(await readFile(dailyPath), savedDaily);
+  assert.deepEqual(env.calls, ["weibo-freya"]);
+  assert.equal((await env.store.listRuns("applications")).length, 1);
+});
+
+test("混合应用总上限 100，优先保留既有时间更新并报告溢出", async (t) => {
+  const env = await setup(t, ["weibo-board", "weibo-freya"]);
+  env.mutations.set("weibo-board", (source, at, build) =>
+    build(
+      source,
+      at,
+      `活动信息\n2026年\n${Array.from({ length: 101 }, (_, index) => `9/12 上海 新活动${index} 微博正文`).join("\n")}\n更多活动随后更新`,
+      Array.from({ length: 100 }, (_, index) => ({
+        text: "微博正文",
+        href: `https://weibo.com/7716940453/${5340128614550300 + index}`,
+      })),
+    ),
+  );
+  env.mutations.set("weibo-freya", (source, at, build) =>
+    build(source, at, fixture.captures[0].bodyText.replace("18：15", "18：25")),
+  );
+  const result = await env.run(env.options);
+  assert.equal(result.changed, true, JSON.stringify(result.incidents));
+  assert.equal(result.discovery.created, 99);
+  assert.equal(result.discovery.overflow, 2);
+  assert.equal((await jsonFile(env.eventsFile)).events[0].opensAt, "18:25");
+  const run = await env.store.readRun("activities", "server-daily-2026-09-10");
+  assert.equal(JSON.parse(run.files["draft.json"]).changes.length, 100);
+});
+
+test("超过旧快照1000条限制仍归档原文，日报与补收各按100条处理", async (t) => {
+  const env = await setup(t, ["weibo-board"]);
+  env.mutations.set("weibo-board", (source, at, build) =>
+    build(
+      source,
+      at,
+      `活动信息\n2026年\n${Array.from({ length: 1001 }, (_, index) => `9/12 上海 大页活动${index}${index === 0 ? " 微博正文" : ""}`).join("\n")}\n更多活动随后更新`,
+    ),
+  );
+  const before = (await jsonFile(env.eventsFile)).events.length;
+  const result = await env.run(env.options);
+  assert.equal(result.changed, true);
+  assert.equal(result.discovery.created, 100);
+  assert.equal(result.discovery.overflow, 901);
+  const daily = await env.store.readRun(
+    "activities",
+    "server-daily-2026-09-10",
+  );
+  assert.equal(JSON.parse(daily.files["snapshots.json"]).length, 0);
+  assert.equal(JSON.parse(daily.files["captures.json"]).length, 1);
+  assert.equal((await jsonFile(env.eventsFile)).events.length, before + 100);
+  const supplemented = await env.bootstrap(env.options);
+  assert.equal(supplemented.changed, true);
+  assert.equal(supplemented.requests, 0);
+  assert.equal(supplemented.discovery.created, 100);
+  assert.equal(supplemented.discovery.overflow, 801);
+  assert.equal((await jsonFile(env.eventsFile)).events.length, before + 200);
+  assert.deepEqual(env.calls, ["weibo-board"]);
+});
+
+test("daily 与免费补收共用锁，未完成补收意图不会重建应用", async (t) => {
+  const env = await setup(t, ["weibo-board", "weibo-freya"]);
+  const state = await env.stores.createPipelineStore(env.stateRoot);
+  await state.withStoreLock("daily-workflow", async () => {
+    await assert.rejects(env.run(env.options), /锁|LOCK/u);
+    await assert.rejects(env.bootstrap(env.options), /锁|LOCK/u);
+  });
+  assert.equal(env.calls.length, 0);
+  const baseline = await readFile(env.eventsFile);
+  const event = { ...clone(env.events[0]), id: "e-pending-bootstrap" };
+  await state.withStoreLock("fixture", () =>
+    state.commitRun(
+      "daily-application-intents",
+      "server-discovery-bootstrap-2026-09-10",
+      {
+        "baseline.json": baseline,
+        "changes.json": "[]",
+        "intent.json": env.captures.encode({
+          schemaVersion: "server-daily-application-intent-v2",
+          changes: [
+            {
+              action: "create",
+              event,
+              evidence: [],
+              rationale: "保留未完成补收意图",
+            },
+          ],
+          bindings: [],
+        }),
+      },
+      {},
+    ),
+  );
+  await assert.rejects(
+    env.bootstrap(env.options),
+    /discovery_bootstrap_pending_intent_requires_review/u,
+  );
+  assert.equal((await env.store.listRuns("applications")).length, 0);
+  assert.equal(env.calls.length, 0);
+  assert.deepEqual(await readFile(env.eventsFile), baseline);
 });

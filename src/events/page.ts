@@ -156,19 +156,19 @@ function eventEntry(event: EventRecord, now: Date): HTMLElement {
   body.append(
     element(
       "p",
-      `${[event.province, event.city].filter(Boolean).join(" · ") || "地区待核实"} / ${event.venue || "场地待核实"}`,
+      `${[event.province, event.city].filter(Boolean).join(" · ") || "地区待核实"} / ${event.venue || "场地待公布"}`,
     ),
   );
   body.append(
     element(
       "p",
-      event.startsAt ? `开演 ${event.startsAt}（UTC+8）` : "开演时间未确认",
+      event.startsAt ? `开演 ${event.startsAt}（UTC+8）` : "开演时间待公布",
     ),
   );
   const performers = element("div", "", "events-performers");
   performers.append(element("span", "出演："));
   if (!event.performers.length)
-    performers.append(element("span", "出演阵容待核实"));
+    performers.append(element("span", "出演阵容待公布"));
   for (const performer of event.performers) {
     if (performer.groupId) {
       const link = element("a", performer.name);
@@ -183,11 +183,11 @@ function eventEntry(event: EventRecord, now: Date): HTMLElement {
   detailBody.append(
     element(
       "p",
-      `入场：${event.opensAt || "待确认"} / 开演：${event.startsAt || "待确认"} / 结束：${event.endsAt || "待确认"}（UTC+8）`,
+      `入场：${event.opensAt || "待公布"} / 开演：${event.startsAt || "待公布"} / 结束：${event.endsAt || "待公布"}（UTC+8）`,
     ),
   );
   detailBody.append(
-    element("p", `地址：${event.address || "待核实，请查阅官宣"}`),
+    element("p", `地址：${event.address || "待公布，请查阅官宣"}`),
   );
   if (event.notes) detailBody.append(element("p", event.notes, "events-notes"));
   if (event.status === "postponed")

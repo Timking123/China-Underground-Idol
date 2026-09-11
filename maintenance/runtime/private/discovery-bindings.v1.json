@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "idol-discovery-bindings-v1",
+  "bindings": [
+    {
+      "detailUrl": "https://weibo.com/7716940453/5340128614550286",
+      "eventId": "e-weibo-rgpxivagu",
+      "date": "2026-09-11",
+      "city": "上海"
+    },
+    {
+      "detailUrl": "https://weibo.com/7716940453/5339087869315698",
+      "eventId": "e-weibo-rgnpriz0w",
+      "date": "2026-09-11",
+      "city": "北京"
+    },
+    {
+      "detailUrl": "https://weibo.com/7716940453/5338645630293545",
+      "eventId": "e-weibo-5338640013852929",
+      "date": "2026-09-13",
+      "city": "呼和浩特"
+    },
+    {
+      "detailUrl": "https://weibo.com/7716940453/5339117168889625",
+      "eventId": "e-weibo-5339115526292485",
+      "date": "2026-09-15",
+      "city": "北京"
+    }
+  ]
+}

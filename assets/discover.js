@@ -972,7 +972,7 @@
       element(
         "p",
         "discover-event-place",
-        `${event.city ? normalizeRegionName(event.city) : "城市待核实"} / ${event.venue ?? "场地待核实"}`
+        `${event.city ? normalizeRegionName(event.city) : "城市待核实"} / ${event.venue ?? "场地待公布"}`
       )
     );
     const performers = element("p", "discover-performers", "出演：");

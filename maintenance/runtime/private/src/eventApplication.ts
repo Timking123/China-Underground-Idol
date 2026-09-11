@@ -4,6 +4,7 @@ import {
   type EventRecord,
 } from "../../site/src/events/model.ts";
 import type { CandidateSnapshot } from "./eventCandidates.ts";
+import { isMinimalAggregationCreate } from "./eventDiscovery.ts";
 import {
   encode,
   isTimestamp,
@@ -116,6 +117,12 @@ export function prepareEventUpdate(
       cited.push(capture);
       for (const field of evidence.supports) supported.add(field);
     }
+    const aggregationCreate = isMinimalAggregationCreate(
+      change,
+      cited,
+      now,
+      current.data.events,
+    );
     requireState(
       cited.some(
         (capture) =>
@@ -123,7 +130,7 @@ export function prepareEventUpdate(
           ["official", "organizer", "venue", "ticketing"].includes(
             capture.source.kind,
           ),
-      ),
+      ) || aggregationCreate,
       "complete_primary_evidence_required",
     );
     for (const field of [
@@ -159,14 +166,15 @@ export function prepareEventUpdate(
       )
         continue;
       requireState(
-        cited.some(
-          (capture) =>
-            source.url === capture.source.sourceUrl &&
-            source.label === capture.source.label &&
-            source.publisher === capture.source.publisher &&
-            source.kind === capture.source.kind &&
-            source.observedAt === capture.source.observedAt,
-        ),
+        aggregationCreate ||
+          cited.some(
+            (capture) =>
+              source.url === capture.source.sourceUrl &&
+              source.label === capture.source.label &&
+              source.publisher === capture.source.publisher &&
+              source.kind === capture.source.kind &&
+              source.observedAt === capture.source.observedAt,
+          ),
         "public_source_provenance_mismatch",
       );
     }

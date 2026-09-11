@@ -55,13 +55,13 @@ function eventsList(
     body.append(
       element(
         "p",
-        `${event.city || "城市待核实"} · ${event.venue || "场地待核实"}`,
+        `${event.city || "城市待核实"} · ${event.venue || "场地待公布"}`,
       ),
     );
     body.append(
       element(
         "p",
-        event.startsAt ? `开演 ${event.startsAt}（UTC+8）` : "开演时间未确认",
+        event.startsAt ? `开演 ${event.startsAt}（UTC+8）` : "开演时间待公布",
       ),
     );
     item.append(date, body);
