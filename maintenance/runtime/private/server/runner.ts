@@ -67,7 +67,10 @@ async function health() {
     ["weekly", 8 * 86400_000],
   ] as const) {
     const names = (await listDirectories(resolve(STATE, "runs"))).filter(
-      (name) => name.startsWith(`${kind}-`),
+      // runs 同时保存应用意图等内部目录，只有完整日期名属于定时运行。
+      (name) =>
+        name.startsWith(`${kind}-`) &&
+        /^(?:daily|weekly)-\d{4}-\d{2}-\d{2}$/u.test(name),
     );
     const name = names.at(-1);
     const receipt = name

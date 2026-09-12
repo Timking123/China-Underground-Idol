@@ -55,6 +55,12 @@ const ACTIONS: Record<string, string> = {
   review_changes: "请人工审核待处理变更后再继续维护。",
   manual_review: "自动维护无法完成，请登录服务器核查并人工处理。",
 };
+const ACTIVITY_REVIEW_ACTIONS: Record<string, string> = {
+  AGGREGATION_POSSIBLE_DUPLICATE:
+    "活动信息可能重复，相关条目暂缓收录，其他条目继续处理。请登录服务器核对本轮待复核记录。",
+  AGGREGATION_IDENTITY_CONFLICT:
+    "活动信息标识存在冲突，相关条目暂缓收录，其他条目继续处理。请登录服务器核对本轮待复核记录。",
+};
 
 class NotifyFailure extends Error {
   code: string;
@@ -481,15 +487,20 @@ export async function notifyIncident(
         path.join(directory, "attempts", `${id}.json`),
         attempt,
       );
-      const action = Object.hasOwn(ACTIONS, incident.action ?? "")
-        ? ACTIONS[incident.action!]
-        : ACTIONS.manual_review;
+      const reviewAction = Object.hasOwn(ACTIVITY_REVIEW_ACTIONS, incident.code)
+        ? ACTIVITY_REVIEW_ACTIONS[incident.code]
+        : undefined;
+      const action =
+        reviewAction ??
+        (Object.hasOwn(ACTIONS, incident.action ?? "")
+          ? ACTIONS[incident.action!]
+          : ACTIONS.manual_review);
       const body = new URLSearchParams({
-        title: "地下偶像站点维护需要人工处理",
+        title: reviewAction ? "活动信息待核对" : "地下偶像站点维护需要人工处理",
         desp: [
           `运行 ID：${incident.runId}`,
           `来源名：${incident.source ?? "站点维护"}`,
-          `失败码：${incident.code}`,
+          `${reviewAction ? "事项码" : "失败码"}：${incident.code}`,
           `处理建议：${action}`,
         ].join("\n\n"),
         noip: "1",

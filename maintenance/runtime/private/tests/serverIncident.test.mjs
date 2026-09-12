@@ -89,3 +89,96 @@ test("跳过账号通知只外发固定说明，失败发送有记录且未知�
   assert.equal(second.code, "UNKNOWN_OUTCOME");
   assert.equal(calls, 1);
 });
+
+for (const scenario of [
+  {
+    code: "aggregation_possible_duplicate",
+    action:
+      "活动信息可能重复，相关条目暂缓收录，其他条目继续处理。请登录服务器核对本轮待复核记录。",
+  },
+  {
+    code: "aggregation_identity_conflict",
+    action:
+      "活动信息标识存在冲突，相关条目暂缓收录，其他条目继续处理。请登录服务器核对本轮待复核记录。",
+  },
+]) {
+  test(`${scenario.code} 小写入口只发送固定活动核对通知`, async () => {
+    const root = await mkdtemp(join(tmpdir(), "idol-content-notice-"));
+    const rawText = "外部原文含私人活动资料与 SCT123456SyntheticOnly";
+    let form;
+    const result = await sendMaintenanceNotice(
+      {
+        runId: "daily-2026-09-12",
+        kind: "daily",
+        code: scenario.code,
+        source: "aggregation",
+        action: rawText,
+        message: rawText,
+      },
+      {
+        stateRoot: root,
+        sendKey: "SCT123456SyntheticOnly",
+        fetchImpl: async (_url, request) => {
+          form = request.body;
+          return new Response(JSON.stringify({ code: 0, message: rawText }));
+        },
+      },
+    );
+    assert.equal(result.status, "sent");
+    assert.equal(form.get("title"), "活动信息待核对");
+    assert.equal(
+      form.get("desp"),
+      [
+        "运行 ID：daily-2026-09-12",
+        "来源名：aggregation",
+        `事项码：${scenario.code.toUpperCase()}`,
+        `处理建议：${scenario.action}`,
+      ].join("\n\n"),
+    );
+    assert.doesNotMatch(form.get("desp"), /失败码|自动维护无法完成/);
+    assert.equal(form.get("noip"), "1");
+    assert.doesNotMatch(
+      JSON.stringify([Object.fromEntries(form), result]),
+      /外部原文|私人活动资料|SCT123456SyntheticOnly/,
+    );
+  });
+}
+
+for (const code of [
+  "browser_source_unavailable",
+  "aggregation_possible_duplicate_extra",
+  "aggregation_identity_conflict_extra",
+]) {
+  test(`${code} 保留真实故障或未知码的告警文案`, async () => {
+    const root = await mkdtemp(join(tmpdir(), "idol-failure-notice-"));
+    let form;
+    const result = await sendMaintenanceNotice(
+      {
+        runId: "daily-2026-09-12",
+        kind: "daily",
+        code,
+        source: "aggregation",
+        action: "外部原文与私人活动资料",
+      },
+      {
+        stateRoot: root,
+        sendKey: "SCT123456SyntheticOnly",
+        fetchImpl: async (_url, request) => {
+          form = request.body;
+          return new Response(JSON.stringify({ code: 0 }));
+        },
+      },
+    );
+    assert.equal(result.status, "sent");
+    assert.equal(form.get("title"), "地下偶像站点维护需要人工处理");
+    assert.equal(
+      form.get("desp"),
+      [
+        "运行 ID：daily-2026-09-12",
+        "来源名：aggregation",
+        `失败码：${code.toUpperCase()}`,
+        "处理建议：自动维护无法完成，请登录服务器核查并人工处理。",
+      ].join("\n\n"),
+    );
+  });
+}
