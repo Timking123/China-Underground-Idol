@@ -128,6 +128,7 @@ export function orientBasemap(basemap: GeoBasemap): GeoBasemap {
 interface MapOptions {
   onProvince: (id: string) => void;
   onCity: (city: GeoCity) => void;
+  onCluster: (cities: CityGroup[]) => void;
   onCamera: (camera: MapCamera) => void;
 }
 
@@ -184,6 +185,8 @@ export class GeographyMap {
         node.style.fill = "none";
         node.style.pointerEvents = "none";
       }
+      if (feature.geometry.type === "Point")
+        node.setAttribute("class", "geography-geographic-symbol");
       node.addEventListener("click", () => {
         if (Date.now() < this.suppressClickUntil) return;
         if (feature.properties.provinceId)
@@ -338,6 +341,14 @@ export class GeographyMap {
       "transform",
       `translate(${this.shift[0]},${this.shift[1]}) scale(${k})`,
     );
+    // 地理补充点恒为 6px，不能随镜头放大成虚构岛形或团体点。
+    this.basemap.features.forEach((feature, index) => {
+      if (feature.geometry.type === "Point")
+        this.land.children[index].setAttribute(
+          "d",
+          this.path.pointRadius(3 / k)(feature) ?? "",
+        );
+    });
     const points = this.entries.flatMap((entry) => {
       const point = this.projection([
         entry.city.longitude,
@@ -362,7 +373,7 @@ export class GeographyMap {
         .join("|");
       const title = single
         ? `${city.name}，${cluster.count} 支团体，查看名单`
-        : `${cluster.cities.length} 个城市，${cluster.count} 支团体，放大展开`;
+        : `${cluster.cities.length} 个城市，${cluster.count} 支团体，${this.camera.zoom >= 32 ? "选择城市" : "放大展开"}`;
       const marker = svgNode("g", {
         class: "geography-marker",
         transform: `translate(${cluster.x},${cluster.y})`,
@@ -383,6 +394,7 @@ export class GeographyMap {
         if (pointer && Date.now() < this.suppressClickUntil) return;
         this.svg.focus({ preventScroll: true });
         if (single) this.options.onCity(city);
+        else if (this.camera.zoom >= 32) this.options.onCluster(cluster.cities);
         else {
           const center = this.projection.invert?.([
             (cluster.x - this.shift[0]) / k,

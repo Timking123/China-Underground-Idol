@@ -108,6 +108,34 @@ test("旧URL省市组合保留并集条件，不偷偷改成单城市", () => {
   assert.deepEqual(parsed.state.filters.city, ["深圳"]);
 });
 
+test("城市入口计数与去掉父省后的名单一致，缺省份和省市冲突不显示假零", () => {
+  const group = (id, province) => ({
+    id,
+    name: id,
+    aliases: [],
+    handle: "",
+    isActive: true,
+    activity: { province, city: "深圳" },
+    founding: { province: null, city: null },
+    styleLabel: "",
+  });
+  const groups = [group("g001", null), group("g002", "青海")];
+  const provinceState = page.selectGeographyRegion(
+    page.defaultGeographyState(),
+    "province",
+    "广东",
+  );
+  assert.equal(
+    page.cityResultCount(groups, provinceState.filters, "深圳", data),
+    2,
+  );
+  const cityState = page.selectGeographyRegion(provinceState, "city", "深圳");
+  assert.equal(
+    page.cityResultCount(groups, cityState.filters, "深圳", data),
+    2,
+  );
+});
+
 test("未定位入口与地区互斥，搜索和状态继续保留", () => {
   const state = page.parseGeographySearch(
     "?province=广东&q=测试&status=all",

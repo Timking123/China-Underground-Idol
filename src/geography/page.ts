@@ -143,6 +143,20 @@ function options(
   select.value = value;
 }
 
+/** 城市入口与点击后的名单共用口径，包含缺省份或尚未定位的匹配团体。 */
+export function cityResultCount(
+  groups: readonly CatalogGroup[],
+  filters: CatalogFilters,
+  cityName: string,
+  data: GeographyData,
+): number {
+  return buildGeographyModel(
+    groups,
+    { ...filters, province: [], city: [cityName] },
+    data,
+  ).groups.length;
+}
+
 function groupItem(
   group: CatalogGroup,
   role: CatalogFilters["regionRole"],
@@ -324,23 +338,37 @@ export function startGeography(
     cityLinks.replaceChildren();
     if (!state.unknown && selectedProvince) {
       // 省内城市入口包含零记录城市，选择后明确呈现“尚未收录”。
-      const provinceModel = buildGeographyModel(
-        catalog.groups,
-        { ...state.filters, province: [selectedProvince.name], city: [] },
-        data,
-      );
       for (const item of data.cities.filter(
         (entry) => entry.provinceId === selectedProvince.id,
       )) {
-        const count =
-          provinceModel.cityGroups.find((entry) => entry.city.id === item.id)
-            ?.count ?? 0;
+        const count = cityResultCount(
+          catalog.groups,
+          state.filters,
+          item.name,
+          data,
+        );
         const button = element("button", `${item.name} ${count}`);
         button.type = "button";
         button.setAttribute(
           "aria-pressed",
           String(item.id === selectedCity?.id),
         );
+        button.addEventListener("click", () => chooseCity(item));
+        cityLinks.append(button);
+      }
+    }
+    if (!state.unknown && combined && state.filters.city.length) {
+      for (const name of state.filters.city) {
+        const item = cityFor(name);
+        if (!item) continue;
+        const count = cityResultCount(
+          catalog.groups,
+          state.filters,
+          item.name,
+          data,
+        );
+        const button = element("button", `${item.name} ${count} · 查看`);
+        button.type = "button";
         button.addEventListener("click", () => chooseCity(item));
         cityLinks.append(button);
       }
@@ -375,6 +403,21 @@ export function startGeography(
         if (item) apply(selectGeographyRegion(state, "province", item.name));
       },
       onCity: chooseCity,
+      onCluster: (entries) => {
+        apply({
+          ...state,
+          unknown: false,
+          camera: map?.getCamera() ?? state.camera,
+          filters: {
+            ...state.filters,
+            province: [],
+            city: entries.map((entry) => entry.city.name),
+          },
+        });
+        required("geography-result-summary").textContent +=
+          " 已到最大缩放，请选择下方城市查看对应团体。";
+        required("geography-results-heading").focus();
+      },
       onCamera: (camera) => {
         state.camera = camera;
         writeUrl();
@@ -488,6 +531,11 @@ export function startGeography(
     ...data.attribution.map((text) => element("p", text)),
   );
   attribution.append(
+    link(
+      "底图：Natural Earth / 公共领域",
+      "https://www.naturalearthdata.com/about/terms-of-use/",
+      true,
+    ),
     link("城市坐标：GeoNames", "https://www.geonames.org/export/", true),
     link(
       "坐标许可：CC BY 4.0",

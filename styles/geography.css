@@ -173,6 +173,13 @@
   stroke-width: 3px;
   stroke-linejoin: round;
 }
+.geography-geographic-symbol {
+  fill: var(--text-soft);
+  stroke: var(--canvas);
+  stroke-width: 0.75;
+  vector-effect: non-scaling-stroke;
+  cursor: default;
+}
 .geography-marker {
   cursor: pointer;
   outline: none;
