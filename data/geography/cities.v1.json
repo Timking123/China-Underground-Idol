@@ -1,0 +1,551 @@
+{
+  "schemaVersion": "idol-geography-v1",
+  "coordinateSystem": "WGS84",
+  "provinces": [
+    {
+      "id": "cn-beijing",
+      "name": "北京市",
+      "aliases": ["北京"]
+    },
+    {
+      "id": "cn-tianjin",
+      "name": "天津市",
+      "aliases": ["天津"]
+    },
+    {
+      "id": "cn-hebei",
+      "name": "河北省",
+      "aliases": ["河北"]
+    },
+    {
+      "id": "cn-shanxi",
+      "name": "山西省",
+      "aliases": ["山西"]
+    },
+    {
+      "id": "cn-inner-mongolia",
+      "name": "内蒙古自治区",
+      "aliases": ["内蒙古"]
+    },
+    {
+      "id": "cn-liaoning",
+      "name": "辽宁省",
+      "aliases": ["辽宁"]
+    },
+    {
+      "id": "cn-jilin",
+      "name": "吉林省",
+      "aliases": ["吉林"]
+    },
+    {
+      "id": "cn-heilongjiang",
+      "name": "黑龙江省",
+      "aliases": ["黑龙江"]
+    },
+    {
+      "id": "cn-shanghai",
+      "name": "上海市",
+      "aliases": ["上海"]
+    },
+    {
+      "id": "cn-jiangsu",
+      "name": "江苏省",
+      "aliases": ["江苏"]
+    },
+    {
+      "id": "cn-zhejiang",
+      "name": "浙江省",
+      "aliases": ["浙江"]
+    },
+    {
+      "id": "cn-anhui",
+      "name": "安徽省",
+      "aliases": ["安徽"]
+    },
+    {
+      "id": "cn-fujian",
+      "name": "福建省",
+      "aliases": ["福建"]
+    },
+    {
+      "id": "cn-jiangxi",
+      "name": "江西省",
+      "aliases": ["江西"]
+    },
+    {
+      "id": "cn-shandong",
+      "name": "山东省",
+      "aliases": ["山东"]
+    },
+    {
+      "id": "cn-henan",
+      "name": "河南省",
+      "aliases": ["河南"]
+    },
+    {
+      "id": "cn-hubei",
+      "name": "湖北省",
+      "aliases": ["湖北"]
+    },
+    {
+      "id": "cn-hunan",
+      "name": "湖南省",
+      "aliases": ["湖南"]
+    },
+    {
+      "id": "cn-guangdong",
+      "name": "广东省",
+      "aliases": ["广东"]
+    },
+    {
+      "id": "cn-guangxi",
+      "name": "广西壮族自治区",
+      "aliases": ["广西"]
+    },
+    {
+      "id": "cn-hainan",
+      "name": "海南省",
+      "aliases": ["海南"]
+    },
+    {
+      "id": "cn-chongqing",
+      "name": "重庆市",
+      "aliases": ["重庆"]
+    },
+    {
+      "id": "cn-sichuan",
+      "name": "四川省",
+      "aliases": ["四川"]
+    },
+    {
+      "id": "cn-guizhou",
+      "name": "贵州省",
+      "aliases": ["贵州"]
+    },
+    {
+      "id": "cn-yunnan",
+      "name": "云南省",
+      "aliases": ["云南"]
+    },
+    {
+      "id": "cn-tibet",
+      "name": "西藏自治区",
+      "aliases": ["西藏"]
+    },
+    {
+      "id": "cn-shaanxi",
+      "name": "陕西省",
+      "aliases": ["陕西"]
+    },
+    {
+      "id": "cn-gansu",
+      "name": "甘肃省",
+      "aliases": ["甘肃"]
+    },
+    {
+      "id": "cn-qinghai",
+      "name": "青海省",
+      "aliases": ["青海"]
+    },
+    {
+      "id": "cn-ningxia",
+      "name": "宁夏回族自治区",
+      "aliases": ["宁夏"]
+    },
+    {
+      "id": "cn-xinjiang",
+      "name": "新疆维吾尔自治区",
+      "aliases": ["新疆"]
+    },
+    {
+      "id": "cn-taiwan",
+      "name": "台湾省",
+      "aliases": ["台湾"]
+    },
+    {
+      "id": "cn-hong-kong",
+      "name": "香港特别行政区",
+      "aliases": ["香港"]
+    },
+    {
+      "id": "cn-macao",
+      "name": "澳门特别行政区",
+      "aliases": ["澳门"]
+    }
+  ],
+  "cities": [
+    {
+      "id": "geonames-1816670",
+      "name": "北京市",
+      "provinceId": "cn-beijing",
+      "longitude": 116.39723,
+      "latitude": 39.9075,
+      "aliases": ["北京"],
+      "sourceId": "geonames:1816670"
+    },
+    {
+      "id": "geonames-1792947",
+      "name": "天津市",
+      "provinceId": "cn-tianjin",
+      "longitude": 117.17667,
+      "latitude": 39.14222,
+      "aliases": ["天津"],
+      "sourceId": "geonames:1792947"
+    },
+    {
+      "id": "geonames-1795270",
+      "name": "石家庄市",
+      "provinceId": "cn-hebei",
+      "longitude": 114.47861,
+      "latitude": 38.04139,
+      "aliases": ["石家庄"],
+      "sourceId": "geonames:1795270"
+    },
+    {
+      "id": "geonames-1793511",
+      "name": "太原市",
+      "provinceId": "cn-shanxi",
+      "longitude": 112.56028,
+      "latitude": 37.86944,
+      "aliases": ["太原"],
+      "sourceId": "geonames:1793511"
+    },
+    {
+      "id": "geonames-2036892",
+      "name": "呼和浩特市",
+      "provinceId": "cn-inner-mongolia",
+      "longitude": 111.65222,
+      "latitude": 40.81056,
+      "aliases": ["呼和浩特"],
+      "sourceId": "geonames:2036892"
+    },
+    {
+      "id": "geonames-2034937",
+      "name": "沈阳市",
+      "provinceId": "cn-liaoning",
+      "longitude": 123.43278,
+      "latitude": 41.79222,
+      "aliases": ["沈阳"],
+      "sourceId": "geonames:2034937"
+    },
+    {
+      "id": "geonames-1814087",
+      "name": "大连市",
+      "provinceId": "cn-liaoning",
+      "longitude": 121.60222,
+      "latitude": 38.91222,
+      "aliases": ["大连"],
+      "sourceId": "geonames:1814087"
+    },
+    {
+      "id": "geonames-2036502",
+      "name": "吉林市",
+      "provinceId": "cn-jilin",
+      "longitude": 126.5608,
+      "latitude": 43.84652,
+      "aliases": ["吉林"],
+      "sourceId": "geonames:2036502"
+    },
+    {
+      "id": "geonames-2038180",
+      "name": "长春市",
+      "provinceId": "cn-jilin",
+      "longitude": 125.32278,
+      "latitude": 43.88,
+      "aliases": ["长春"],
+      "sourceId": "geonames:2038180"
+    },
+    {
+      "id": "geonames-2037013",
+      "name": "哈尔滨市",
+      "provinceId": "cn-heilongjiang",
+      "longitude": 126.65,
+      "latitude": 45.75,
+      "aliases": ["哈尔滨"],
+      "sourceId": "geonames:2037013"
+    },
+    {
+      "id": "geonames-1796236",
+      "name": "上海市",
+      "provinceId": "cn-shanghai",
+      "longitude": 121.45806,
+      "latitude": 31.22222,
+      "aliases": ["上海"],
+      "sourceId": "geonames:1796236"
+    },
+    {
+      "id": "geonames-1799962",
+      "name": "南京市",
+      "provinceId": "cn-jiangsu",
+      "longitude": 118.77778,
+      "latitude": 32.06167,
+      "aliases": ["南京"],
+      "sourceId": "geonames:1799962"
+    },
+    {
+      "id": "geonames-1790923",
+      "name": "无锡市",
+      "provinceId": "cn-jiangsu",
+      "longitude": 120.28857,
+      "latitude": 31.56887,
+      "aliases": ["无锡"],
+      "sourceId": "geonames:1790923"
+    },
+    {
+      "id": "geonames-1886760",
+      "name": "苏州市",
+      "provinceId": "cn-jiangsu",
+      "longitude": 120.59538,
+      "latitude": 31.30408,
+      "aliases": ["苏州"],
+      "sourceId": "geonames:1886760"
+    },
+    {
+      "id": "geonames-1808926",
+      "name": "杭州市",
+      "provinceId": "cn-zhejiang",
+      "longitude": 120.16142,
+      "latitude": 30.29365,
+      "aliases": ["杭州"],
+      "sourceId": "geonames:1808926"
+    },
+    {
+      "id": "geonames-1808722",
+      "name": "合肥市",
+      "provinceId": "cn-anhui",
+      "longitude": 117.28083,
+      "latitude": 31.86389,
+      "aliases": ["合肥"],
+      "sourceId": "geonames:1808722"
+    },
+    {
+      "id": "geonames-1810821",
+      "name": "福州市",
+      "provinceId": "cn-fujian",
+      "longitude": 119.30611,
+      "latitude": 26.06139,
+      "aliases": ["福州"],
+      "sourceId": "geonames:1810821"
+    },
+    {
+      "id": "geonames-1790645",
+      "name": "厦门市",
+      "provinceId": "cn-fujian",
+      "longitude": 118.08187,
+      "latitude": 24.47979,
+      "aliases": ["厦门"],
+      "sourceId": "geonames:1790645"
+    },
+    {
+      "id": "geonames-1800163",
+      "name": "南昌市",
+      "provinceId": "cn-jiangxi",
+      "longitude": 115.85306,
+      "latitude": 28.68396,
+      "aliases": ["南昌"],
+      "sourceId": "geonames:1800163"
+    },
+    {
+      "id": "geonames-1805753",
+      "name": "济南市",
+      "provinceId": "cn-shandong",
+      "longitude": 116.99722,
+      "latitude": 36.66833,
+      "aliases": ["济南"],
+      "sourceId": "geonames:1805753"
+    },
+    {
+      "id": "geonames-1784658",
+      "name": "郑州市",
+      "provinceId": "cn-henan",
+      "longitude": 113.64861,
+      "latitude": 34.75778,
+      "aliases": ["郑州"],
+      "sourceId": "geonames:1784658"
+    },
+    {
+      "id": "geonames-1791247",
+      "name": "武汉市",
+      "provinceId": "cn-hubei",
+      "longitude": 114.26667,
+      "latitude": 30.58333,
+      "aliases": ["武汉"],
+      "sourceId": "geonames:1791247"
+    },
+    {
+      "id": "geonames-1815577",
+      "name": "长沙市",
+      "provinceId": "cn-hunan",
+      "longitude": 112.97087,
+      "latitude": 28.19874,
+      "aliases": ["长沙"],
+      "sourceId": "geonames:1815577"
+    },
+    {
+      "id": "geonames-1809858",
+      "name": "广州市",
+      "provinceId": "cn-guangdong",
+      "longitude": 113.25,
+      "latitude": 23.11667,
+      "aliases": ["广州"],
+      "sourceId": "geonames:1809858"
+    },
+    {
+      "id": "geonames-1795565",
+      "name": "深圳市",
+      "provinceId": "cn-guangdong",
+      "longitude": 114.0683,
+      "latitude": 22.54554,
+      "aliases": ["深圳"],
+      "sourceId": "geonames:1795565"
+    },
+    {
+      "id": "geonames-1812545",
+      "name": "东莞市",
+      "provinceId": "cn-guangdong",
+      "longitude": 113.74866,
+      "latitude": 23.01797,
+      "aliases": ["东莞"],
+      "sourceId": "geonames:1812545"
+    },
+    {
+      "id": "geonames-1799869",
+      "name": "南宁市",
+      "provinceId": "cn-guangxi",
+      "longitude": 108.31667,
+      "latitude": 22.81667,
+      "aliases": ["南宁"],
+      "sourceId": "geonames:1799869"
+    },
+    {
+      "id": "geonames-1809078",
+      "name": "海口市",
+      "provinceId": "cn-hainan",
+      "longitude": 110.34651,
+      "latitude": 20.03421,
+      "aliases": ["海口"],
+      "sourceId": "geonames:1809078"
+    },
+    {
+      "id": "geonames-1814906",
+      "name": "重庆市",
+      "provinceId": "cn-chongqing",
+      "longitude": 106.55771,
+      "latitude": 29.56026,
+      "aliases": ["重庆"],
+      "sourceId": "geonames:1814906"
+    },
+    {
+      "id": "geonames-1815286",
+      "name": "成都市",
+      "provinceId": "cn-sichuan",
+      "longitude": 104.06667,
+      "latitude": 30.66667,
+      "aliases": ["成都"],
+      "sourceId": "geonames:1815286"
+    },
+    {
+      "id": "geonames-1809461",
+      "name": "贵阳市",
+      "provinceId": "cn-guizhou",
+      "longitude": 106.71667,
+      "latitude": 26.58333,
+      "aliases": ["贵阳"],
+      "sourceId": "geonames:1809461"
+    },
+    {
+      "id": "geonames-1804651",
+      "name": "昆明市",
+      "provinceId": "cn-yunnan",
+      "longitude": 102.71833,
+      "latitude": 25.03889,
+      "aliases": ["昆明"],
+      "sourceId": "geonames:1804651"
+    },
+    {
+      "id": "geonames-1280737",
+      "name": "拉萨市",
+      "provinceId": "cn-tibet",
+      "longitude": 91.1,
+      "latitude": 29.65,
+      "aliases": ["拉萨"],
+      "sourceId": "geonames:1280737"
+    },
+    {
+      "id": "geonames-1790630",
+      "name": "西安市",
+      "provinceId": "cn-shaanxi",
+      "longitude": 108.92861,
+      "latitude": 34.25833,
+      "aliases": ["西安"],
+      "sourceId": "geonames:1790630"
+    },
+    {
+      "id": "geonames-1804430",
+      "name": "兰州市",
+      "provinceId": "cn-gansu",
+      "longitude": 103.83987,
+      "latitude": 36.05701,
+      "aliases": ["兰州"],
+      "sourceId": "geonames:1804430"
+    },
+    {
+      "id": "geonames-1788852",
+      "name": "西宁市",
+      "provinceId": "cn-qinghai",
+      "longitude": 101.75739,
+      "latitude": 36.62554,
+      "aliases": ["西宁"],
+      "sourceId": "geonames:1788852"
+    },
+    {
+      "id": "geonames-1786657",
+      "name": "银川市",
+      "provinceId": "cn-ningxia",
+      "longitude": 106.27306,
+      "latitude": 38.46806,
+      "aliases": ["银川"],
+      "sourceId": "geonames:1786657"
+    },
+    {
+      "id": "geonames-1529102",
+      "name": "乌鲁木齐市",
+      "provinceId": "cn-xinjiang",
+      "longitude": 87.60046,
+      "latitude": 43.80096,
+      "aliases": ["乌鲁木齐"],
+      "sourceId": "geonames:1529102"
+    },
+    {
+      "id": "geonames-1668341",
+      "name": "台北市",
+      "provinceId": "cn-taiwan",
+      "longitude": 121.52639,
+      "latitude": 25.05306,
+      "aliases": ["台北"],
+      "sourceId": "geonames:1668341"
+    },
+    {
+      "id": "geonames-1819729",
+      "name": "香港",
+      "provinceId": "cn-hong-kong",
+      "longitude": 114.17469,
+      "latitude": 22.27832,
+      "aliases": [],
+      "sourceId": "geonames:1819729"
+    },
+    {
+      "id": "geonames-1821274",
+      "name": "澳门",
+      "provinceId": "cn-macao",
+      "longitude": 113.54611,
+      "latitude": 22.20056,
+      "aliases": [],
+      "sourceId": "geonames:1821274"
+    }
+  ],
+  "attribution": [
+    "城市示意坐标：GeoNames，CC BY 4.0（https://www.geonames.org/；https://creativecommons.org/licenses/by/4.0/）。已筛选、匹配中文名称和省份；坐标不是团体基地、场馆或成员精确位置。"
+  ],
+  "basemap": null
+}
