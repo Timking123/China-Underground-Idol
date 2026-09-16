@@ -163,6 +163,13 @@
   stroke: var(--accent-hot);
   stroke-width: 1.4;
 }
+.geography-page .geography-province:focus {
+  outline: none;
+}
+.geography-page .geography-province:focus-visible {
+  stroke: var(--focus);
+  stroke-width: 3;
+}
 .geography-province-label {
   fill: var(--text-soft);
   font: 12px var(--font-body);
