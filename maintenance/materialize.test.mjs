@@ -315,6 +315,8 @@ test("全国地图页面、模型及精确地理输入可计划和复制，未�
     "data/geography/basemap.cn.v1.json",
     "data/geography/basemap.provenance.json",
     "data/geography/import-natural-earth.py",
+    "data/geography/geonames-1821061.rdf",
+    "data/geography/geonames-8758525.rdf",
   ];
   for (const name of files)
     await put(options.repoRoot, name, `合成地理输入：${name}\n`);

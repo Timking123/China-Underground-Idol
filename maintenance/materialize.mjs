@@ -451,6 +451,8 @@ const GEOGRAPHY_DATA_FILES = new Set([
   "data/geography/basemap.cn.v1.json",
   "data/geography/basemap.provenance.json",
   "data/geography/import-natural-earth.py",
+  "data/geography/geonames-1821061.rdf",
+  "data/geography/geonames-8758525.rdf",
 ]);
 const EXCLUDED = new Set([
   ".git",
