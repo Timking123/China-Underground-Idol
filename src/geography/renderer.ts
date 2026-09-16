@@ -175,7 +175,7 @@ export class GeographyMap {
       node.append(title);
       if (
         feature.properties.provinceId &&
-        !feature.geometry.type.includes("Line")
+        ["Polygon", "MultiPolygon"].includes(feature.geometry.type)
       ) {
         node.setAttribute("role", "button");
         node.setAttribute("tabindex", "-1");
@@ -226,6 +226,7 @@ export class GeographyMap {
   }
 
   update(entries: CityGroup[], provinceId: string, cityId: string): void {
+    this.suppressClickUntil = 0;
     this.entries = entries;
     this.provinceId = provinceId;
     this.cityId = cityId;
@@ -378,8 +379,8 @@ export class GeographyMap {
       const label = svgNode("title");
       label.textContent = title;
       marker.append(circle, count, label);
-      const activate = (): void => {
-        if (Date.now() < this.suppressClickUntil) return;
+      const activate = (pointer = false): void => {
+        if (pointer && Date.now() < this.suppressClickUntil) return;
         this.svg.focus({ preventScroll: true });
         if (single) this.options.onCity(city);
         else {
@@ -398,7 +399,7 @@ export class GeographyMap {
             );
         }
       };
-      marker.addEventListener("click", activate);
+      marker.addEventListener("click", () => activate(true));
       marker.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
@@ -413,7 +414,11 @@ export class GeographyMap {
       const named = new Set<string>();
       for (const feature of this.basemap.features) {
         const id = feature.properties.provinceId;
-        if (!id || named.has(id) || feature.geometry.type.includes("Line"))
+        if (
+          !id ||
+          named.has(id) ||
+          !["Polygon", "MultiPolygon"].includes(feature.geometry.type)
+        )
           continue;
         named.add(id);
         const [px, py] = this.path.centroid(feature);

@@ -143,6 +143,10 @@
   height: 100%;
   display: block;
   touch-action: pan-y;
+  cursor: grab;
+}
+.geography-map svg:active {
+  cursor: grabbing;
 }
 .geography-map svg:focus-visible {
   outline-offset: -4px;

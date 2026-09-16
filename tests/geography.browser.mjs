@@ -198,11 +198,13 @@ try {
     ),
     false,
   );
-  assert.equal(
-    await page
-      .locator("#geography-reset")
-      .evaluate((node) => window.getComputedStyle(node).transitionDuration),
-    "0s",
+  // 全站减少动画规则使用 0.01ms !important，允许该近零兼容值。
+  assert.ok(
+    parseFloat(
+      await page
+        .locator("#geography-reset")
+        .evaluate((node) => window.getComputedStyle(node).transitionDuration),
+    ) <= 0.001,
   );
 
   const mobile = await browser.newContext({
