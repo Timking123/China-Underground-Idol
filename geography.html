@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="按省份和城市浏览已收录地下偶像团体。城市级位置，支持主要活动地与建团地切换；收录不完整，状态以档案来源为准。"
+    />
+    <link rel="icon" href="data:," />
+    <title>全国团体地图 · 地下偶像资料档案</title>
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="styles/site.css" />
+    <link rel="stylesheet" href="styles/geography.css" />
+    <script src="assets/groups-data.js" defer></script>
+    <script src="assets/geography.js" defer></script>
+  </head>
+  <body class="geography-page">
+    <a class="skip-link" href="#geography-results-heading">跳至团体名单</a>
+    <div class="geography-shell">
+      <nav class="site-nav" aria-label="主导航">
+        <a href="discover.html">发现</a>
+        <a href="groups.html">团体</a>
+        <a href="events.html">演出</a>
+        <a href="geography.html" aria-current="page">全国地图</a>
+        <a href="index.html">风格图</a>
+        <a href="guide.html">观演指南</a>
+      </nav>
+      <header class="geography-header">
+        <div>
+          <p class="geography-code">CN-IDOL / GEOGRAPHY</p>
+          <h1>全国团体地图</h1>
+        </div>
+        <p id="geography-summary" class="geography-summary">
+          正在读取已收录团体…
+        </p>
+      </header>
+      <main id="geography-main">
+        <form
+          id="geography-filters"
+          class="geography-filters"
+          aria-label="筛选地图和团体名单"
+        >
+          <label class="geography-search"
+            >团名 / 别名
+            <span
+              ><input
+                id="geography-query"
+                type="search"
+                maxlength="200"
+                autocomplete="off"
+                placeholder="搜索已收录团体"
+              /><button type="submit">搜索</button></span
+            >
+          </label>
+          <label
+            >地区口径<select id="geography-role">
+              <option value="activity">主要活动城市</option>
+              <option value="founding">建团城市</option>
+            </select></label
+          >
+          <label
+            >档案状态<select id="geography-status">
+              <option value="active">存续团体</option>
+              <option value="all">全部状态</option>
+            </select></label
+          >
+          <label
+            >省份 / 地区<select id="geography-province">
+              <option value="">全国</option>
+            </select></label
+          >
+          <label
+            >城市<select id="geography-city">
+              <option value="">全部城市</option>
+            </select></label
+          >
+        </form>
+        <p
+          id="geography-notice"
+          class="geography-notice"
+          role="status"
+          hidden
+        ></p>
+        <div class="geography-workspace">
+          <section
+            class="geography-map-panel"
+            aria-labelledby="geography-map-heading"
+          >
+            <div class="geography-section-heading">
+              <h2 id="geography-map-heading">全国</h2>
+              <div class="geography-region-actions">
+                <button id="geography-parent" type="button" hidden>
+                  返回省份
+                </button>
+                <button id="geography-reset" type="button">重置全国</button>
+              </div>
+            </div>
+            <div
+              id="geography-map"
+              class="geography-map"
+              role="region"
+              aria-label="可缩放的全国团体地图"
+              aria-describedby="geography-map-help"
+            >
+              <p
+                id="geography-map-status"
+                class="geography-map-status"
+                role="status"
+              >
+                正在载入地理底图…若持续未显示，请刷新重试或
+                <a href="groups.html">浏览团体列表</a>。
+              </p>
+              <div class="geography-map-controls" aria-label="地图视角">
+                <button
+                  id="geography-zoom-in"
+                  type="button"
+                  aria-label="放大地图"
+                  disabled
+                >
+                  ＋
+                </button>
+                <button
+                  id="geography-zoom-out"
+                  type="button"
+                  aria-label="缩小地图"
+                  disabled
+                >
+                  −
+                </button>
+                <button id="geography-fit" type="button" disabled>
+                  适合区域
+                </button>
+              </div>
+              <p
+                id="geography-scale"
+                class="geography-scale"
+                aria-live="off"
+              ></p>
+            </div>
+            <div class="geography-map-caption">
+              <p>
+                <span class="geography-legend-dot" aria-hidden="true"></span
+                >数字为已收录团体数 · 城市级位置
+              </p>
+              <a href="#geography-results-heading">查看当前名单 ↓</a>
+            </div>
+            <p id="geography-map-help" class="geography-footnote">
+              点击省份或聚合点查看。鼠标拖动、滚轮缩放；触屏双指平移与缩放，单指可滚动页面。键盘聚焦地图后，用方向键平移、＋/−
+              缩放、Home 适合区域。
+            </p>
+            <details class="geography-sources">
+              <summary>地图与收录口径</summary>
+              <p>
+                点位表示城市，不是团体住所、场馆或实时位置。多个城市的点在全国视角会合并，放大后拆开；同城团体共用一个点。
+              </p>
+              <p>
+                全国和当前名单均按团体去重。跨地区记录可能在多个城市出现，各点数量不能直接相加。没有点不等于没有团体。
+              </p>
+              <p id="geography-archive"></p>
+              <div id="geography-attribution"></div>
+            </details>
+          </section>
+          <section
+            class="geography-results"
+            aria-labelledby="geography-results-heading"
+          >
+            <div class="geography-section-heading">
+              <h2 id="geography-results-heading" tabindex="-1">已收录团体</h2>
+              <span id="geography-count" class="geography-count"></span>
+            </div>
+            <p
+              id="geography-result-summary"
+              class="geography-result-summary"
+              role="status"
+            >
+              正在读取名单…
+            </p>
+            <div
+              id="geography-cities"
+              class="geography-cities"
+              aria-label="当前地区的城市入口"
+            ></div>
+            <button
+              id="geography-unknown"
+              class="geography-unknown"
+              type="button"
+              hidden
+            ></button>
+            <ul
+              id="geography-group-list"
+              class="geography-group-list"
+              aria-label="当前地区团体"
+            ></ul>
+            <div id="geography-empty" class="geography-empty" hidden>
+              <h3>尚未收录</h3>
+              <p>当前条件下尚未收录团体资料，可调整筛选或补充可靠来源。</p>
+              <a href="contribute.html?page=geography&amp;kind=group"
+                >补充团体资料</a
+              >
+            </div>
+            <button
+              id="geography-more"
+              class="geography-more"
+              type="button"
+              hidden
+            >
+              显示更多团体
+            </button>
+          </section>
+        </div>
+        <noscript
+          ><p class="geography-error">
+            地图与团体名单需要启用 JavaScript。你仍可阅读<a href="about.html"
+              >资料说明</a
+            >或<a href="guide.html">观演指南</a>。
+          </p></noscript
+        >
+      </main>
+      <footer class="geography-footer">
+        <p>非官方公益资料整理 · 已收录范围不完整，状态以档案来源为准。</p>
+        <div>
+          <a href="about.html">关于与来源说明</a
+          ><a href="contribute.html?page=geography&amp;kind=error">投稿纠错</a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
