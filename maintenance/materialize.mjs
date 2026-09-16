@@ -408,6 +408,7 @@ const PUBLIC_ROOT_FILES = new Set([
   "about.html",
   "contribute.html",
   "discover.html",
+  "geography.html",
   "events.html",
   "group.html",
   "groups.html",
@@ -439,6 +440,14 @@ const PUBLIC_DATA_FILES = new Set([
   "follower-observations.v1.json",
   "follower-observations.v2.json",
   "events.v1.json",
+]);
+// 地理来源与离线构建输入采用精确清单，不开放任意 data 子目录。
+const GEOGRAPHY_DATA_FILES = new Set([
+  "data/geography/SOURCES.md",
+  "data/geography/cities.v1.json",
+  "data/geography/geonames-admin1-cn.tsv",
+  "data/geography/geonames-selected.tsv",
+  "data/geography/import-geonames.mjs",
 ]);
 const EXCLUDED = new Set([
   ".git",
@@ -710,13 +719,15 @@ async function sourceEntries(repoRoot) {
       } else {
         requireState(
           relative
-            ? PUBLIC_EXTENSION.test(entry.name)
+            ? PUBLIC_EXTENSION.test(entry.name) ||
+                GEOGRAPHY_DATA_FILES.has(child)
             : PUBLIC_ROOT_FILES.has(entry.name),
           `site_file_not_allowed:${child}`,
         );
         requireState(
           !child.startsWith("data/") ||
-            (relative === "data" && PUBLIC_DATA_FILES.has(entry.name)),
+            (relative === "data" && PUBLIC_DATA_FILES.has(entry.name)) ||
+            GEOGRAPHY_DATA_FILES.has(child),
           `site_data_not_allowed:${child}`,
         );
         requireState(

@@ -7,7 +7,7 @@ import { entryPoints, publicFiles } from "../scripts/siteManifest.mjs";
 
 const root = new URL("../", import.meta.url);
 
-test("全国地图构建、预览、两级发布器共用相同的最小公开清单", async () => {
+test("全国地图构建、预览、物化与两级发布器共用最小公开清单", async () => {
   assert.equal(entryPoints.geography, "src/geography/page.ts");
   for (const name of [
     "geography.html",
@@ -51,6 +51,19 @@ test("全国地图构建、预览、两级发布器共用相同的最小公开�
     [...publicFiles].sort(),
   );
   assert.ok(!publicFiles.some((name) => name.startsWith("data/")));
+  const materializer = await readFile(
+    new URL("maintenance/materialize.mjs", root),
+    "utf8",
+  );
+  const roots = materializer.match(
+    /PUBLIC_ROOT_FILES = new Set\(\[([\s\S]*?)\]\)/u,
+  );
+  assert.ok(roots);
+  const allowedRoots = new Set(
+    [...roots[1].matchAll(/"([^"]+)"/gu)].map((match) => match[1]),
+  );
+  for (const name of publicFiles.filter((name) => !name.includes("/")))
+    assert.ok(allowedRoots.has(name), `物化清单缺少 ${name}`);
 });
 
 test("所有公开页面可达全国地图且继续保留风格图", async () => {
@@ -71,8 +84,8 @@ test("所有公开页面可达全国地图且继续保留风格图", async () =>
       expected,
       name,
     );
-    assert.match(nav[0], /href="geography.html"[^>]*>全国地图<\/a>/u);
-    assert.match(nav[0], /href="index.html"[^>]*>风格图<\/a>/u);
+    assert.match(nav[0], /href="geography.html"[^>]*>全国地图<\/a\s*>/u);
+    assert.match(nav[0], /href="index.html"[^>]*>风格图<\/a\s*>/u);
   }
 });
 

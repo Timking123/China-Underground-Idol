@@ -300,6 +300,63 @@ test("清单模式无写入，首次复制为普通文件且只保留白名单",
   );
 });
 
+test("全国地图页面、模型及精确地理输入可计划和复制，未登记文件仍拒绝", async (t) => {
+  const { options, materialize } = await fixture(t);
+  const files = [
+    "geography.html",
+    "src/geography/model.ts",
+    "styles/geography.css",
+    "assets/geography.js",
+    "data/geography/SOURCES.md",
+    "data/geography/cities.v1.json",
+    "data/geography/geonames-admin1-cn.tsv",
+    "data/geography/geonames-selected.tsv",
+    "data/geography/import-geonames.mjs",
+  ];
+  for (const name of files)
+    await put(options.repoRoot, name, `合成地理输入：${name}\n`);
+  const plan = await materialize({ ...options, planOnly: true });
+  await assert.rejects(lstat(options.workspaceRoot), { code: "ENOENT" });
+  for (const name of files)
+    assert.ok(
+      plan.files.some(
+        (entry) =>
+          entry.source === name &&
+          entry.destination === `${STAGE}/site/${name}`,
+      ),
+    );
+  const created = await materialize(options);
+  assert.equal(created.sourceSha256, plan.sourceSha256);
+  for (const name of files)
+    assert.deepEqual(
+      await readFile(path.join(options.workspaceRoot, STAGE, "site", name)),
+      await readFile(path.join(options.repoRoot, name)),
+    );
+  const marker = path.join(
+    options.workspaceRoot,
+    STAGE,
+    ".materialized-source.v1.json",
+  );
+  const before = await readFile(marker);
+  await materialize(options);
+  assert.deepEqual(await readFile(marker), before);
+  const unknown = await put(
+    options.repoRoot,
+    "data/geography/not-reviewed.json",
+    "{}\n",
+  );
+  await assert.rejects(
+    materialize({ ...options, planOnly: true }),
+    /site_data_not_allowed/u,
+  );
+  await rm(unknown);
+  await put(options.repoRoot, "geography-private.html", "不在白名单\n");
+  await assert.rejects(
+    materialize({ ...options, planOnly: true }),
+    /site_file_not_allowed/u,
+  );
+});
+
 test("重复物化只核验身份，不覆盖额外运行态或改变源码 mtime", async (t) => {
   const { options, materialize } = await fixture(t);
   const first = await materialize(options);
