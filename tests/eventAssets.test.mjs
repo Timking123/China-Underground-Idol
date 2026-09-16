@@ -122,6 +122,7 @@ test("六条合法活动与非微博来源、本地海报可维护，只打包�
     const required = [
       "index.html",
       "discover.html",
+      "geography.html",
       "groups.html",
       "group.html",
       "events.html",
@@ -136,10 +137,12 @@ test("六条合法活动与非微博来源、本地海报可维护，只打包�
       "styles/content.css",
       "styles/groups.css",
       "styles/discover.css",
+      "styles/geography.css",
       "assets/groups-data.js",
       "assets/groups.js",
       "assets/group.js",
       "assets/discover.js",
+      "assets/geography.js",
       "assets/site.js",
       "assets/events.js",
       "assets/contribute.js",
@@ -153,6 +156,7 @@ test("六条合法活动与非微博来源、本地海报可维护，只打包�
       "src/content/page.ts",
       "src/groups/list.ts",
       "src/groups/detail.ts",
+      "src/geography/page.ts",
     ]) {
       await mkdir(path.dirname(path.join(temporary, file)), {
         recursive: true,
@@ -191,6 +195,9 @@ test("六条合法活动与非微博来源、本地海报可维护，只打包�
     const files = await packageSite(temporary);
     for (const file of [
       "discover.html",
+      "geography.html",
+      "styles/geography.css",
+      "assets/geography.js",
       "groups.html",
       "group.html",
       "assets/groups-data.js",
@@ -214,6 +221,9 @@ test("六条合法活动与非微博来源、本地海报可维护，只打包�
     try {
       for (const file of [
         "discover.html",
+        "geography.html",
+        "styles/geography.css",
+        "assets/geography.js",
         "groups.html",
         "group.html",
         "assets/groups-data.js",
@@ -262,14 +272,12 @@ test("六条合法活动与非微博来源、本地海报可维护，只打包�
         await readFile(path.join(temporary, ".build/site", src)),
         await readLocalEventPoster(temporary, src),
       );
-    await rm(path.join(temporary, "assets/discover.js"));
-    await assert.rejects(packageSite(temporary), /ENOENT/);
-    assert.equal(await readFile(manifestPath, "utf8"), firstManifest);
-    await writeFile(
-      path.join(temporary, "assets/discover.js"),
-      "临时打包回归占位",
-      "utf8",
-    );
+    for (const bundle of ["assets/discover.js", "assets/geography.js"]) {
+      await rm(path.join(temporary, bundle));
+      await assert.rejects(packageSite(temporary), /ENOENT/);
+      assert.equal(await readFile(manifestPath, "utf8"), firstManifest);
+      await writeFile(path.join(temporary, bundle), "临时打包回归占位", "utf8");
+    }
     await writeFile(
       path.join(temporary, ".build/site/private.txt"),
       "不得发布",

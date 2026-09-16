@@ -16,13 +16,15 @@ BASE = Path("/srv/china-underground-idol")
 CONFIG = Path("/etc/nginx/sites-available/idol.hi-veblen.com.conf")
 ORIGIN = "https://idol.hi-veblen.com"
 REQUIRED = frozenset([
-    "index.html", "discover.html", "groups.html", "group.html", "events.html",
+    "index.html", "discover.html", "geography.html", "groups.html", "group.html", "events.html",
     "guide.html", "contribute.html", "about.html", "app.css", "app.js", "data.js",
     "styles/site.css", "styles/events.css", "styles/content.css", "styles/groups.css",
-    "styles/discover.css", "assets/groups-data.js", "assets/site.js", "assets/events.js",
-    "assets/contribute.js", "assets/groups.js", "assets/group.js", "assets/discover.js",
+    "styles/discover.css", "styles/geography.css", "assets/groups-data.js", "assets/site.js", "assets/events.js",
+    "assets/contribute.js", "assets/groups.js", "assets/group.js", "assets/discover.js", "assets/geography.js",
 ])
-CRITICAL = ("assets/site.js", "assets/events.js", "assets/groups.js", "assets/groups-data.js")
+GEOGRAPHY_FILES = frozenset(["geography.html", "styles/geography.css", "assets/geography.js"])
+PREVIOUS_REQUIRED = REQUIRED - GEOGRAPHY_FILES
+CRITICAL = ("assets/site.js", "assets/events.js", "assets/groups.js", "assets/groups-data.js", "assets/geography.js")
 IMAGE = re.compile(r"assets/(?:avatars|posters|group-visuals|profile-covers|weibo-api-avatar-candidates|weibo-avatars|weibo-cached-visuals)/g\d{3}[a-zA-Z0-9.-]*\.(?:png|jpe?g|webp|svg)")
 EVENT_IMAGE = re.compile(r"assets/event-posters/[a-z0-9][a-z0-9_-]{0,95}\.(?:png|jpe?g|webp)")
 MAX_FILE = 20_000_000
@@ -96,7 +98,7 @@ def names_below(root):
     return result
 
 
-def parse_manifest(raw, expected, count=None):
+def parse_manifest(raw, expected, count=None, *, allow_previous=False):
     require(digest(raw) == expected, "manifest_hash_mismatch")
     records = {}
     for line in raw.decode("utf-8").splitlines():
@@ -107,14 +109,17 @@ def parse_manifest(raw, expected, count=None):
         require(name in REQUIRED or IMAGE.fullmatch(name) or EVENT_IMAGE.fullmatch(name), "nonpublic_file")
         require(name not in records, "duplicate_manifest_file")
         records[name] = checksum
-    require(REQUIRED.issubset(records) and len(records) <= 10000, "manifest_missing_entry")
+    # 只在校验已上线前版时接受完整旧清单；地图三项缺一的半成品不属于旧版。
+    complete = REQUIRED.issubset(records)
+    previous = allow_previous and PREVIOUS_REQUIRED.issubset(records) and GEOGRAPHY_FILES.isdisjoint(records)
+    require((complete or previous) and len(records) <= 10000, "manifest_missing_entry")
     require(count is None or len(records) == count, "manifest_count_mismatch")
     return records
 
 
-def verify_site(root, expected, count=None):
+def verify_site(root, expected, count=None, *, allow_previous=False):
     raw = read_regular(root / "manifest.sha256", 2_000_000)
-    records = parse_manifest(raw, expected, count)
+    records = parse_manifest(raw, expected, count, allow_previous=allow_previous)
     require(names_below(root) == set(records) | {"manifest.sha256"}, "candidate_file_set")
     total = 0
     for name, checksum in records.items():
@@ -233,7 +238,7 @@ def create_publisher(*, base=BASE, config=CONFIG, fetch=fetch_https, lock=deploy
                 require((base / "current").is_symlink() and os.readlink(base / "current") == expected_current, "current_changed")
 
             check_preimage(plan["previous"])
-            old_raw, old_records = verify_site(old, plan["previousManifestSha256"])
+            old_raw, old_records = verify_site(old, plan["previousManifestSha256"], allow_previous=True)
             candidate_raw, records = verify_site(source, plan["manifestSha256"], plan["publicFileCount"])
             require(not new.exists() and not new.is_symlink(), "release_already_exists")
             new.mkdir(mode=0o755)
@@ -267,7 +272,9 @@ def create_publisher(*, base=BASE, config=CONFIG, fetch=fetch_https, lock=deploy
             def check_https(manifest_hash, checksums, release):
                 require(digest(fetch("manifest.sha256", release)) == manifest_hash, "https_manifest_mismatch")
                 for name in CRITICAL:
-                    require(digest(fetch(name, release)) == checksums[name], "https_bundle_mismatch")
+                    # 新候选已强制含地图；旧版回滚仅核验其固定清单声明的关键脚本。
+                    if name in checksums:
+                        require(digest(fetch(name, release)) == checksums[name], "https_bundle_mismatch")
 
             target = "releases/" + plan["release"]
             switch(plan["previous"], target)
@@ -278,7 +285,7 @@ def create_publisher(*, base=BASE, config=CONFIG, fetch=fetch_https, lock=deploy
             except Exception:
                 status, error_code = "rolled_back", "post_switch_verification_failed"
                 try:
-                    verify_site(old, digest(old_raw))
+                    verify_site(old, digest(old_raw), allow_previous=True)
                     switch(target, plan["previous"])
                     check_https(plan["previousManifestSha256"], old_records, Path(plan["previous"]).name)
                 except Exception:

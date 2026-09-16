@@ -62,9 +62,9 @@ class PublicationTest(unittest.TestCase):
             target.write_bytes((value + ":" + name).encode())
         self.rebuild_manifest(directory)
 
-    def rebuild_manifest(self, directory):
+    def rebuild_manifest(self, directory, names=None):
         lines = []
-        for name in sorted(publish.REQUIRED):
+        for name in sorted(publish.REQUIRED if names is None else names):
             lines.append(publish.digest((directory / name).read_bytes()) + "  " + name)
         (directory / "manifest.sha256").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -83,7 +83,8 @@ class PublicationTest(unittest.TestCase):
         result = self.runner()()
         self.assertEqual(result["status"], "published")
         self.assertEqual(os.readlink(self.base / "current"), "releases/" + self.plan["release"])
-        self.assertEqual(len(self.requests), 5)
+        self.assertEqual(len(self.requests), 6)
+        self.assertIn(("assets/geography.js", self.plan["release"]), self.requests)
         receipt = self.receipt()
         self.assertEqual(receipt["requestSha256"], publish.digest(self.pending.read_bytes()))
         self.assertEqual(receipt["status"], "published")
@@ -95,6 +96,49 @@ class PublicationTest(unittest.TestCase):
         self.pending.unlink()
         self.assertEqual(self.runner()(), {"status": "noop"})
         self.assertEqual(self.requests, [])
+
+    def use_previous_without_geography(self):
+        for name in publish.GEOGRAPHY_FILES:
+            (self.old / name).unlink()
+        self.rebuild_manifest(self.old, publish.PREVIOUS_REQUIRED)
+        self.plan["previousManifestSha256"] = publish.digest((self.old / "manifest.sha256").read_bytes())
+        self.pending.write_bytes(publish.encode(self.plan))
+
+    def test_upgrade_from_previous_without_geography(self):
+        self.use_previous_without_geography()
+        old_manifest = (self.old / "manifest.sha256").read_bytes()
+        self.assertEqual(self.runner()()["status"], "published")
+        current = self.base / os.readlink(self.base / "current")
+        for name in publish.GEOGRAPHY_FILES:
+            self.assertEqual((current / name).read_bytes(), (self.source / name).read_bytes())
+        self.assertIn(("assets/geography.js", self.plan["release"]), self.requests)
+        self.assertEqual((self.old / "manifest.sha256").read_bytes(), old_manifest)
+        self.assertFalse((self.old / "geography.html").exists())
+
+    def test_geography_https_failure_rolls_back_to_previous_without_geography(self):
+        self.use_previous_without_geography()
+        def failure(name, release):
+            raw = self.fetch(name, release)
+            return b"tampered geography" if name == "assets/geography.js" and release == self.plan["release"] else raw
+        with self.assertRaisesRegex(RuntimeError, "post_switch_verification_failed"):
+            self.runner(failure)()
+        self.assertEqual(os.readlink(self.base / "current"), self.plan["previous"])
+        self.assertEqual(self.receipt()["status"], "rolled_back")
+        previous_requests = [name for name, release in self.requests if release == "previous-release"]
+        self.assertEqual(previous_requests, ["manifest.sha256", "assets/site.js", "assets/events.js", "assets/groups.js", "assets/groups-data.js"])
+
+    def test_candidate_requires_complete_geography_and_previous_rejects_partial_geography(self):
+        for name in publish.GEOGRAPHY_FILES:
+            (self.source / name).unlink()
+        self.rebuild_manifest(self.source, publish.PREVIOUS_REQUIRED)
+        expected = publish.digest((self.source / "manifest.sha256").read_bytes())
+        with self.assertRaisesRegex(RuntimeError, "manifest_missing_entry"):
+            publish.verify_site(self.source, expected)
+        (self.old / "assets/geography.js").unlink()
+        self.rebuild_manifest(self.old, publish.REQUIRED - {"assets/geography.js"})
+        expected = publish.digest((self.old / "manifest.sha256").read_bytes())
+        with self.assertRaisesRegex(RuntimeError, "manifest_missing_entry"):
+            publish.verify_site(self.old, expected, allow_previous=True)
 
     def test_manifest_tamper_stops_before_switch(self):
         (self.source / "assets/site.js").write_bytes(b"tampered")
@@ -147,7 +191,8 @@ class PublicationTest(unittest.TestCase):
             self.runner(failure)()
         self.assertEqual(os.readlink(self.base / "current"), self.plan["previous"])
         self.assertEqual(self.receipt()["status"], "rolled_back")
-        self.assertEqual(len(self.requests), 5)
+        self.assertEqual(len(self.requests), 6)
+        self.assertIn(("assets/geography.js", "previous-release"), self.requests)
 
     def test_https_rollback_failure_is_explicit(self):
         def failure(_name, _release):

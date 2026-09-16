@@ -6,11 +6,13 @@ export const entryPoints = Object.freeze({
   groups: "src/groups/list.ts",
   group: "src/groups/detail.ts",
   discover: "src/discover/page.ts",
+  geography: "src/geography/page.ts",
 });
 
 export const publicFiles = Object.freeze([
   "index.html",
   "discover.html",
+  "geography.html",
   "groups.html",
   "group.html",
   "events.html",
@@ -25,6 +27,7 @@ export const publicFiles = Object.freeze([
   "styles/content.css",
   "styles/groups.css",
   "styles/discover.css",
+  "styles/geography.css",
   "assets/groups-data.js",
   ...Object.keys(entryPoints).map((name) => `assets/${name}.js`),
 ]);

@@ -46,6 +46,10 @@
 
 升级代码须先停止三个 timer、等待当前服务退出并保留运行态，审核新提交及其变更；根目录安装器发现已有文件不同会停止，需单独进行版本化替换和回滚准备。不要通过重跑首次安装覆盖工作目录或清空账本。
 
+全国地图首次上线须同步静态站点、维护运行目录的 `private/server/publisher.ts` 与 `/usr/local/libexec/idol-maintenance-publish.py`，不能把仓库源码更新视作已安装。TypeScript 运行副本位于 `/srv/china-underground-idol/maintenance/workspace/work/phase3-20260909/private/server/publisher.ts`。两级发布器只新增 `geography.html`、`styles/geography.css`、`assets/geography.js` 三项公开文件，源数据随独立脚本打包，不开放整个地理数据目录。
+
+新候选必须含完整地图资产。首次迁移校验前版时，仅兼容地图三项全部不存在且其他原必需文件齐全的旧清单；地图只缺一项或两项的半套发布会停止。回滚仍校验旧清单全部文件哈希，并通过 HTTPS 核验该版已声明的关键脚本。升级前在 Linux 隔离临时目录运行 `python3 -m unittest maintenance.test_publish`，并在 `maintenance/runtime` 运行 `node --experimental-strip-types --test private/tests/serverPublisher.test.mjs`；站点 `npm run verify` 同时检查构建与两级发布清单一致。测试只使用临时目录与网络替身，不操作实际发布路径。
+
 维护包对明确白名单中的 UTF-8 源码统一 CRLF/LF 换行后校验和复制，原始来源 SHA 保留，公开文件与私有种子不做字节转换。站点格式检查保留检出文件现有换行，避免 Windows 与 Linux 检出的换行差异阻断发布；其余格式检查仍执行。
 
 ## 日常查看

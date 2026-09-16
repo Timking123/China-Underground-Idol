@@ -29,10 +29,12 @@ export const GENERATED_FILES = new Set([
   "assets/groups.js",
   "assets/group.js",
   "assets/discover.js",
+  "assets/geography.js",
 ]);
 export const PUBLIC_FILES = new Set([
   "index.html",
   "discover.html",
+  "geography.html",
   "groups.html",
   "group.html",
   "events.html",
@@ -47,6 +49,7 @@ export const PUBLIC_FILES = new Set([
   "styles/content.css",
   "styles/groups.css",
   "styles/discover.css",
+  "styles/geography.css",
   ...GENERATED_FILES,
 ]);
 const PUBLIC_IMAGE =
