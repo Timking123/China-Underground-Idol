@@ -448,6 +448,9 @@ const GEOGRAPHY_DATA_FILES = new Set([
   "data/geography/geonames-admin1-cn.tsv",
   "data/geography/geonames-selected.tsv",
   "data/geography/import-geonames.mjs",
+  "data/geography/basemap.cn.v1.json",
+  "data/geography/basemap.provenance.json",
+  "data/geography/import-natural-earth.py",
 ]);
 const EXCLUDED = new Set([
   ".git",
