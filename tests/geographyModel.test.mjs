@@ -404,4 +404,19 @@ test("底图拒绝未闭合面、非法坐标和未知省份，接受规范的�
   data.basemap.features = [feature(validGeometries[0])];
   data.basemap.features[0].properties.provinceId = "missing";
   assert.equal(model.validateGeographyData(data).valid, false);
+  data.basemap.features = [
+    {
+      type: "Feature",
+      properties: {
+        name: "东沙岛",
+        provinceId: null,
+        role: "geographic-symbol",
+        sourceId: "geonames:1821061",
+      },
+      geometry: { type: "Point", coordinates: [116.73162, 20.69992] },
+    },
+  ];
+  assert.equal(model.validateGeographyData(data).valid, true);
+  data.basemap.features[0].geometry.coordinates[1] = 120;
+  assert.equal(model.validateGeographyData(data).valid, false);
 });

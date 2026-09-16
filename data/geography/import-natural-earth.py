@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import subprocess
 import zipfile
+from xml.etree import ElementTree
 
 import shapefile
 from shapely import set_precision
@@ -105,7 +106,8 @@ def main():
         if row["sr_adm0_a3"] not in {"CHN", "TWN", "HKG", "MAC", "SCR", "PGA"} and row["sr_brk_a3"] not in TIBET_PARTS | {"B18"}:
             continue
         nation.append(geometry)
-        minor_records.append({"index": index, **row, "bounds": list(geometry.bounds)})
+        reference = geometry.representative_point()
+        minor_records.append({"index": index, **row, "bounds": list(geometry.bounds), "referencePoint": [reference.x, reference.y]})
         if row["sr_adm0_a3"] in {"HKG", "MAC"}:
             add("cn-hong-kong" if row["sr_adm0_a3"] == "HKG" else "cn-macao", geometry, f"minor_islands:{index}")
 
@@ -130,14 +132,30 @@ def main():
     for index, (_, geometry) in enumerate(maritime):
         features.append(feature(f"南海海域表示线 {index + 1}", None, geometry))
 
+    symbols = []
+    for identifier, name in [("1821061", "东沙岛"), ("8758525", "曾母暗沙")]:
+        source = directory / f"geonames-{identifier}.rdf"
+        source_bytes = source.read_bytes().replace(b"\r\n", b"\n")
+        rdf = ElementTree.fromstring(source_bytes)
+        namespace = {"wgs": "http://www.w3.org/2003/01/geo/wgs84_pos#", "gn": "http://www.geonames.org/ontology#", "cc": "http://creativecommons.org/ns#"}
+        if name not in [item.text for item in rdf.findall(".//gn:alternateName", namespace)]:
+            raise ValueError(f"地理符号中文名称不匹配：{name}")
+        coordinates = [float(rdf.findtext(".//wgs:long", namespaces=namespace)), float(rdf.findtext(".//wgs:lat", namespaces=namespace))]
+        license_node = rdf.find(".//cc:license", namespace)
+        if license_node.get("{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource") != "https://creativecommons.org/licenses/by/4.0/":
+            raise ValueError(f"地理符号来源许可发生变化：{name}")
+        source_id = f"geonames:{identifier}"
+        features.append({"type": "Feature", "properties": {"name": name, "provinceId": None, "role": "geographic-symbol", "sourceId": source_id}, "geometry": {"type": "Point", "coordinates": coordinates}})
+        symbols.append({"name": name, "sourceId": source_id, "sourceUrl": f"https://sws.geonames.org/{identifier}/about.rdf", "sourceFile": source.name, "sourceSha256Lf": hashlib.sha256(source_bytes).hexdigest(), "coordinates": coordinates, "license": "CC BY 4.0"})
+
     basemap = {"type": "FeatureCollection", "features": features}
     encoded = json.dumps(basemap, ensure_ascii=False, separators=(",", ":")) + "\n"
     output = directory / "basemap.cn.v1.json"
-    output.write_text(encoded, encoding="utf-8")
+    output.write_text(encoded, encoding="utf-8", newline="\n")
     # 使用仓库已安装的格式化器，记录提交文件的实际字节校验值。
     formatter = directory.parents[1] / "node_modules/prettier/bin/prettier.cjs"
     subprocess.run(["node", str(formatter), "--write", str(output)], check=True)
-    output_bytes = output.read_bytes()
+    output_bytes = output.read_bytes().replace(b"\r\n", b"\n")
     provenance = {
         "schemaVersion": "idol-basemap-provenance-v1",
         "downloadDate": "2026-09-16",
@@ -148,14 +166,15 @@ def main():
         "provinceSourceRecords": records,
         "fujianIslandParts": FUJIAN_ISLAND_PARTS,
         "retainedMinorIslandRecords": minor_records,
+        "geographicSymbols": symbols,
         "geometryProcessing": "选择中国视角；按省聚合；保留全部选中小岛；不简化边界；经纬度精确到0.000001度",
         "basemapSha256": hashlib.sha256(output_bytes).hexdigest(),
         "basemapBytes": len(output_bytes),
         "bounds": list(national.bounds),
         "featureCount": len(features),
     }
-    (directory / "basemap.provenance.json").write_text(json.dumps(provenance, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"生成 {len(features)} 个底图要素，保留 {len(minor_records)} 个源小岛/陆地记录，{len(encoded.encode('utf-8'))} 字节")
+    (directory / "basemap.provenance.json").write_text(json.dumps(provenance, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+    print(f"生成 {len(features)} 个底图要素，保留 {len(minor_records)} 个源小岛/陆地记录，{len(output_bytes)} 字节（UTF-8、LF）")
 
 
 def feature(name, province_id, geometry):

@@ -22,6 +22,7 @@ export const GEOGRAPHY_DATA: GeographyData = {
   attribution: [
     ...geography.attribution,
     "底图：Natural Earth 5.1，公共领域（https://www.naturalearthdata.com/about/terms-of-use/）。采用中国视角，已按省级口径整理并保留补充离岛和海域表示。",
+    "东沙岛、曾母暗沙地理示意点：GeoNames，CC BY 4.0。按来源坐标补充小比例尺底图，不代表岛形、团体位置或团体数量。",
   ],
 } as GeographyData;
 
@@ -135,18 +136,23 @@ export function validateGeographyData(
       }
       const { type, coordinates } = feature.geometry;
       const valid =
-        type === "Polygon"
-          ? polygon(coordinates)
-          : type === "MultiPolygon"
-            ? Array.isArray(coordinates) &&
-              coordinates.length > 0 &&
-              coordinates.every(polygon)
-            : type === "LineString"
-              ? line(coordinates)
-              : type === "MultiLineString" &&
-                Array.isArray(coordinates) &&
+        type === "Point"
+          ? position(coordinates) &&
+            feature.properties.role === "geographic-symbol" &&
+            feature.properties.provinceId === null &&
+            text(feature.properties.sourceId)
+          : type === "Polygon"
+            ? polygon(coordinates)
+            : type === "MultiPolygon"
+              ? Array.isArray(coordinates) &&
                 coordinates.length > 0 &&
-                coordinates.every(line);
+                coordinates.every(polygon)
+              : type === "LineString"
+                ? line(coordinates)
+                : type === "MultiLineString" &&
+                  Array.isArray(coordinates) &&
+                  coordinates.length > 0 &&
+                  coordinates.every(line);
       if (!valid) errors.push(`${feature.properties.name} 底图几何非法`);
     }
   }

@@ -38,13 +38,17 @@
 
 底图采用 [Natural Earth 中国视角](https://www.naturalearthdata.com/about/disputed-boundaries-policy/)的 1:10m 数据，以 `ne_10m_admin_0_countries_chn` 为全国范围依据，配省级面、完整小岛层、争议区补充面及中国海域表示线。下载时间为 2026-09-16；面数据版本 5.1.1，海域线版本 5.1.0。[来源许可](https://www.naturalearthdata.com/about/terms-of-use/)明确其地图数据属于公共领域，允许修改和再分发。它是小比例尺底图，不是官方标准地图，不附审图号。
 
-全部输入 ZIP 的下载地址、版本、SHA-256、字节数和 WGS84 投影声明保存在 `basemap.provenance.json`。`import-natural-earth.py` 只读本地 ZIP，哈希或投影不一致时停止；使用 Python、pyshp 3.1.6 与 shapely 2.1.2。执行 `python data/geography/import-natural-earth.py <源 ZIP 目录>` 可重新生成，不需要密钥或在线地图服务。地图构建与访客浏览只使用已提交的静态 JSON，不依赖 Python。
+全部输入 ZIP 的下载地址、版本、SHA-256、字节数和 WGS84 投影声明保存在 `basemap.provenance.json`。`import-natural-earth.py` 只读本地 ZIP，哈希或投影不一致时停止；使用 Python、pyshp 3.1.6、shapely 2.1.2 及仓库已安装的 Node/Prettier。执行 `python data/geography/import-natural-earth.py <源 ZIP 目录>` 可重新生成，不需要密钥或在线地图服务。输出文件哈希及字节数统一按 UTF-8、LF 换行核验，避免 Windows Git 检出时换行差异被误报为内容变化。地图构建与访客浏览只使用已提交的静态 JSON，不依赖 Python。
 
 变换为：选取中国视角的陆地及补充图层；大陆 31 省按来源中文全名匹配；港澳合为对应特别行政区；台湾及福建沿海岛屿按[中国政府网台湾基本情况](https://www.gov.cn/guoqing/2020-07/28/content_5530577.htm)分别归属台湾省、福建省；来源中西藏边缘补充面合入西藏；西沙、南沙与黄岩岛合入海南，钓鱼岛及附属岛屿合入台湾。未有可靠省级字段的沿海小岛保留在全国补充层，`provinceId` 为 `null`，不按最近省份猜测。原始 248 个相关小岛/陆地记录均进入全国范围；不以面积阈值筛掉离岛，也不简化边界。布尔运算后将经纬度固定为六位小数，以消除浮点碎片；城市坐标原值不变。
 
 省归属补充证据：[钓鱼岛及附属岛屿](https://www.fmprc.gov.cn/diaoyudao/chn/flfg/zcfg/201510/t20151009_8560598.htm)、[黄岩岛及海南三沙归属](https://lyj.hunan.gov.cn/lyj/xxgk_71167/gzdt/gndt/202608/t20260805_34040030.html)。来源自身的默认国家/地区字段不直接决定本站行政地域展示；例如黄岩岛在来源中仍标作 `SCR`，需依据中文行政口径显式纳入。来源南沙条目的中文名称有误，本站不沿用其错误中文名称。
 
-海域表示完整保留来源的 9 条线，不臆造第 10 条线。来源小比例尺岛面未含东沙群岛，南海南端暗沙也不能以陆地面表示；本次联调版尚待补入有可靠坐标来源的点状地理符号。点状地理符号只用于地理范围说明，不是团体位置，不参与团体计数。
+海域表示完整保留来源的 9 条线，不臆造第 10 条线。来源小比例尺岛面未含东沙群岛，南海南端暗沙也不能以陆地面表示；因此用 GeoNames 的原始 WGS84 记录补充东沙岛 `[116.73162, 20.69992]`、曾母暗沙 `[112.27694, 3.96889]` 两个点状地理符号。它们只说明地理位置，不表达岛屿大小或轮廓，不是团体位置，不参与团体计数或省份定位。
+
+两份原始记录为 [GeoNames 1821061](https://sws.geonames.org/1821061/about.rdf) 与 [GeoNames 8758525](https://sws.geonames.org/8758525/about.rdf)，保存在 `geonames-1821061.rdf`、`geonames-8758525.rdf`；记录内含中文名称、WGS84 经纬度、CC BY 4.0 许可。读取时间为 2026-09-16；曾母暗沙搜索缓存的末位与实时 RDF 略有不同，实际数据严格使用 RDF 原值。转换只筛选名称和坐标，不沿用来源 country/parentADM1 字段；两个符号的 `provinceId` 都明确为 `null`，`role` 为 `geographic-symbol`。页面须保留 GeoNames 与 CC BY 4.0 署名，符号与带团体数量的城市点显著区分。
+
+数据回归验证 34 个省级面、全部 248 个选中源记录的内部参考点、台湾与钓鱼岛、金门与马祖、黄岩岛、藏南与新疆边缘、9 条海域线，以及两个 RDF 坐标与源文件哈希。另以 Shapely 核验全部输出面有效，并在 0.000002 度数值容差内覆盖所有选中源面。41 个城市示意点中，40 个位于对应源省面；厦门点距小比例尺海岸面约 0.00257 度，属于沿海概化差异，保留城市原始坐标，不挪点掩盖误差。此资料适合全国与城市级浏览，不能替代精细海岸、岛礁、场馆或导航数据。
 
 `cities.v1.json` 仍只保存城市字典及显式 `null` 底图字段；运行时 `GEOGRAPHY_DATA` 静态合入 `basemap.cn.v1.json` 和底图署名。城市字典重新生成不会覆盖已核验底图。
 

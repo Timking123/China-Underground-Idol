@@ -19,6 +19,7 @@ export interface GeoProvince {
 
 export type GeoPosition = [number, number];
 export type GeoGeometry =
+  | { type: "Point"; coordinates: GeoPosition }
   | { type: "Polygon"; coordinates: GeoPosition[][] }
   | { type: "MultiPolygon"; coordinates: GeoPosition[][][] }
   | { type: "LineString"; coordinates: GeoPosition[] }
@@ -26,7 +27,13 @@ export type GeoGeometry =
 
 export interface GeoFeature {
   type: "Feature";
-  properties: { name: string; provinceId: string | null };
+  properties: {
+    name: string;
+    provinceId: string | null;
+    /** 独立地理符号，不是团体位置，不参与团体计数。 */
+    role?: "geographic-symbol";
+    sourceId?: string;
+  };
   geometry: GeoGeometry;
 }
 
