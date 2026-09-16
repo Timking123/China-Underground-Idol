@@ -1,6 +1,7 @@
 import { readdir } from "node:fs/promises";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { existsSync } from "node:fs";
 
 // 保留旧测试原入口；新模块测试按固定文件名发现，不执行私有目录。
 const files = (await readdir(new URL("../tests/", import.meta.url)))
@@ -13,6 +14,24 @@ for (const name of files) {
       "--experimental-strip-types",
       "--test",
       fileURLToPath(new URL(`../tests/${name}`, import.meta.url)),
+    ],
+    { stdio: "inherit" },
+  );
+  if (result.status !== 0) process.exit(result.status ?? 1);
+}
+
+// 源码仓库验证维护契约；物化后的独立 site 不携带维护源码，由原仓库完成此门。
+if (existsSync(new URL("../maintenance/", import.meta.url))) {
+  const result = spawnSync(
+    process.execPath,
+    [
+      "--test",
+      fileURLToPath(
+        new URL("../maintenance/geographyManifest.test.mjs", import.meta.url),
+      ),
+      fileURLToPath(
+        new URL("../maintenance/materialize.test.mjs", import.meta.url),
+      ),
     ],
     { stdio: "inherit" },
   );
