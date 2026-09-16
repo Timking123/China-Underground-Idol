@@ -6,6 +6,7 @@ import {
   type CatalogRegion,
 } from "../catalog/model";
 import geography from "../../data/geography/cities.v1.json";
+import basemap from "../../data/geography/basemap.cn.v1.json";
 import type {
   CityGroup,
   GeoCity,
@@ -15,7 +16,14 @@ import type {
   UnlocatedGroup,
 } from "./types";
 
-export const GEOGRAPHY_DATA: GeographyData = geography as GeographyData;
+export const GEOGRAPHY_DATA: GeographyData = {
+  ...geography,
+  basemap,
+  attribution: [
+    ...geography.attribution,
+    "底图：Natural Earth 5.1，公共领域（https://www.naturalearthdata.com/about/terms-of-use/）。采用中国视角，已按省级口径整理并保留补充离岛和海域表示。",
+  ],
+} as GeographyData;
 
 /** 在构建或加载外部静态字典时使用；数据错误不能伪装成正常空结果。 */
 export function validateGeographyData(
@@ -95,6 +103,53 @@ export function validateGeographyData(
       !input.basemap.features.length)
   )
     errors.push("底图必须为非空 FeatureCollection 或明确的 null 失败状态");
+  else if (object(input.basemap) && Array.isArray(input.basemap.features)) {
+    const position = (value: unknown): value is [number, number] =>
+      Array.isArray(value) &&
+      value.length === 2 &&
+      typeof value[0] === "number" &&
+      typeof value[1] === "number" &&
+      isValidCoordinate(value[0], value[1]);
+    const line = (value: unknown): value is [number, number][] =>
+      Array.isArray(value) && value.length >= 2 && value.every(position);
+    const ring = (value: unknown): boolean =>
+      line(value) &&
+      value.length >= 4 &&
+      value[0][0] === value[value.length - 1][0] &&
+      value[0][1] === value[value.length - 1][1];
+    const polygon = (value: unknown): boolean =>
+      Array.isArray(value) && value.length > 0 && value.every(ring);
+    for (const feature of input.basemap.features) {
+      if (
+        !object(feature) ||
+        feature.type !== "Feature" ||
+        !object(feature.properties) ||
+        !text(feature.properties.name) ||
+        (feature.properties.provinceId !== null &&
+          (typeof feature.properties.provinceId !== "string" ||
+            !provinceIds.has(feature.properties.provinceId))) ||
+        !object(feature.geometry)
+      ) {
+        errors.push("底图要素字段或省份关联不正确");
+        continue;
+      }
+      const { type, coordinates } = feature.geometry;
+      const valid =
+        type === "Polygon"
+          ? polygon(coordinates)
+          : type === "MultiPolygon"
+            ? Array.isArray(coordinates) &&
+              coordinates.length > 0 &&
+              coordinates.every(polygon)
+            : type === "LineString"
+              ? line(coordinates)
+              : type === "MultiLineString" &&
+                Array.isArray(coordinates) &&
+                coordinates.length > 0 &&
+                coordinates.every(line);
+      if (!valid) errors.push(`${feature.properties.name} 底图几何非法`);
+    }
+  }
   return errors.length
     ? { valid: false, errors }
     : { valid: true, data: input as unknown as GeographyData, errors: [] };

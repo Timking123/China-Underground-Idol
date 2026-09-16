@@ -312,3 +312,96 @@ test("41座城市坐标逐项对应保存的GeoNames原始记录，当前有城�
       if (g[role].city)
         assert.ok(model.resolveCatalogRegion(g[role]).city, `${g.id} ${role}`);
 });
+
+test("底图拒绝未闭合面、非法坐标和未知省份，接受规范的面与线", () => {
+  const validGeometries = [
+    {
+      type: "Polygon",
+      coordinates: [
+        [
+          [100, 20],
+          [101, 20],
+          [101, 21],
+          [100, 20],
+        ],
+      ],
+    },
+    {
+      type: "MultiPolygon",
+      coordinates: [
+        [
+          [
+            [100, 20],
+            [101, 20],
+            [101, 21],
+            [100, 20],
+          ],
+        ],
+      ],
+    },
+    {
+      type: "LineString",
+      coordinates: [
+        [100, 20],
+        [101, 20],
+      ],
+    },
+    {
+      type: "MultiLineString",
+      coordinates: [
+        [
+          [100, 20],
+          [101, 20],
+        ],
+      ],
+    },
+  ];
+  const data = clone(model.GEOGRAPHY_DATA);
+  const feature = (geometry) => ({
+    type: "Feature",
+    properties: { name: "测试几何", provinceId: "cn-shanghai" },
+    geometry,
+  });
+  data.basemap = {
+    type: "FeatureCollection",
+    features: validGeometries.map(feature),
+  };
+  assert.equal(model.validateGeographyData(data).valid, true);
+  for (const geometry of [
+    { type: "Point", coordinates: [100, 20] },
+    { type: "LineString", coordinates: [[100, 20]] },
+    {
+      type: "LineString",
+      coordinates: [
+        [100, NaN],
+        [101, 20],
+      ],
+    },
+    {
+      type: "LineString",
+      coordinates: [
+        [100, 20, 3],
+        [101, 20, 3],
+      ],
+    },
+    {
+      type: "Polygon",
+      coordinates: [
+        [
+          [100, 20],
+          [101, 20],
+          [101, 21],
+          [100, 21],
+        ],
+      ],
+    },
+    { type: "MultiPolygon", coordinates: [[]] },
+    { type: "MultiLineString", coordinates: [] },
+  ]) {
+    data.basemap.features = [feature(geometry)];
+    assert.equal(model.validateGeographyData(data).valid, false);
+  }
+  data.basemap.features = [feature(validGeometries[0])];
+  data.basemap.features[0].properties.provinceId = "missing";
+  assert.equal(model.validateGeographyData(data).valid, false);
+});

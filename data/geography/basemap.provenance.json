@@ -1,0 +1,4165 @@
+{
+  "schemaVersion": "idol-basemap-provenance-v1",
+  "downloadDate": "2026-09-16",
+  "worldview": "CN",
+  "coordinateSystem": "WGS84",
+  "license": "Natural Earth public domain",
+  "sources": [
+    {
+      "name": "ne_10m_admin_0_countries_chn",
+      "version": "5.1.1",
+      "url": "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_0_countries_chn.zip",
+      "sha256": "16e7589083527d01208b9f645fc8643c767170258e9d13b59d37bc5a1f6a8758",
+      "bytes": 4904124,
+      "projection": "GEOGCS[\"GCS_WGS_1984\",DATUM[\"D_WGS_1984\",SPHEROID[\"WGS_1984\",6378137.0,298.257223563]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]]"
+    },
+    {
+      "name": "ne_10m_admin_1_states_provinces",
+      "version": "5.1.1",
+      "url": "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_1_states_provinces.zip",
+      "sha256": "efc59726337323058f9446210adc96673179cd344e053666ee3d28cb58ba2b05",
+      "bytes": 14909524,
+      "projection": "GEOGCS[\"GCS_WGS_1984\",DATUM[\"D_WGS_1984\",SPHEROID[\"WGS_1984\",6378137.0,298.257223563]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]]"
+    },
+    {
+      "name": "ne_10m_admin_0_disputed_areas",
+      "version": "5.1.1",
+      "url": "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_0_disputed_areas.zip",
+      "sha256": "a250c1cf8ab68898399928a1fa1d5c242eb4de6335cb51a7f7a7f12a9f3c8438",
+      "bytes": 215221,
+      "projection": "GEOGCS[\"GCS_WGS_1984\",DATUM[\"D_WGS_1984\",SPHEROID[\"WGS_1984\",6378137.0,298.257223563]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]]"
+    },
+    {
+      "name": "ne_10m_admin_0_scale_rank_minor_islands",
+      "version": "5.1.1",
+      "url": "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_0_scale_rank_minor_islands.zip",
+      "sha256": "aaf641befd3237f2fcba81d5ad2693d0bb5062b00db619b32c249f73ca25e854",
+      "bytes": 5400601,
+      "projection": "GEOGCS[\"GCS_WGS_1984\",DATUM[\"D_WGS_1984\",SPHEROID[\"WGS_1984\",6378137.0,298.257223563]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]]"
+    },
+    {
+      "name": "ne_10m_admin_0_boundary_lines_maritime_indicator_chn",
+      "version": "5.1.0",
+      "url": "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_0_boundary_lines_maritime_indicator_chn.zip",
+      "sha256": "f691e61db59d71ea8cc2c0121f890215f7279ade3a85c38e8e96960713212dfa",
+      "bytes": 13573,
+      "projection": "GEOGCS[\"GCS_WGS_1984\",DATUM[\"D_WGS_1984\",SPHEROID[\"WGS_1984\",6378137,298.257223563]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.017453292519943295]]"
+    }
+  ],
+  "provinceSourceRecords": {
+    "cn-beijing": ["admin1:CHN-1155"],
+    "cn-tianjin": ["admin1:CHN-1816"],
+    "cn-hebei": ["admin1:CHN-1811"],
+    "cn-shanxi": ["admin1:CHN-1805"],
+    "cn-inner-mongolia": ["admin1:CHN-1838"],
+    "cn-liaoning": ["admin1:CHN-1813"],
+    "cn-jilin": ["admin1:CHN-1828"],
+    "cn-heilongjiang": ["admin1:CHN-1839"],
+    "cn-shanghai": ["admin1:CHN-1819"],
+    "cn-jiangsu": ["admin1:CHN-1818"],
+    "cn-zhejiang": ["admin1:CHN-1820"],
+    "cn-anhui": ["admin1:CHN-1179"],
+    "cn-fujian": [
+      "admin1:CHN-1178",
+      "disputed:B77:part-2",
+      "disputed:B77:part-34",
+      "disputed:B77:part-36",
+      "disputed:B77:part-38",
+      "disputed:B77:part-39",
+      "disputed:B77:part-40",
+      "disputed:B77:part-41",
+      "disputed:B77:part-42"
+    ],
+    "cn-jiangxi": ["admin1:CHN-1817"],
+    "cn-shandong": ["admin1:CHN-1814"],
+    "cn-henan": ["admin1:CHN-1812"],
+    "cn-hubei": ["admin1:CHN-1807"],
+    "cn-hunan": ["admin1:CHN-1808"],
+    "cn-guangdong": ["admin1:CHN-1180"],
+    "cn-guangxi": ["admin1:CHN-1152"],
+    "cn-hainan": [
+      "admin1:CHN-1775",
+      "admin1:PFA+00?",
+      "disputed:B47",
+      "disputed:B46",
+      "disputed:B70"
+    ],
+    "cn-chongqing": ["admin1:CHN-1154"],
+    "cn-sichuan": ["admin1:CHN-1809"],
+    "cn-guizhou": ["admin1:CHN-1153"],
+    "cn-yunnan": ["admin1:CHN-1810"],
+    "cn-tibet": [
+      "admin1:CHN-1662",
+      "disputed:B00",
+      "disputed:B03",
+      "disputed:B04",
+      "disputed:B01",
+      "disputed:B02",
+      "disputed:B75",
+      "disputed:B76"
+    ],
+    "cn-shaanxi": ["admin1:CHN-1804"],
+    "cn-gansu": ["admin1:CHN-1150"],
+    "cn-qinghai": ["admin1:CHN-1151"],
+    "cn-ningxia": ["admin1:CHN-1803"],
+    "cn-xinjiang": ["admin1:CHN-1756"],
+    "cn-taiwan": [
+      "disputed:B77:part-0",
+      "disputed:B77:part-1",
+      "disputed:B77:part-3",
+      "disputed:B77:part-4",
+      "disputed:B77:part-5",
+      "disputed:B77:part-6",
+      "disputed:B77:part-7",
+      "disputed:B77:part-8",
+      "disputed:B77:part-9",
+      "disputed:B77:part-10",
+      "disputed:B77:part-11",
+      "disputed:B77:part-12",
+      "disputed:B77:part-13",
+      "disputed:B77:part-14",
+      "disputed:B77:part-15",
+      "disputed:B77:part-16",
+      "disputed:B77:part-17",
+      "disputed:B77:part-18",
+      "disputed:B77:part-19",
+      "disputed:B77:part-20",
+      "disputed:B77:part-21",
+      "disputed:B77:part-22",
+      "disputed:B77:part-23",
+      "disputed:B77:part-24",
+      "disputed:B77:part-25",
+      "disputed:B77:part-26",
+      "disputed:B77:part-27",
+      "disputed:B77:part-28",
+      "disputed:B77:part-29",
+      "disputed:B77:part-30",
+      "disputed:B77:part-31",
+      "disputed:B77:part-32",
+      "disputed:B77:part-33",
+      "disputed:B77:part-35",
+      "disputed:B77:part-37",
+      "disputed:B18"
+    ],
+    "cn-hong-kong": [
+      "countries_chn:1159320473",
+      "minor_islands:242",
+      "minor_islands:3971",
+      "minor_islands:3973",
+      "minor_islands:3974",
+      "minor_islands:5459",
+      "minor_islands:5460",
+      "minor_islands:5461",
+      "minor_islands:5462",
+      "minor_islands:5464",
+      "minor_islands:5465",
+      "minor_islands:5466",
+      "minor_islands:5467",
+      "minor_islands:5468",
+      "minor_islands:5469",
+      "minor_islands:5471",
+      "minor_islands:5473",
+      "minor_islands:5475",
+      "minor_islands:5476",
+      "minor_islands:5477",
+      "minor_islands:5478",
+      "minor_islands:5480",
+      "minor_islands:5481",
+      "minor_islands:5482",
+      "minor_islands:5483",
+      "minor_islands:5486",
+      "minor_islands:5487",
+      "minor_islands:5488",
+      "minor_islands:5489",
+      "minor_islands:5494",
+      "minor_islands:5497",
+      "minor_islands:5500",
+      "minor_islands:5501"
+    ],
+    "cn-macao": [
+      "countries_chn:1159320475",
+      "minor_islands:3968",
+      "minor_islands:3969"
+    ]
+  },
+  "fujianIslandParts": {
+    "2": "金门",
+    "34": "烈屿",
+    "36": "乌丘",
+    "38": "莒光",
+    "39": "莒光",
+    "40": "南竿",
+    "41": "北竿",
+    "42": "东引"
+  },
+  "retainedMinorIslandRecords": [
+    {
+      "index": 10,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "",
+      "sr_brk_a3": "B07",
+      "sr_br_name": "Aksai Chin",
+      "scalerank": 0,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        77.80034631400014, 33.386257833000045, 80.3271178212305,
+        35.98002716100011
+      ]
+    },
+    {
+      "index": 22,
+      "sr_sov_a3": "IND",
+      "sr_adm0_a3": "IND",
+      "sr_gu_a3": "IND",
+      "sr_su_a3": "INX",
+      "sr_subunit": "",
+      "sr_brk_a3": "B00",
+      "sr_br_name": "Arunachal Pradesh",
+      "scalerank": 0,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        91.56435452404213, 26.85205719000008, 97.36225305200003,
+        29.369285607240855
+      ]
+    },
+    {
+      "index": 23,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 0,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        73.60225630700006, 20.23826732000009, 110.82982828900003,
+        49.16583730100008
+      ]
+    },
+    {
+      "index": 58,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 0,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        106.76782881800005, 21.383246161000045, 134.77257938700006,
+        53.56944447900007
+      ]
+    },
+    {
+      "index": 141,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "",
+      "sr_brk_a3": "B06",
+      "sr_br_name": "Shaksam Valley",
+      "scalerank": 0,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        75.89431278500007, 35.46941233300005, 77.51960817800011,
+        36.445443571000084
+      ]
+    },
+    {
+      "index": 242,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 0,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.89698326900009, 22.258286851000037, 114.40129642000011,
+        22.56394603200009
+      ]
+    },
+    {
+      "index": 245,
+      "sr_sov_a3": "IND",
+      "sr_adm0_a3": "IND",
+      "sr_gu_a3": "IND",
+      "sr_su_a3": "INX",
+      "sr_subunit": "",
+      "sr_brk_a3": "B03",
+      "sr_br_name": "Demchok",
+      "scalerank": 0,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        79.09504764800016, 32.504296163000035, 79.62067291506752,
+        33.29255492117272
+      ]
+    },
+    {
+      "index": 246,
+      "sr_sov_a3": "IND",
+      "sr_adm0_a3": "IND",
+      "sr_gu_a3": "IND",
+      "sr_su_a3": "INX",
+      "sr_subunit": "",
+      "sr_brk_a3": "B04",
+      "sr_br_name": "Samdu Valleys",
+      "scalerank": 0,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        78.38180953000017, 31.88301625600012, 78.74457808500011,
+        32.226532615000096
+      ]
+    },
+    {
+      "index": 247,
+      "sr_sov_a3": "IND",
+      "sr_adm0_a3": "IND",
+      "sr_gu_a3": "IND",
+      "sr_su_a3": "INX",
+      "sr_subunit": "",
+      "sr_brk_a3": "B01",
+      "sr_br_name": "Tirpani Valleys",
+      "scalerank": 0,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        78.84865441900007, 31.074693502000102, 79.38259259500006,
+        31.461664353726974
+      ]
+    },
+    {
+      "index": 248,
+      "sr_sov_a3": "IND",
+      "sr_adm0_a3": "IND",
+      "sr_gu_a3": "IND",
+      "sr_su_a3": "INX",
+      "sr_subunit": "",
+      "sr_brk_a3": "B02",
+      "sr_br_name": "Bara Hotii Valleys",
+      "scalerank": 0,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        79.91936951600007, 30.559479472000092, 80.23141239400007,
+        30.88118194500005
+      ]
+    },
+    {
+      "index": 269,
+      "sr_sov_a3": "BTN",
+      "sr_adm0_a3": "BTN",
+      "sr_gu_a3": "BTN",
+      "sr_su_a3": "BTN",
+      "sr_subunit": "Bhutan",
+      "sr_brk_a3": "B75",
+      "sr_br_name": "Bhutan claimed by China",
+      "scalerank": 6,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        89.79604821800007, 28.061228887009023, 90.59760193815339,
+        28.358398930786237
+      ]
+    },
+    {
+      "index": 270,
+      "sr_sov_a3": "BTN",
+      "sr_adm0_a3": "BTN",
+      "sr_gu_a3": "BTN",
+      "sr_su_a3": "BTN",
+      "sr_subunit": "Bhutan",
+      "sr_brk_a3": "B76",
+      "sr_br_name": "Bhutan claimed by China",
+      "scalerank": 6,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        88.97295541963888, 27.491887994688028, 89.16058229053982,
+        27.62586512181302
+      ]
+    },
+    {
+      "index": 495,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHH",
+      "sr_subunit": "Hainan",
+      "sr_brk_a3": "CHH",
+      "sr_br_name": "",
+      "scalerank": 0,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        108.61524498800003, 18.16933828300006, 111.03467858200003,
+        20.16356028900009
+      ]
+    },
+    {
+      "index": 499,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        111.80933678500003, 21.56199778900009, 112.00733483200008,
+        21.664455471000053
+      ]
+    },
+    {
+      "index": 502,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 5,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        112.51823978000004, 21.595526434000078, 112.65455162900003,
+        21.712836005000042
+      ]
+    },
+    {
+      "index": 504,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 5,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        112.70622806100005, 21.57758209800005, 112.86817467500009,
+        21.77480703300006
+      ]
+    },
+    {
+      "index": 509,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.30941816500001, 22.007025458000044, 113.41260826900009,
+        22.089585679000038
+      ]
+    },
+    {
+      "index": 510,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.26417076900009, 22.068508205000057, 113.36475670700008,
+        22.157904364000046
+      ]
+    },
+    {
+      "index": 513,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 3,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.39616946700005, 22.753729559000078, 113.60287519600001,
+        22.91201406500005
+      ]
+    },
+    {
+      "index": 514,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        116.942989291, 23.39936918400008, 117.14179358900003, 23.48269187300008
+      ]
+    },
+    {
+      "index": 515,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 5,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        117.320482728, 23.57265430500007, 117.52666076500009, 23.77415599200009
+      ]
+    },
+    {
+      "index": 523,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 0,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        120.05241946700005, 21.90460846600007, 122.00538170700008,
+        25.28742096600007
+      ]
+    },
+    {
+      "index": 527,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        119.20923912900003, 25.96698639500005, 119.40495853000004,
+        26.098578192000048
+      ]
+    },
+    {
+      "index": 533,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 5,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        121.12037194100003, 28.041232470000068, 121.2853524200001,
+        28.219732518000058
+      ]
+    },
+    {
+      "index": 539,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.07357832100001, 30.241929429000038, 122.23878014400009,
+        30.346625067000048
+      ]
+    },
+    {
+      "index": 540,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.27279707100001, 30.414943752000056, 122.42310631600003,
+        30.48314036700009
+      ]
+    },
+    {
+      "index": 542,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        121.79420006600003, 31.29254791900007, 121.88184655000009,
+        31.375148830000057
+      ]
+    },
+    {
+      "index": 545,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        119.71615644600001, 32.07339101800005, 119.90186608200008,
+        32.29311758000006
+      ]
+    },
+    {
+      "index": 553,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.32129967500009, 39.14630768400008, 122.40259850400003,
+        39.21381256700005
+      ]
+    },
+    {
+      "index": 554,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.63599694100003, 39.19330475500004, 122.74195397200003,
+        39.241888739000046
+      ]
+    },
+    {
+      "index": 555,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.50505618600005, 39.255072333000044, 122.68441816500001,
+        39.298041083000044
+      ]
+    },
+    {
+      "index": 556,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 5,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        121.25757897200003, 39.37059153900009, 121.45045006600003,
+        39.482407945000034
+      ]
+    },
+    {
+      "index": 557,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.96436608200008, 39.497300523000035, 123.04004967500009,
+        39.54950592700004
+      ]
+    },
+    {
+      "index": 1966,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        110.54753665500004, 20.88349030200004, 110.63249759200005,
+        20.964911200000074
+      ]
+    },
+    {
+      "index": 1971,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 5,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        110.24586022200003, 20.937648830000057, 110.54753665500004,
+        21.09589264500005
+      ]
+    },
+    {
+      "index": 1973,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        110.41773522200003, 21.10496653900009, 110.61695397200003,
+        21.208644924000055
+      ]
+    },
+    {
+      "index": 1991,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        121.49203535200002, 22.007757880000042, 121.58887780000009,
+        22.082180080000057
+      ]
+    },
+    {
+      "index": 2009,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 5,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        118.27955162900003, 24.390544350000084, 118.46735474900004,
+        24.52796832200005
+      ]
+    },
+    {
+      "index": 2010,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 5,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        118.06999759200005, 24.42926666900007, 118.18930097700002,
+        24.55621979400007
+      ]
+    },
+    {
+      "index": 2014,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 5,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        119.66846764400009, 25.40493398600006, 119.87452233200008,
+        25.659491278000075
+      ]
+    },
+    {
+      "index": 2025,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        121.86817467500009, 29.062892971000053, 121.95883222700002,
+        29.16673411700009
+      ]
+    },
+    {
+      "index": 2027,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 5,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.03288821700005, 29.65452708500004, 122.18685957100001,
+        29.789618231000077
+      ]
+    },
+    {
+      "index": 2029,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 5,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.32056725400003, 29.833319403000075, 122.40967858200008,
+        29.963039455000057
+      ]
+    },
+    {
+      "index": 2030,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        121.82740319100003, 29.976711330000057, 121.91049238400001,
+        30.087144273000035
+      ]
+    },
+    {
+      "index": 2031,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 5,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        121.96314537900003, 29.93378327000005, 122.32748457100001,
+        30.14801666900007
+      ]
+    },
+    {
+      "index": 2034,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 5,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        121.1762876040001, 31.439178905000063, 121.98659839600009,
+        31.84107679400006
+      ]
+    },
+    {
+      "index": 3214,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "PFA",
+      "sr_su_a3": "PFA",
+      "sr_subunit": "Paracel Is.",
+      "sr_brk_a3": "B47",
+      "sr_br_name": "Paracel Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        111.19288170700003, 15.77537669500009, 111.20850670700003,
+        15.78929271000004
+      ]
+    },
+    {
+      "index": 3216,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "PFA",
+      "sr_su_a3": "PFA",
+      "sr_subunit": "Paracel Is.",
+      "sr_brk_a3": "B47",
+      "sr_br_name": "Paracel Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        111.75310306100005, 16.043443101000037, 111.76587975400003,
+        16.048651434000078
+      ]
+    },
+    {
+      "index": 3226,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 4,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.52711022200003, 23.51658763200004, 119.67066491000003,
+        23.610296942000048
+      ]
+    },
+    {
+      "index": 3227,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 4,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.44239342500009, 23.56248607000009, 119.51734459700003,
+        23.65037669500009
+      ]
+    },
+    {
+      "index": 3228,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 4,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.54525800900001, 23.62250397300005, 119.59620201900009,
+        23.67918528900009
+      ]
+    },
+    {
+      "index": 3595,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        115.36597741000003, 10.237494208000044, 115.36793053500003,
+        10.239162502000056
+      ]
+    },
+    {
+      "index": 3620,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        109.09050540500004, 21.021185614000046, 109.13624108200003,
+        21.06541575700004
+      ]
+    },
+    {
+      "index": 3623,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        121.45541425900001, 22.63467031500005, 121.50277754000001,
+        22.678534247000073
+      ]
+    },
+    {
+      "index": 3686,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        120.72242272200003, 37.89667389500005, 120.75879967500009,
+        37.94765859600005
+      ]
+    },
+    {
+      "index": 3687,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        120.60189863400001, 37.94700755400004, 120.62582441500001,
+        37.98114655200004
+      ]
+    },
+    {
+      "index": 3688,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        120.68824303500003, 37.96401601800005, 120.72730553500003,
+        37.99062734600005
+      ]
+    },
+    {
+      "index": 3689,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        120.73878014400009, 38.15802643400008, 120.77328535200002,
+        38.187567450000074
+      ]
+    },
+    {
+      "index": 3690,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        120.79997806100005, 38.28750234600005, 120.83619225400003,
+        38.313666083000044
+      ]
+    },
+    {
+      "index": 3691,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        120.90691165500004, 38.383246161000045, 120.92457116000003,
+        38.39545319200005
+      ]
+    },
+    {
+      "index": 3696,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        123.14332116000003, 39.02924225500004, 123.19581139400009,
+        39.09194570500006
+      ]
+    },
+    {
+      "index": 3889,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        114.37061608200008, 9.679510809000078, 114.38184655000009,
+        9.692694403000075
+      ]
+    },
+    {
+      "index": 3891,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        114.02767988400001, 10.011867580000057, 114.04004967500009,
+        10.021063544000071
+      ]
+    },
+    {
+      "index": 3895,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        114.35865319100003, 10.175482489000046, 114.37126712300005,
+        10.187201239000046
+      ]
+    },
+    {
+      "index": 3898,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        114.46168053500003, 10.367377020000049, 114.47095787900003,
+        10.37836334800005
+      ]
+    },
+    {
+      "index": 3899,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        114.35816491000003, 10.367865302000041, 114.36784915500004,
+        10.378566799000055
+      ]
+    },
+    {
+      "index": 3900,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        114.44996178500003, 10.388332424000055, 114.45980879000001,
+        10.39720286700009
+      ]
+    },
+    {
+      "index": 3903,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        115.81283613400001, 10.720851955000057, 115.83399498800009,
+        10.735988674000055
+      ]
+    },
+    {
+      "index": 3905,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        115.82960045700008, 10.822414455000057, 115.84880618600005,
+        10.83344147300005
+      ]
+    },
+    {
+      "index": 3906,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        114.27165774800005, 11.040432033000059, 114.28687584700003,
+        11.05068594000005
+      ]
+    },
+    {
+      "index": 3907,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        115.00912519600001, 11.107123114000046, 115.02165774800005,
+        11.117987372000073
+      ]
+    },
+    {
+      "index": 3929,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "PFA",
+      "sr_su_a3": "PFA",
+      "sr_subunit": "Paracel Is.",
+      "sr_brk_a3": "B47",
+      "sr_br_name": "Paracel Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        111.59986412900003, 16.524237372000073, 111.60962975400003,
+        16.53351471600007
+      ]
+    },
+    {
+      "index": 3930,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "PFA",
+      "sr_su_a3": "PFA",
+      "sr_subunit": "Paracel Is.",
+      "sr_brk_a3": "B47",
+      "sr_br_name": "Paracel Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        112.72527103000004, 16.657945054000038, 112.73682701900009,
+        16.669256903000075
+      ]
+    },
+    {
+      "index": 3933,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "PFA",
+      "sr_su_a3": "PFA",
+      "sr_subunit": "Paracel Is.",
+      "sr_brk_a3": "B47",
+      "sr_br_name": "Paracel Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        112.32593834700003, 16.825018622000073, 112.33725019600001,
+        16.837632554000038
+      ]
+    },
+    {
+      "index": 3934,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "PFA",
+      "sr_su_a3": "PFA",
+      "sr_subunit": "Paracel Is.",
+      "sr_brk_a3": "B47",
+      "sr_br_name": "Paracel Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        112.33366946700005, 16.923570054000038, 112.34107506600003,
+        16.933254299000055
+      ]
+    },
+    {
+      "index": 3949,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        110.41765384200005, 20.586859442000048, 110.47803795700003,
+        20.667914130000042
+      ]
+    },
+    {
+      "index": 3961,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.22169030000009, 21.88043854400007, 113.28565514400009,
+        21.946600653000075
+      ]
+    },
+    {
+      "index": 3964,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.73627928000008, 21.96681792700008, 113.77592108400006,
+        22.00039040000007
+      ]
+    },
+    {
+      "index": 3965,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.20671634200005, 22.02167389500005, 114.31006920700008,
+        22.069281317000048
+      ]
+    },
+    {
+      "index": 3967,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.46485436300009, 22.07135651200008, 113.54761803500003,
+        22.12726471600007
+      ]
+    },
+    {
+      "index": 3968,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "MAC",
+      "sr_gu_a3": "MAC",
+      "sr_su_a3": "MAC",
+      "sr_subunit": "Macau",
+      "sr_brk_a3": "MAC",
+      "sr_br_name": "",
+      "scalerank": 0,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.53223717500009, 22.10537344000005, 113.58749433700007,
+        22.165838934000078
+      ]
+    },
+    {
+      "index": 3969,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "MAC",
+      "sr_gu_a3": "MAC",
+      "sr_su_a3": "MAC",
+      "sr_subunit": "Macau",
+      "sr_brk_a3": "MAC",
+      "sr_br_name": "",
+      "scalerank": 0,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.51986738400001, 22.17373281500005, 113.55713951900009,
+        22.220770575000074
+      ]
+    },
+    {
+      "index": 3971,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.10425866000003, 22.177069403000075, 114.15463300900001,
+        22.23578522300005
+      ]
+    },
+    {
+      "index": 3973,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 3,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.11255944100003, 22.189561265000066, 114.25611412900003,
+        22.291856187000064
+      ]
+    },
+    {
+      "index": 3974,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 5,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.837331576, 22.197088934000078, 114.05486087300005,
+        22.345770575000074
+      ]
+    },
+    {
+      "index": 3976,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.61044137500005, 22.39141902700004, 113.65786970800002,
+        22.43987218600006
+      ]
+    },
+    {
+      "index": 3982,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 3,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.47651141600011, 22.595784940000044, 113.64510971700008,
+        22.744872770000086
+      ]
+    },
+    {
+      "index": 3985,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.50575350000008, 22.879960560000086, 113.55359928200005,
+        22.969220349000068
+      ]
+    },
+    {
+      "index": 3992,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        120.00765628500005, 23.432593713000074, 120.12476993200005,
+        23.550453797000046
+      ]
+    },
+    {
+      "index": 3993,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        116.93604576900009, 23.51463450700004, 117.00928795700008,
+        23.56354401200008
+      ]
+    },
+    {
+      "index": 4012,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        119.44467207100001, 25.165350653000075, 119.56755618600005,
+        25.25218333500004
+      ]
+    },
+    {
+      "index": 4022,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 5,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        119.28150475400003, 25.42291901200008, 119.35206139400009,
+        25.57330963700008
+      ]
+    },
+    {
+      "index": 4034,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        119.55396569100003, 26.064195054000038, 119.64405358200008,
+        26.128119208000044
+      ]
+    },
+    {
+      "index": 4041,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        120.31853274800005, 26.923773505000042, 120.38567142000011,
+        26.971950588000084
+      ]
+    },
+    {
+      "index": 4044,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        121.04610864400001, 27.43677010400006, 121.10347872300008,
+        27.479483886000082
+      ]
+    },
+    {
+      "index": 4046,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 5,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        121.09603925900001, 27.81781647300005, 121.18970787900003,
+        27.86465078300006
+      ]
+    },
+    {
+      "index": 4049,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 5,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        121.04021243600005, 27.946193752000056, 121.13965905000009,
+        27.98379140800006
+      ]
+    },
+    {
+      "index": 4057,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        121.78272545700008, 29.095038153000075, 121.86736087300005,
+        29.14984772300005
+      ]
+    },
+    {
+      "index": 4065,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.23170006600003, 29.776271877000056, 122.31470787900003,
+        29.846828518000052
+      ]
+    },
+    {
+      "index": 4066,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        121.93360436300009, 29.89984772300005, 121.99350019600001,
+        29.953192450000074
+      ]
+    },
+    {
+      "index": 4068,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.27759850400003, 30.235256252000056, 122.41065514400009,
+        30.277167059000078
+      ]
+    },
+    {
+      "index": 4070,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.42725670700008, 30.69399648600006, 122.53109785200002,
+        30.743068752000056
+      ]
+    },
+    {
+      "index": 4071,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 6,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        121.58448326900009, 31.32062409100007, 121.78223717500009,
+        31.445868231000077
+      ]
+    },
+    {
+      "index": 4123,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 4,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        118.4694771400001, 38.919027758000084, 118.64873628100008,
+        39.07458077300004
+      ]
+    },
+    {
+      "index": 4373,
+      "sr_sov_a3": "JPN",
+      "sr_adm0_a3": "JPN",
+      "sr_gu_a3": "JPN",
+      "sr_su_a3": "JPO",
+      "sr_subunit": "",
+      "sr_brk_a3": "B18",
+      "sr_br_name": "Pinnacle Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        123.60043379000001, 25.73875560100015, 123.60629316500012,
+        25.745469468000067
+      ]
+    },
+    {
+      "index": 4374,
+      "sr_sov_a3": "JPN",
+      "sr_adm0_a3": "JPN",
+      "sr_gu_a3": "JPN",
+      "sr_su_a3": "JPO",
+      "sr_subunit": "",
+      "sr_brk_a3": "B18",
+      "sr_br_name": "Pinnacle Is.",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        123.58863366000014, 25.74437083500004, 123.5942488940002,
+        25.752793687000064
+      ]
+    },
+    {
+      "index": 4375,
+      "sr_sov_a3": "JPN",
+      "sr_adm0_a3": "JPN",
+      "sr_gu_a3": "JPN",
+      "sr_su_a3": "JPO",
+      "sr_subunit": "",
+      "sr_brk_a3": "B18",
+      "sr_br_name": "Pinnacle Is.",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        123.55559329500011, 25.754339911000102, 123.55990644600001,
+        25.75755442899998
+      ]
+    },
+    {
+      "index": 4376,
+      "sr_sov_a3": "JPN",
+      "sr_adm0_a3": "JPN",
+      "sr_gu_a3": "JPN",
+      "sr_su_a3": "JPO",
+      "sr_subunit": "",
+      "sr_brk_a3": "B18",
+      "sr_br_name": "Pinnacle Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        123.51148522200015, 25.75808340100008, 123.54533938900022,
+        25.77334219000005
+      ]
+    },
+    {
+      "index": 4377,
+      "sr_sov_a3": "JPN",
+      "sr_adm0_a3": "JPN",
+      "sr_gu_a3": "JPN",
+      "sr_su_a3": "JPO",
+      "sr_subunit": "",
+      "sr_brk_a3": "B18",
+      "sr_br_name": "Pinnacle Is.",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        123.61801191500001, 25.77358633000017, 123.62045332100001,
+        25.774481512000136
+      ]
+    },
+    {
+      "index": 4378,
+      "sr_sov_a3": "JPN",
+      "sr_adm0_a3": "JPN",
+      "sr_gu_a3": "JPN",
+      "sr_su_a3": "JPO",
+      "sr_subunit": "",
+      "sr_brk_a3": "B18",
+      "sr_br_name": "Pinnacle Is.",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        123.59237714900019, 25.797267970999997, 123.59546959700003,
+        25.80190664300011
+      ]
+    },
+    {
+      "index": 4380,
+      "sr_sov_a3": "JPN",
+      "sr_adm0_a3": "JPN",
+      "sr_gu_a3": "JPN",
+      "sr_su_a3": "JPO",
+      "sr_subunit": "",
+      "sr_brk_a3": "B18",
+      "sr_br_name": "Pinnacle Is.",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        124.56527754000012, 25.894435939999994, 124.5688582690002,
+        25.89842357000009
+      ]
+    },
+    {
+      "index": 4381,
+      "sr_sov_a3": "JPN",
+      "sr_adm0_a3": "JPN",
+      "sr_gu_a3": "JPN",
+      "sr_su_a3": "JPO",
+      "sr_subunit": "",
+      "sr_brk_a3": "B18",
+      "sr_br_name": "Pinnacle Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        123.67172285200013, 25.92747630400015, 123.67302493600016,
+        25.929754950000017
+      ]
+    },
+    {
+      "index": 4382,
+      "sr_sov_a3": "JPN",
+      "sr_adm0_a3": "JPN",
+      "sr_gu_a3": "JPN",
+      "sr_su_a3": "JPO",
+      "sr_subunit": "",
+      "sr_brk_a3": "B18",
+      "sr_br_name": "Pinnacle Is.",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        123.67269941500001, 25.918158270000106, 123.68580162900014,
+        25.930772203000117
+      ]
+    },
+    {
+      "index": 4996,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 7,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        113.34009850400003, 8.263495184000078, 113.34286543100006,
+        8.266424872000073
+      ]
+    },
+    {
+      "index": 4999,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 7,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        115.41211998800009, 8.343491929000038, 115.4159448580001,
+        8.34634023600006
+      ]
+    },
+    {
+      "index": 5000,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 7,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        115.27133222700002, 8.36867910400008, 115.27507571700005,
+        8.372707424000055
+      ]
+    },
+    {
+      "index": 5001,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 7,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        115.23747806100005, 8.36867910400008, 115.24219811300009,
+        8.373236395000049
+      ]
+    },
+    {
+      "index": 5017,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 7,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        113.69304446700005, 8.968939520000049, 113.69548587300005,
+        8.971055406000062
+      ]
+    },
+    {
+      "index": 5037,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        114.35995527400007, 9.76711660400008, 114.36280358200008,
+        9.770046291000085
+      ]
+    },
+    {
+      "index": 5049,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 7,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        115.51351972700002, 9.926052151000079, 115.51628665500004,
+        9.929022528000075
+      ]
+    },
+    {
+      "index": 5050,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 7,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        115.53158613400001, 9.926336981000077, 115.53435306100005,
+        9.929307359000063
+      ]
+    },
+    {
+      "index": 5051,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 7,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        115.50700931100005, 9.928737697000088, 115.50977623800009,
+        9.931708075000074
+      ]
+    },
+    {
+      "index": 5057,
+      "sr_sov_a3": "PGA",
+      "sr_adm0_a3": "PGA",
+      "sr_gu_a3": "PGA",
+      "sr_su_a3": "PGA",
+      "sr_subunit": "Spratly Is.",
+      "sr_brk_a3": "B46",
+      "sr_br_name": "Spratly Is.",
+      "scalerank": 7,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        114.24089603000004, 10.176540432000081, 114.24366295700008,
+        10.179470119000086
+      ]
+    },
+    {
+      "index": 5354,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "PFA",
+      "sr_su_a3": "PFA",
+      "sr_subunit": "Paracel Is.",
+      "sr_brk_a3": "B47",
+      "sr_br_name": "Paracel Is.",
+      "scalerank": 7,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        111.50692793100006, 16.44204336100006, 111.51002037900003,
+        16.44472890800006
+      ]
+    },
+    {
+      "index": 5356,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "PFA",
+      "sr_su_a3": "PFA",
+      "sr_subunit": "Paracel Is.",
+      "sr_brk_a3": "B47",
+      "sr_br_name": "Paracel Is.",
+      "scalerank": 7,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        111.71094811300003, 16.447414455000057, 111.71371504000007,
+        16.450344143000052
+      ]
+    },
+    {
+      "index": 5357,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "PFA",
+      "sr_su_a3": "PFA",
+      "sr_subunit": "Paracel Is.",
+      "sr_brk_a3": "B47",
+      "sr_br_name": "Paracel Is.",
+      "scalerank": 7,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        111.70142662900003, 16.450913804000038, 111.70419355600006,
+        16.45388418200008
+      ]
+    },
+    {
+      "index": 5358,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "PFA",
+      "sr_su_a3": "PFA",
+      "sr_subunit": "Paracel Is.",
+      "sr_brk_a3": "B47",
+      "sr_br_name": "Paracel Is.",
+      "scalerank": 7,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        111.74154707100007, 16.457139390000066, 111.74431399800005,
+        16.46006907800006
+      ]
+    },
+    {
+      "index": 5360,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "PFA",
+      "sr_su_a3": "PFA",
+      "sr_subunit": "Paracel Is.",
+      "sr_brk_a3": "B47",
+      "sr_br_name": "Paracel Is.",
+      "scalerank": 7,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        111.65821373800003, 16.54360586100006, 111.66098066500007,
+        16.546535549000055
+      ]
+    },
+    {
+      "index": 5361,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "PFA",
+      "sr_su_a3": "PFA",
+      "sr_subunit": "Paracel Is.",
+      "sr_brk_a3": "B47",
+      "sr_br_name": "Paracel Is.",
+      "scalerank": 7,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        111.71257571700005, 16.54368724200009, 111.71534264400003,
+        16.546616929000038
+      ]
+    },
+    {
+      "index": 5362,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "PFA",
+      "sr_su_a3": "PFA",
+      "sr_subunit": "Paracel Is.",
+      "sr_brk_a3": "B47",
+      "sr_br_name": "Paracel Is.",
+      "scalerank": 7,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        111.67204837300005, 16.569932359000063, 111.67489668100006,
+        16.57290273600006
+      ]
+    },
+    {
+      "index": 5363,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "PFA",
+      "sr_su_a3": "PFA",
+      "sr_subunit": "Paracel Is.",
+      "sr_brk_a3": "B47",
+      "sr_br_name": "Paracel Is.",
+      "scalerank": 7,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        111.70281009200005, 16.573187567000048, 111.70590254000007,
+        16.57518138200004
+      ]
+    },
+    {
+      "index": 5364,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "PFA",
+      "sr_su_a3": "PFA",
+      "sr_subunit": "Paracel Is.",
+      "sr_brk_a3": "B47",
+      "sr_br_name": "Paracel Is.",
+      "scalerank": 6,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        111.67888431100005, 16.578151760000083, 111.68165123800003,
+        16.58112213700008
+      ]
+    },
+    {
+      "index": 5371,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "PFA",
+      "sr_su_a3": "PFA",
+      "sr_subunit": "Paracel Is.",
+      "sr_brk_a3": "B47",
+      "sr_br_name": "Paracel Is.",
+      "scalerank": 7,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        112.32422936300009, 16.94171784100007, 112.32691491000003,
+        16.94432200700004
+      ]
+    },
+    {
+      "index": 5372,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "PFA",
+      "sr_su_a3": "PFA",
+      "sr_subunit": "Paracel Is.",
+      "sr_brk_a3": "B47",
+      "sr_br_name": "Paracel Is.",
+      "scalerank": 7,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        112.31421959700003, 16.951686916000085, 112.31609134200005,
+        16.95384349200009
+      ]
+    },
+    {
+      "index": 5374,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "PFA",
+      "sr_su_a3": "PFA",
+      "sr_subunit": "Paracel Is.",
+      "sr_brk_a3": "B47",
+      "sr_br_name": "Paracel Is.",
+      "scalerank": 7,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        112.19703209700003, 16.972357489000046, 112.20020592500009,
+        16.97565338700008
+      ]
+    },
+    {
+      "index": 5442,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        108.12655683700007, 21.518703518000052, 108.18270918100006,
+        21.546169338000084
+      ]
+    },
+    {
+      "index": 5446,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        108.56552168100006, 21.759100653000075, 108.57740319100003,
+        21.77753327000005
+      ]
+    },
+    {
+      "index": 5448,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.13119550900001, 21.842596747000073, 113.19092858200008,
+        21.872748114000046
+      ]
+    },
+    {
+      "index": 5450,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.00375410200002, 21.84951406500005, 113.03882897200003,
+        21.88084544500009
+      ]
+    },
+    {
+      "index": 5455,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        121.59815514400009, 21.94879791900007, 121.60572350400003,
+        21.957180080000057
+      ]
+    },
+    {
+      "index": 5456,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.18002363400001, 21.959987697000088, 113.24919681100005,
+        22.03929271000004
+      ]
+    },
+    {
+      "index": 5459,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.89714603000004, 22.15843333500004, 113.9105737640001,
+        22.166164455000057
+      ]
+    },
+    {
+      "index": 5460,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.25066165500004, 22.15456777600008, 114.2694604830001,
+        22.17869700700004
+      ]
+    },
+    {
+      "index": 5461,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.90333092500009, 22.17637767100007, 113.9105737640001,
+        22.18650950700004
+      ]
+    },
+    {
+      "index": 5462,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.24284915500004, 22.175563869000086, 114.25611412900003,
+        22.18650950700004
+      ]
+    },
+    {
+      "index": 5464,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.97754967500009, 22.18650950700004, 113.99073326900009,
+        22.198960679000038
+      ]
+    },
+    {
+      "index": 5465,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.01498457100001, 22.191880601000037, 114.03451582100001,
+        22.206773179000038
+      ]
+    },
+    {
+      "index": 5466,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.14218183700007, 22.230983791000085, 114.15634199300007,
+        22.241888739000046
+      ]
+    },
+    {
+      "index": 5467,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.28134199300007, 22.232530015000066, 114.29851321700005,
+        22.254421291000085
+      ]
+    },
+    {
+      "index": 5468,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.02051842500009, 22.24119700700004, 114.04297936300009,
+        22.255967515000066
+      ]
+    },
+    {
+      "index": 5469,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.04297936300009, 22.256740627000056, 114.05176842500009,
+        22.262152411000045
+      ]
+    },
+    {
+      "index": 5471,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.34441165500004, 22.259059963000084, 114.34994550900001,
+        22.269191799000055
+      ]
+    },
+    {
+      "index": 5473,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.26482181100005, 22.269964911000045, 114.27255293100006,
+        22.279364325000074
+      ]
+    },
+    {
+      "index": 5475,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.06967207100001, 22.280137437000064, 114.07439212300005,
+        22.285630601000037
+      ]
+    },
+    {
+      "index": 5476,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.03451582100001, 22.279364325000074, 114.04297936300009,
+        22.291083075000074
+      ]
+    },
+    {
+      "index": 5477,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.36394290500004, 22.305161851000037, 114.37020918100006,
+        22.318426825000074
+      ]
+    },
+    {
+      "index": 5478,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.12907962300005, 22.310573635000083, 114.14682050900001,
+        22.319932359000063
+      ]
+    },
+    {
+      "index": 5480,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.92367597700002, 22.292710679000038, 113.94255618600005,
+        22.32225169500009
+      ]
+    },
+    {
+      "index": 5481,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.34669030000009, 22.309800523000035, 114.35604902400007,
+        22.32225169500009
+      ]
+    },
+    {
+      "index": 5482,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.3163354830001, 22.32379791900007, 114.33122806100005,
+        22.339463609000063
+      ]
+    },
+    {
+      "index": 5483,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.05486087300005, 22.339463609000063, 114.06576582100001,
+        22.351914781000062
+      ]
+    },
+    {
+      "index": 5485,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        120.34506269600001, 22.320339260000083, 120.37891686300009,
+        22.355495510000083
+      ]
+    },
+    {
+      "index": 5486,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.07911217500009, 22.32225169500009, 114.10873457100001,
+        22.358994859000063
+      ]
+    },
+    {
+      "index": 5487,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.2889917330001, 22.348822333000044, 114.29599043100006,
+        22.37140534100007
+      ]
+    },
+    {
+      "index": 5488,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.3031518890001, 22.34255605700008, 114.32886803500003,
+        22.376125393000052
+      ]
+    },
+    {
+      "index": 5489,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        113.87606855600006, 22.36985911700009, 113.88396243600005,
+        22.38389720300006
+      ]
+    },
+    {
+      "index": 5494,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.35303795700008, 22.46580638200004, 114.36540774800005,
+        22.486883856000077
+      ]
+    },
+    {
+      "index": 5497,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.29363040500004, 22.506415106000077, 114.31706790500004,
+        22.52602773600006
+      ]
+    },
+    {
+      "index": 5500,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.42253665500004, 22.543890692000048, 114.43336022200003,
+        22.551703192000048
+      ]
+    },
+    {
+      "index": 5501,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "HKG",
+      "sr_gu_a3": "HKG",
+      "sr_su_a3": "HKG",
+      "sr_subunit": "Hong Kong",
+      "sr_brk_a3": "HKG",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        114.28598066500001, 22.535264390000066, 114.3163354830001,
+        22.556382554000038
+      ]
+    },
+    {
+      "index": 5516,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        120.02824954500011, 23.044582424000055, 120.04607181100005,
+        23.070786851000037
+      ]
+    },
+    {
+      "index": 5517,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        120.03630618600005, 23.12095774900007, 120.05372155000009,
+        23.16815827000005
+      ]
+    },
+    {
+      "index": 5518,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.407644076, 23.191799221000053, 119.43669681100005,
+        23.222357489000046
+      ]
+    },
+    {
+      "index": 5519,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        120.06039472700002, 23.19021230700008, 120.07683353000004,
+        23.22483958500004
+      ]
+    },
+    {
+      "index": 5521,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.39698326900009, 23.22597890800006, 119.42066491000003,
+        23.249375718000067
+      ]
+    },
+    {
+      "index": 5523,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.60027103000004, 23.247829494000086, 119.61394290500004,
+        23.255886135000083
+      ]
+    },
+    {
+      "index": 5524,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.60938561300009, 23.25649648600006, 119.61117597700002,
+        23.258978583000044
+      ]
+    },
+    {
+      "index": 5525,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.6581323580001, 23.247219143000052, 119.66928144600001,
+        23.264064846000053
+      ]
+    },
+    {
+      "index": 5526,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.64771569100003, 23.261460679000038, 119.65251712300005,
+        23.26593659100007
+      ]
+    },
+    {
+      "index": 5527,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.49740644600001, 23.268377997000073, 119.50424238400001,
+        23.274603583000044
+      ]
+    },
+    {
+      "index": 5528,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        120.08326256600003, 23.26003652600008, 120.08757571700005,
+        23.297267971000053
+      ]
+    },
+    {
+      "index": 5529,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.32667076900009, 23.316758531000062, 119.329519076, 23.31940338700008
+      ]
+    },
+    {
+      "index": 5530,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.311940951, 23.32225169500009, 119.31470787900003, 23.325140692000048
+      ]
+    },
+    {
+      "index": 5531,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.32667076900009, 23.31981028900009, 119.32968183700007,
+        23.32526276200008
+      ]
+    },
+    {
+      "index": 5532,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        120.09734134200005, 23.30654531500005, 120.11670983200008,
+        23.33462148600006
+      ]
+    },
+    {
+      "index": 5533,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        120.11044355600006, 23.35142649900007, 120.12232506600003,
+        23.372219143000052
+      ]
+    },
+    {
+      "index": 5534,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.51270592500009, 23.360988674000055, 119.53272545700008,
+        23.37523021000004
+      ]
+    },
+    {
+      "index": 5535,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        120.13241621200007, 23.386745510000083, 120.13445071700005,
+        23.402167059000078
+      ]
+    },
+    {
+      "index": 5536,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.47095787900003, 23.354681708000044, 119.50782311300009,
+        23.406317450000074
+      ]
+    },
+    {
+      "index": 5537,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.30648847700002, 23.39789459800005, 119.32089277400007,
+        23.41091543200008
+      ]
+    },
+    {
+      "index": 5538,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        120.13314863400001, 23.41478099200009, 120.13786868600005,
+        23.421983140000066
+      ]
+    },
+    {
+      "index": 5539,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        120.12614993600005, 23.437119859000063, 120.13298587300005,
+        23.444525458000044
+      ]
+    },
+    {
+      "index": 5540,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.49968509200005, 23.48383209800005, 119.53443444100003,
+        23.499172268000052
+      ]
+    },
+    {
+      "index": 5541,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        116.91887454500011, 23.539536851000037, 116.97120201900009,
+        23.600816148000035
+      ]
+    },
+    {
+      "index": 5550,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.58847089900007, 23.727484442000048, 119.61280358200008,
+        23.758327541000085
+      ]
+    },
+    {
+      "index": 5577,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        118.20899498800009, 24.407538153000075, 118.26270592500009,
+        24.452826239000046
+      ]
+    },
+    {
+      "index": 5581,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        118.29769941500001, 24.54323965100008, 118.33545983200008,
+        24.569159247000073
+      ]
+    },
+    {
+      "index": 5590,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        121.92725670700008, 24.83616771000004, 121.95639082100001,
+        24.853216864000046
+      ]
+    },
+    {
+      "index": 5595,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.45793704500011, 24.975897528000075, 119.47689863400001,
+        24.995754299000055
+      ]
+    },
+    {
+      "index": 5603,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        119.10499108200008, 25.027451890000066, 119.15691165500004,
+        25.102687893000052
+      ]
+    },
+    {
+      "index": 5845,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        122.07048587300005, 25.625352281000062, 122.07984459700003,
+        25.63548411700009
+      ]
+    },
+    {
+      "index": 5846,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        119.66537519600001, 25.636460679000038, 119.71941165500004,
+        25.66392649900007
+      ]
+    },
+    {
+      "index": 5847,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        119.55909264400009, 25.63157786700009, 119.60824629000001,
+        25.669704494000086
+      ]
+    },
+    {
+      "index": 5853,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.96656334700003, 25.947414455000057, 119.99008222700002,
+        25.969305731000077
+      ]
+    },
+    {
+      "index": 5855,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.92855879000001, 25.964870510000083, 119.95240319100003,
+        25.980902411000045
+      ]
+    },
+    {
+      "index": 5861,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.91374759200005, 26.13898346600007, 119.964284701, 26.169867255000042
+      ]
+    },
+    {
+      "index": 5862,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        119.96509850400003, 26.19236888200004, 120.01417076900009,
+        26.23305898600006
+      ]
+    },
+    {
+      "index": 5867,
+      "sr_sov_a3": "TWN",
+      "sr_adm0_a3": "TWN",
+      "sr_gu_a3": "TWN",
+      "sr_su_a3": "TWN",
+      "sr_subunit": "Taiwan",
+      "sr_brk_a3": "B77",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 claim area",
+      "bounds": [
+        120.47689863400001, 26.364121812000064, 120.50766035200002,
+        26.388739325000074
+      ]
+    },
+    {
+      "index": 5869,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        120.02792402400007, 26.493068752000056, 120.06544030000009,
+        26.52480703300006
+      ]
+    },
+    {
+      "index": 5871,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        120.11638431100005, 26.55605703300006, 120.16488691500001,
+        26.605536200000074
+      ]
+    },
+    {
+      "index": 5873,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        119.76042728000004, 26.603908596000053, 119.81364993600005,
+        26.632188218000067
+      ]
+    },
+    {
+      "index": 5875,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        119.65512129000001, 26.638495184000078, 119.75643964900007,
+        26.67991771000004
+      ]
+    },
+    {
+      "index": 5876,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        119.90447024800005, 26.66307200700004, 119.94410241000003,
+        26.696926174000055
+      ]
+    },
+    {
+      "index": 5878,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        120.28541100400003, 26.929063218000067, 120.31454511800007,
+        26.941799221000053
+      ]
+    },
+    {
+      "index": 5892,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        121.01312820600003, 27.837739163000037, 121.08369894600003,
+        27.875962093000055
+      ]
+    },
+    {
+      "index": 5897,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        121.59538821700005, 28.501735744000086, 121.62558027400007,
+        28.541815497000073
+      ]
+    },
+    {
+      "index": 5930,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.20403079500011, 29.682643947000088, 122.27491295700008,
+        29.71979401200008
+      ]
+    },
+    {
+      "index": 5932,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.21591230600006, 29.73151276200008, 122.30697675900001,
+        29.78697337400007
+      ]
+    },
+    {
+      "index": 5934,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        121.96729576900009, 29.769232489000046, 122.03020267000011,
+        29.824652411000045
+      ]
+    },
+    {
+      "index": 5937,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.28402754000001, 29.855576890000066, 122.34302819100003,
+        29.884588934000078
+      ]
+    },
+    {
+      "index": 5940,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.02523847700002, 29.934515692000048, 122.05388431100005,
+        29.966498114000046
+      ]
+    },
+    {
+      "index": 5942,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.13477623800009, 29.96006907800006, 122.1840112640001,
+        29.989935614000046
+      ]
+    },
+    {
+      "index": 5944,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.36931399800005, 29.97451406500005, 122.41374759200005,
+        30.032538153000075
+      ]
+    },
+    {
+      "index": 5946,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        121.9081323580001, 30.06944407800006, 121.95639082100001,
+        30.11465078300006
+      ]
+    },
+    {
+      "index": 5947,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.75473066500001, 30.12771230700008, 122.78142337300005,
+        30.144191799000055
+      ]
+    },
+    {
+      "index": 5948,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.1449487640001, 30.14398834800005, 122.20622806100005,
+        30.202093817000048
+      ]
+    },
+    {
+      "index": 5949,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.01075280000009, 30.165757554000038, 122.05689537900003,
+        30.202500718000067
+      ]
+    },
+    {
+      "index": 5950,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.66993248800009, 30.18187083500004, 122.6879175140001,
+        30.20970286700009
+      ]
+    },
+    {
+      "index": 5951,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.632253451, 30.18622467700004, 122.64861087300005, 30.21434153900009
+      ]
+    },
+    {
+      "index": 5953,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        121.95134524800005, 30.293361721000053, 121.983815951,
+        30.344753322000088
+      ]
+    },
+    {
+      "index": 5955,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.25245201900009, 30.514471747000073, 122.26921634200005,
+        30.529771226000037
+      ]
+    },
+    {
+      "index": 5956,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.05030358200008, 30.575547593000067, 122.08790123800009,
+        30.59723541900007
+      ]
+    },
+    {
+      "index": 5957,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.54281660200002, 30.645819403000075, 122.58220462300005,
+        30.680975653000075
+      ]
+    },
+    {
+      "index": 5958,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.75163821700005, 30.696315822000088, 122.79265384200005,
+        30.73110586100006
+      ]
+    },
+    {
+      "index": 5962,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.66488691500001, 30.840847072000088, 122.69849694100003,
+        30.85956452000005
+      ]
+    },
+    {
+      "index": 5969,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        120.56535892000011, 32.030585028000075, 120.63135826900009,
+        32.06252676000008
+      ]
+    },
+    {
+      "index": 6152,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        119.44141686300009, 34.74819570500006, 119.49447675900001,
+        34.778225002000056
+      ]
+    },
+    {
+      "index": 6175,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        120.15333092500009, 35.74331289300005, 120.18344160200002,
+        35.784409898000035
+      ]
+    },
+    {
+      "index": 6275,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.16537519600001, 37.49640534100007, 122.20753014400009,
+        37.512966213000084
+      ]
+    },
+    {
+      "index": 6321,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        121.81934655000009, 38.860581773000035, 121.83838951900009,
+        38.892645575000074
+      ]
+    },
+    {
+      "index": 6323,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        117.69711042200004, 38.90463025000008, 117.81478869500006,
+        38.966441477000046
+      ]
+    },
+    {
+      "index": 6324,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        117.72045139000011, 38.930526404000034, 117.88005049200001,
+        38.97672361000008
+      ]
+    },
+    {
+      "index": 6325,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.71005293100006, 39.00934479400007, 122.76042728000004,
+        39.04918040600006
+      ]
+    },
+    {
+      "index": 6326,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        117.77335013700008, 38.977408370000035, 117.826843177, 39.04990085500009
+      ]
+    },
+    {
+      "index": 6331,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        122.48796634200005, 39.21934642100007, 122.54444420700008,
+        39.23493073100008
+      ]
+    },
+    {
+      "index": 6338,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 8,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        123.04867597700002, 39.42365143400008, 123.09351647200003,
+        39.454779364000046
+      ]
+    },
+    {
+      "index": 6365,
+      "sr_sov_a3": "CH1",
+      "sr_adm0_a3": "CHN",
+      "sr_gu_a3": "CHN",
+      "sr_su_a3": "CHI",
+      "sr_subunit": "China",
+      "sr_brk_a3": "CHZ",
+      "sr_br_name": "",
+      "scalerank": 7,
+      "featurecla": "Admin-0 scale ranks",
+      "bounds": [
+        120.77434329500011, 40.470689195000034, 120.82593834700003,
+        40.51626211100006
+      ]
+    },
+    {
+      "index": 7143,
+      "sr_sov_a3": "SCR",
+      "sr_adm0_a3": "SCR",
+      "sr_gu_a3": "SCR",
+      "sr_su_a3": "SCR",
+      "sr_subunit": "Scarborough Reef",
+      "sr_brk_a3": "B70",
+      "sr_br_name": "Scarborough Reef",
+      "scalerank": 6,
+      "featurecla": "Admin-0 indeterminant",
+      "bounds": [
+        117.75185638100004, 15.150082025000074, 117.75569233100009,
+        15.154369263000092
+      ]
+    }
+  ],
+  "geometryProcessing": "选择中国视角；按省聚合；保留全部选中小岛；不简化边界；经纬度精确到0.000001度",
+  "basemapSha256": "9ae2b5a20c1da4b4f2e714221f639f2442c1547ee9789559cebc556e54ba8d28",
+  "basemapBytes": 2172049,
+  "bounds": [
+    73.60225630700006, 8.263495184000078, 134.77257938700006, 53.56944447900007
+  ],
+  "featureCount": 44
+}
