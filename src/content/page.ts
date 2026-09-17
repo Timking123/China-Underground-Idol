@@ -2,6 +2,7 @@ import { readCatalog } from "../catalog/runtime";
 import rawDataset from "../../data/events.v1.json";
 import { validateEventDataset } from "../events/model";
 import { mountContribute, parseContributionContext } from "./contribute";
+import { mountOnlineContribution } from "./online";
 
 // 即使资料脚本失败，手动草稿仍可用；预填只使用通过校验的公开对象。
 const catalog = readCatalog();
@@ -19,3 +20,5 @@ mountContribute(
     window.location.href,
   ),
 );
+// 草稿先完成预填与事件绑定，在线状态随后挂载，离线提示不会被覆盖。
+mountOnlineContribution(document);

@@ -146,6 +146,7 @@ test("六条合法活动与非微博来源、本地海报可维护，只打包�
       "assets/site.js",
       "assets/events.js",
       "assets/contribute.js",
+      "assets/metrics.js",
     ];
     for (const file of required)
       await writeFile(path.join(temporary, file), "临时打包回归占位", "utf8");
@@ -157,6 +158,7 @@ test("六条合法活动与非微博来源、本地海报可维护，只打包�
       "src/groups/list.ts",
       "src/groups/detail.ts",
       "src/geography/page.ts",
+      "src/metrics/page.ts",
     ]) {
       await mkdir(path.dirname(path.join(temporary, file)), {
         recursive: true,
@@ -272,7 +274,11 @@ test("六条合法活动与非微博来源、本地海报可维护，只打包�
         await readFile(path.join(temporary, ".build/site", src)),
         await readLocalEventPoster(temporary, src),
       );
-    for (const bundle of ["assets/discover.js", "assets/geography.js"]) {
+    for (const bundle of [
+      "assets/discover.js",
+      "assets/geography.js",
+      "assets/metrics.js",
+    ]) {
       await rm(path.join(temporary, bundle));
       await assert.rejects(packageSite(temporary), /ENOENT/);
       assert.equal(await readFile(manifestPath, "utf8"), firstManifest);

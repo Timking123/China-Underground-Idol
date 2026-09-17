@@ -6,6 +6,21 @@ export const FIELD_LIMITS = {
   details: 3000,
 } as const;
 export const TEMPLATES = {
+  submission: {
+    label: "资料投稿",
+    hint: "补充尚未收录的团体或公开资料，并尽量附上原始来源。",
+    prompt: "投稿内容与公开依据",
+  },
+  feedback: {
+    label: "意见反馈",
+    hint: "描述访问网站时遇到的问题，包括页面和复现步骤。",
+    prompt: "遇到的问题与使用体验",
+  },
+  suggestion: {
+    label: "功能建议",
+    hint: "说明希望增加或改善的功能，以及它能解决的具体问题。",
+    prompt: "功能建议与使用场景",
+  },
   error: {
     label: "资料错误",
     hint: "指出哪一项有误、建议改成什么，并附可核对的原始来源。",
@@ -258,6 +273,8 @@ export function mountContribute(
   const copy = root.querySelector<HTMLButtonElement>("#copy-draft")!;
   const select = root.querySelector<HTMLButtonElement>("#select-draft")!;
   const contextNotice = root.querySelector<HTMLElement>("#draft-context");
+  hint.textContent =
+    TEMPLATES[kind.value as TemplateKind]?.hint ?? "请选择有效类型。";
   if (context.state !== "none" && contextNotice) {
     contextNotice.hidden = false;
     if (context.state === "valid") {

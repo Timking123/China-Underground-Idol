@@ -74,13 +74,27 @@ npm run preview
 
 地理底图与城市字典编入独立的 `assets/geography.js`，页面展示数据来源说明，不调用在线瓦片或付费地图 API。修改地图源文件后须重新构建该脚本。公开入口由 `scripts/siteManifest.mjs` 登记，并与维护发布器的 TypeScript、Python 白名单保持一致；打包与预览测试会检查新增页面、样式和脚本。发布新页面前需由维护者同步升级这两处发布器白名单，单独更新静态页面不足以完成发布。
 
-纠错入口允许 `group`、`event`、`page`、`kind` 四类公开标识，预填内容可见且可编辑；未知、重复、过长或不合法参数回退至手动填写。页面只生成邮件草稿，由用户检查并发送。离线访问不会把本机文件地址写入草稿。
+纠错入口允许 `group`、`event`、`page`、`kind` 四类公开标识，预填内容可见且可编辑；未知、重复、过长或不合法参数回退至手动填写。管理服务启用后，读者可确认隐私说明并直接提交资料、意见或建议，也可生成邮件草稿自行发送。离线或接口不可用时保留邮件入口，不会把本机文件地址写入草稿。
 
 修改 TypeScript 或活动 JSON 后执行 `npm run build` 更新普通脚本。参数、数据与时态契约见 [活动维护说明](docs/EVENTS.md)。构建配置参考 [TypeScript strict](https://www.typescriptlang.org/tsconfig/strict.html)、[esbuild IIFE](https://esbuild.github.io/api/#iife)、[typescript-eslint](https://typescript-eslint.io/getting-started/) 和 [Prettier CLI](https://prettier.io/docs/cli)。
 
 `npm run package:site` 完成验证后生成 `.build/site` 及 SHA-256 文件清单。该目录仅含页面、样式、普通脚本与白名单图像，不包含开发环境、Git、私有缓存或收据。此命令只生成本地候选；备案展示、站长确认及独立验收是公开发布前另行完成的步骤。
 
 在线站点由自有服务器上的 Nginx 托管，GitHub 用于保存公开发布源码。
+
+## 管理后台
+
+独立管理服务提供 `/admin/` 工作台：投稿审核、每日 PV / 访客估算 / 独立 IP、省级访问热力地图、完整 IP 与访问页面、内容巡检、网站接收设置及操作审计。私人数据的读取和修改均由服务端验证管理员身份；公开表单提交后不会自动发布。
+
+完整 IP 明细保留 90 天，随后清理；每日和地区汇总不含原始 IP。投稿、联系方式、访问明细及管理记录以 AES-256-GCM 加密，密钥保存在数据库、Git 仓库及公开目录之外。地区在服务器使用离线 IP 库推算，不会发送给第三方，不代表精确位置。访问统计尊重 DNT，未采集的历史日期不生成数据。
+
+```sh
+npm run package:console
+```
+
+该命令完成后台类型检查、代码检查、构建和测试，在 `.build/console` 生成独立发行候选及 SHA-256 清单；不创建管理员、不采集真实数据、不部署。生产账号没有默认密码，必须在服务器初始化。管理界面不能通过 `file://` 使用，需由管理服务提供。
+
+实施边界见[后台约定](docs/ADMIN-CONSOLE.md)，HTTPS、独立用户、目录权限、首次初始化及回滚步骤见[部署候选说明](maintenance/console/deploy/README.md)。上线前需完成实际服务器验收；本地构建成功不代表服务已经上线。
 
 资料维护流程与建议更新节奏见[更新说明](docs/UPDATING.md)。当前尚未启用自动调度。
 

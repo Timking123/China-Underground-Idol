@@ -468,6 +468,15 @@ const EXCLUDED = new Set([
   "dist",
   "coverage",
 ]);
+// 独立静态 site 仅保留访客表单用到的类型契约；后台服务与资产走独立发行包。
+const CONSOLE_ONLY_FILES = new Set([
+  "src/admin/page.ts",
+  "src/admin/charts.ts",
+  "scripts/buildConsole.mjs",
+  "scripts/checkConsole.mjs",
+  "scripts/testConsole.mjs",
+  "scripts/packageConsole.mjs",
+]);
 const PRIVATE_NAME =
   /(?:^|[._-])(?:env|secret|secrets|credential|credentials|cookie|cookies|session|sessions|ledger|ledgers|token|tokens|identity-acceptance|identity-supplement)(?:$|[._-])/iu;
 const PUBLIC_EXTENSION =
@@ -710,6 +719,11 @@ async function sourceEntries(repoRoot) {
     for (const entry of await readdir(directory, { withFileTypes: true })) {
       const child = relative ? `${relative}/${entry.name}` : entry.name;
       if (EXCLUDED.has(entry.name)) continue;
+      if (CONSOLE_ONLY_FILES.has(child)) continue;
+      requireState(
+        !child.startsWith("src/admin/") || child === "src/admin/contracts.ts",
+        `site_admin_file_not_allowed:${child}`,
+      );
       requireState(
         !PRIVATE_NAME.test(entry.name),
         `private_file_forbidden:${child}`,

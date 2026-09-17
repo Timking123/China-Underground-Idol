@@ -6,3 +6,9 @@ node_modules/
 __pycache__/
 maintenance/.verify/
 reports/
+.serena/
+*.sqlite
+*.sqlite-*
+*.xdb
+*.key
+docs/ADMIN-TASKS.md

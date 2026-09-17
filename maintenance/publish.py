@@ -20,11 +20,13 @@ REQUIRED = frozenset([
     "guide.html", "contribute.html", "about.html", "app.css", "app.js", "data.js",
     "styles/site.css", "styles/events.css", "styles/content.css", "styles/groups.css",
     "styles/discover.css", "styles/geography.css", "assets/groups-data.js", "assets/site.js", "assets/events.js",
-    "assets/contribute.js", "assets/groups.js", "assets/group.js", "assets/discover.js", "assets/geography.js",
+    "assets/contribute.js", "assets/groups.js", "assets/group.js", "assets/discover.js", "assets/geography.js", "assets/metrics.js",
 ])
 GEOGRAPHY_FILES = frozenset(["geography.html", "styles/geography.css", "assets/geography.js"])
-PREVIOUS_REQUIRED = REQUIRED - GEOGRAPHY_FILES
-CRITICAL = ("assets/site.js", "assets/events.js", "assets/groups.js", "assets/groups-data.js", "assets/geography.js")
+METRICS_FILES = frozenset(["assets/metrics.js"])
+MAP_REQUIRED = REQUIRED - METRICS_FILES
+PREVIOUS_REQUIRED = MAP_REQUIRED - GEOGRAPHY_FILES
+CRITICAL = ("assets/site.js", "assets/events.js", "assets/groups.js", "assets/groups-data.js", "assets/geography.js", "assets/metrics.js")
 IMAGE = re.compile(r"assets/(?:avatars|posters|group-visuals|profile-covers|weibo-api-avatar-candidates|weibo-avatars|weibo-cached-visuals)/g\d{3}[a-zA-Z0-9.-]*\.(?:png|jpe?g|webp|svg)")
 EVENT_IMAGE = re.compile(r"assets/event-posters/[a-z0-9][a-z0-9_-]{0,95}\.(?:png|jpe?g|webp)")
 MAX_FILE = 20_000_000
@@ -109,10 +111,11 @@ def parse_manifest(raw, expected, count=None, *, allow_previous=False):
         require(name in REQUIRED or IMAGE.fullmatch(name) or EVENT_IMAGE.fullmatch(name), "nonpublic_file")
         require(name not in records, "duplicate_manifest_file")
         records[name] = checksum
-    # 只在校验已上线前版时接受完整旧清单；地图三项缺一的半成品不属于旧版。
+    # 前版仅兼容完整地图版或地图之前的完整清单；统计不能与半套地图混装。
     complete = REQUIRED.issubset(records)
-    previous = allow_previous and PREVIOUS_REQUIRED.issubset(records) and GEOGRAPHY_FILES.isdisjoint(records)
-    require((complete or previous) and len(records) <= 10000, "manifest_missing_entry")
+    map_previous = allow_previous and MAP_REQUIRED.issubset(records) and METRICS_FILES.isdisjoint(records)
+    previous = allow_previous and PREVIOUS_REQUIRED.issubset(records) and (GEOGRAPHY_FILES | METRICS_FILES).isdisjoint(records)
+    require((complete or map_previous or previous) and len(records) <= 10000, "manifest_missing_entry")
     require(count is None or len(records) == count, "manifest_count_mismatch")
     return records
 

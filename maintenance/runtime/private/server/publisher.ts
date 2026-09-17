@@ -21,6 +21,15 @@ const INPUTS = new Set([
   "data/events.v1.json",
   "data/follower-observations.v2.json",
 ]);
+// 与物化器保持逐项一致：这些后台文件不属于独立 site，不能从 stage 回写。
+export const CONSOLE_ONLY_FILES = new Set([
+  "src/admin/page.ts",
+  "src/admin/charts.ts",
+  "scripts/buildConsole.mjs",
+  "scripts/checkConsole.mjs",
+  "scripts/testConsole.mjs",
+  "scripts/packageConsole.mjs",
+]);
 export const GENERATED_FILES = new Set([
   "assets/groups-data.js",
   "assets/site.js",
@@ -30,6 +39,7 @@ export const GENERATED_FILES = new Set([
   "assets/group.js",
   "assets/discover.js",
   "assets/geography.js",
+  "assets/metrics.js",
 ]);
 export const PUBLIC_FILES = new Set([
   "index.html",
@@ -255,6 +265,18 @@ export async function validatePublicationCandidate(
         response.end();
         return;
       }
+      // 发布验收只验证静态候选。接收埋点但不解析、不保存、不转发任何载荷。
+      if (request.method === "POST" && name === "api/v1/pageviews") {
+        request.resume();
+        response.writeHead(200, {
+          "Cache-Control": "no-store",
+          "Content-Type": "application/json",
+        });
+        response.end(
+          '{"code":0,"data":{"recorded":false},"message":"静态候选预览不记录访问"}',
+        );
+        return;
+      }
       if (!Object.hasOwn(manifest.files, name)) {
         response.writeHead(404);
         response.end();
@@ -321,7 +343,18 @@ export async function validatePublicationCandidate(
     page.on("response", (response) => {
       if (response.status() >= 400) failures.push(`http_${response.status()}`);
     });
-    page.on("requestfailed", () => failures.push("request_failed"));
+    page.on("requestfailed", (request) => {
+      const name = new URL(request.url()).pathname.slice(1);
+      const label =
+        name === "api/v1/pageviews"
+          ? "metrics"
+          : Object.hasOwn(manifest.files, name)
+            ? name
+            : "unknown";
+      failures.push(
+        `request_failed:${label}:${request.failure()?.errorText ?? "unknown"}`,
+      );
+    });
     const visit = async (name: string) => {
       const result = await page.goto(`${origin}/${name}`, {
         waitUntil: "networkidle",
@@ -372,7 +405,10 @@ export async function validatePublicationCandidate(
       (await page.locator("#groups-results").innerText()).includes(firstName),
       "publication_groups_search",
     );
-    requireState(failures.length === 0, "publication_browser_failure");
+    requireState(
+      failures.length === 0,
+      `publication_browser_failure:${failures.join(",")}`,
+    );
   } finally {
     await browser?.close();
     await new Promise<void>((resolve, reject) =>
@@ -492,7 +528,11 @@ export function createPublicationPreparer(deps: PublicationDependencies) {
         .filter(Boolean);
       const updates: { name: string; next: Buffer; previous: Buffer }[] = [];
       for (const name of tracked) {
-        if (name.startsWith("maintenance/") || GENERATED_FILES.has(name))
+        if (
+          name.startsWith("maintenance/") ||
+          GENERATED_FILES.has(name) ||
+          CONSOLE_ONLY_FILES.has(name)
+        )
           continue;
         // 维护源允许中文公开数据名；Git 返回绝不作为命令字符串拼接。
         requireState(

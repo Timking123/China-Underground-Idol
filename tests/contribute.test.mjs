@@ -25,7 +25,7 @@ const valid = {
 };
 
 for (const [kind, template] of Object.entries(TEMPLATES)) {
-  test(`四类模板：${template.label}`, () => {
+  test(`七类模板：${template.label}`, () => {
     const draft = buildMailDraft({ ...valid, kind });
     assert.ok(draft.subject.includes(template.label));
     assert.ok(draft.body.includes(template.prompt));

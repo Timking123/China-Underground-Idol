@@ -138,6 +138,43 @@ test("来源清单覆盖43个原文件，原始 SHA 与当前打包 SHA 分开�
   }
 });
 
+test("静态构建保留反馈契约和统计入口，后台源码与构建器不混入 site", async (t) => {
+  const { options, materialize } = await fixture(t);
+  const included = [
+    "src/admin/contracts.ts",
+    "src/metrics/page.ts",
+    "src/metrics/visit.ts",
+    "src/content/online.ts",
+    "scripts/typecheck.mjs",
+    "assets/metrics.js",
+  ];
+  const excluded = [
+    "src/admin/page.ts",
+    "src/admin/charts.ts",
+    "maintenance/console/server.ts",
+    "maintenance/console/public/admin.js",
+    "scripts/buildConsole.mjs",
+    "scripts/checkConsole.mjs",
+    "scripts/testConsole.mjs",
+    "scripts/packageConsole.mjs",
+  ];
+  for (const name of [...included, ...excluded])
+    await put(options.repoRoot, name, "export {};\n");
+  const plan = await materialize({ ...options, planOnly: true });
+  for (const name of included)
+    assert.ok(
+      plan.files.some((file) => file.source === name),
+      name,
+    );
+  for (const name of excluded)
+    assert.ok(!plan.files.some((file) => file.source === name), name);
+  await put(options.repoRoot, "src/admin/unknown.ts", "export {};\n");
+  await assert.rejects(
+    materialize({ ...options, planOnly: true }),
+    /site_admin_file_not_allowed/u,
+  );
+});
+
 test("活动发现代码和显式绑定进入私有运行包，其他JSON不能夹带", async (t) => {
   const { options, materialize } = await fixture(t);
   const additions = {

@@ -34,7 +34,7 @@ test("全国地图使用离线公开索引和独立普通脚本", async () => {
     [...html.matchAll(/<script\b[^>]*src="([^"]+)"/gu)].map(
       (match) => match[1],
     ),
-    ["assets/groups-data.js", "assets/geography.js"],
+    ["assets/groups-data.js", "assets/geography.js", "assets/metrics.js"],
   );
   assert.match(html, /href="styles\/geography.css"/u);
   assert.match(html, /lang="zh-CN"/u);

@@ -7,6 +7,7 @@ export const entryPoints = Object.freeze({
   group: "src/groups/detail.ts",
   discover: "src/discover/page.ts",
   geography: "src/geography/page.ts",
+  metrics: "src/metrics/page.ts",
 });
 
 export const publicFiles = Object.freeze([

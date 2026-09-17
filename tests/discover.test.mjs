@@ -176,7 +176,11 @@ test("发现页只接入轻量索引、模块脚本和普通相对导航", async
   const scripts = [...html.matchAll(/<script src="([^"]+)"/gu)].map(
     (match) => match[1],
   );
-  assert.deepEqual(scripts, ["assets/groups-data.js", "assets/discover.js"]);
+  assert.deepEqual(scripts, [
+    "assets/groups-data.js",
+    "assets/discover.js",
+    "assets/metrics.js",
+  ]);
   for (const path of ["groups.html", "events.html", "index.html", "guide.html"])
     assert.ok(html.includes(`href="${path}"`));
   assert.match(html, /action="groups.html"\s+method="get"/u);

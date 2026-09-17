@@ -55,6 +55,14 @@ test("全国地图构建、预览、物化与两级发布器共用最小公开�
     new URL("maintenance/materialize.mjs", root),
     "utf8",
   );
+  const exclusions = materializer.match(
+    /CONSOLE_ONLY_FILES = new Set\(\[([\s\S]*?)\]\)/u,
+  );
+  assert.ok(exclusions);
+  assert.deepEqual(
+    [...publisher.CONSOLE_ONLY_FILES].sort(),
+    [...exclusions[1].matchAll(/"([^"]+)"/gu)].map((match) => match[1]).sort(),
+  );
   const roots = materializer.match(
     /PUBLIC_ROOT_FILES = new Set\(\[([\s\S]*?)\]\)/u,
   );

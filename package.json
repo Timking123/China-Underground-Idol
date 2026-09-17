@@ -5,13 +5,17 @@
     "test": "npm run test:legacy && node scripts/test.mjs",
     "test:legacy": "node tests/accessibility-contract.mjs && node tests/public-reviewed-records.mjs && node --check app.js && node --check data.js",
     "build": "node scripts/build.mjs",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "node scripts/typecheck.mjs",
     "lint": "eslint . --max-warnings 0",
     "format:check": "prettier . --check",
     "format": "prettier . --write",
     "verify": "npm run typecheck && npm run lint && npm run format:check && npm run build && npm test",
     "preview": "node scripts/preview.mjs",
-    "package:site": "npm run verify && node scripts/packageSite.mjs"
+    "package:site": "npm run verify && node scripts/packageSite.mjs",
+    "build:console": "node scripts/buildConsole.mjs",
+    "test:console": "node scripts/testConsole.mjs",
+    "verify:console": "npm run typecheck && node scripts/checkConsole.mjs && npm run build:console && npm run test:console",
+    "package:console": "npm run verify:console && node scripts/packageConsole.mjs"
   },
   "engines": {
     "node": ">=22.14.0"
@@ -19,6 +23,7 @@
   "devDependencies": {
     "@eslint/js": "10.0.1",
     "@types/d3-geo": "3.1.1",
+    "@types/node": "22.14.0",
     "esbuild": "0.28.2",
     "eslint": "10.10.0",
     "prettier": "3.9.6",
@@ -26,6 +31,7 @@
     "typescript-eslint": "8.69.0"
   },
   "dependencies": {
-    "d3-geo": "3.1.1"
+    "d3-geo": "3.1.1",
+    "ip2region.js": "3.1.8"
   }
 }

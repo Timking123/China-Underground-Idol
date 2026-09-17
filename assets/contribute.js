@@ -3936,6 +3936,21 @@
     details: 3e3
   };
   var TEMPLATES = {
+    submission: {
+      label: "资料投稿",
+      hint: "补充尚未收录的团体或公开资料，并尽量附上原始来源。",
+      prompt: "投稿内容与公开依据"
+    },
+    feedback: {
+      label: "意见反馈",
+      hint: "描述访问网站时遇到的问题，包括页面和复现步骤。",
+      prompt: "遇到的问题与使用体验"
+    },
+    suggestion: {
+      label: "功能建议",
+      hint: "说明希望增加或改善的功能，以及它能解决的具体问题。",
+      prompt: "功能建议与使用场景"
+    },
     error: {
       label: "资料错误",
       hint: "指出哪一项有误、建议改成什么，并附可核对的原始来源。",
@@ -4110,6 +4125,7 @@ ${body}`,
     const copy = root.querySelector("#copy-draft");
     const select = root.querySelector("#select-draft");
     const contextNotice = root.querySelector("#draft-context");
+    hint.textContent = TEMPLATES[kind.value]?.hint ?? "请选择有效类型。";
     if (context.state !== "none" && contextNotice) {
       contextNotice.hidden = false;
       if (context.state === "valid") {
@@ -4190,6 +4206,191 @@ ${body}`,
     root.querySelector("#script-notice").hidden = true;
   }
 
+  // src/groups/dom.ts
+  function element(tag, text2 = "", className = "") {
+    const node = document.createElement(tag);
+    if (text2) node.textContent = text2;
+    if (className) node.className = className;
+    return node;
+  }
+
+  // src/content/online.ts
+  function mountOnlineContribution(root) {
+    const form = root.querySelector("#contribute-form");
+    const fields = root.querySelector("#draft-fields");
+    const status = root.querySelector("#draft-status");
+    const view = root.defaultView;
+    if (!form || !fields || !status || !view) return;
+    const draftButton = fields.querySelector(
+      "button[type=submit]"
+    );
+    if (!draftButton || root.querySelector("#online-submit")) return;
+    draftButton.textContent = "生成邮件草稿";
+    draftButton.classList.remove("content-button-primary");
+    const submit = element(
+      "button",
+      "直接提交反馈",
+      "content-button content-button-primary"
+    );
+    submit.id = "online-submit";
+    submit.type = "button";
+    submit.disabled = true;
+    const contactField = element("div", "", "content-field");
+    const contactLabel = element("label", "联系方式（选填，仅管理员可见）");
+    contactLabel.htmlFor = "online-contact";
+    const contact = element("input");
+    contact.id = "online-contact";
+    contact.maxLength = 160;
+    contact.autocomplete = "off";
+    contact.placeholder = "邮箱或你希望使用的联系渠道";
+    contactField.append(
+      contactLabel,
+      contact,
+      element("small", "仅在需要补充核实时使用，不会公开展示。")
+    );
+    const consentLabel = element("label", "", "online-consent");
+    const consent = element("input");
+    consent.type = "checkbox";
+    consent.id = "online-consent";
+    consentLabel.append(
+      consent,
+      "我已阅读隐私说明，同意将本次反馈和选填联系方式提交给管理员核查。"
+    );
+    const notice = element(
+      "p",
+      "网页提交内容会加密保存，仅管理员可见；用于防滥用的 IP 最长保存 90 天。",
+      "content-hint"
+    );
+    const privacy = element("a", "查看隐私说明");
+    privacy.href = "about.html#privacy";
+    notice.append(" ", privacy);
+    const trap = element("input");
+    trap.name = "website";
+    trap.type = "text";
+    trap.hidden = true;
+    trap.tabIndex = -1;
+    trap.autocomplete = "off";
+    trap.setAttribute("aria-hidden", "true");
+    for (const node of [contactField, consentLabel, notice, trap, submit])
+      fields.insertBefore(node, draftButton);
+    let busy = false;
+    let available = false;
+    let interacted = false;
+    let attempt;
+    const input = (selector) => root.querySelector(selector)?.value ?? "";
+    const edited = () => {
+      interacted = true;
+      if (busy) return;
+      submit.disabled = !available;
+      status.textContent = available ? "当前输入尚未提交。可直接提交给管理员，或生成邮件草稿自行发送。" : "当前输入尚未提交。可生成邮件草稿自行发送。";
+    };
+    form.addEventListener("input", edited);
+    form.addEventListener("change", edited);
+    form.addEventListener("submit", () => {
+      interacted = true;
+    });
+    submit.addEventListener("click", () => {
+      if (busy || !available || !form.reportValidity()) return;
+      interacted = true;
+      if (!consent.checked) {
+        status.textContent = "请先勾选投稿隐私说明，再直接提交。";
+        consent.focus();
+        return;
+      }
+      const values = {
+        kind: input("#draft-kind"),
+        target: input("#draft-target"),
+        source: input("#draft-source"),
+        details: input("#draft-details"),
+        contact: contact.value,
+        consent: true,
+        website: trap.value
+      };
+      try {
+        buildMailDraft(values);
+      } catch (error) {
+        status.textContent = error instanceof Error ? error.message : "请检查输入。";
+        return;
+      }
+      const signature = JSON.stringify(values);
+      if (attempt?.signature !== signature)
+        attempt = {
+          signature,
+          requestId: view.crypto.randomUUID(),
+          accepted: false
+        };
+      if (attempt.accepted) {
+        status.textContent = "这份内容已经提交，请等待管理员核查。";
+        submit.disabled = true;
+        return;
+      }
+      const current = attempt;
+      const payload = { ...values, requestId: current.requestId };
+      busy = true;
+      fields.disabled = true;
+      form.setAttribute("aria-busy", "true");
+      status.textContent = "正在提交，请稍候…";
+      const controller2 = new AbortController();
+      const timeout2 = view.setTimeout(() => controller2.abort(), 15e3);
+      void view.fetch("/api/v1/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "omit",
+        cache: "no-store",
+        referrerPolicy: "no-referrer",
+        signal: controller2.signal,
+        body: JSON.stringify(payload)
+      }).then(async (response) => {
+        const result = await response.json();
+        if (!response.ok || result?.code !== 0 || typeof result.data?.id !== "string" || !result.data.id || result.data.id.length > 100)
+          throw new Error("提交结果暂未确认");
+        current.accepted = true;
+        status.textContent = `已提交。反馈编号：${result.data.id}。内容仅供管理员核查，不会自动公开；如需追问，请保留编号。`;
+        const resultPanel = root.querySelector("#draft-result");
+        if (resultPanel) resultPanel.hidden = true;
+      }).catch(() => {
+        status.textContent = "提交结果暂未确认。内容已保留；可重试本次提交，或生成邮件草稿自行发送。";
+      }).finally(() => {
+        view.clearTimeout(timeout2);
+        busy = false;
+        fields.disabled = false;
+        form.removeAttribute("aria-busy");
+        submit.disabled = current.accepted || !available;
+      });
+    });
+    if (!["https:", "http:"].includes(view.location.protocol) || !view.crypto.randomUUID) {
+      status.textContent = "离线访问可生成邮件草稿；直接提交请打开在线网站。";
+      return;
+    }
+    const controller = new AbortController();
+    const timeout = view.setTimeout(() => controller.abort(), 1e4);
+    void view.fetch("/api/v1/public-config", {
+      credentials: "omit",
+      cache: "no-store",
+      referrerPolicy: "no-referrer",
+      signal: controller.signal
+    }).then(async (response) => {
+      const result = await response.json();
+      if (!response.ok || result?.code !== 0 || typeof result.data?.acceptFeedback !== "boolean")
+        throw new Error("投稿接口不可用");
+      available = result.data.acceptFeedback;
+      submit.disabled = !available;
+      if (typeof result.data.feedbackNotice === "string" && result.data.feedbackNotice.length <= 500 && result.data.feedbackNotice) {
+        const message = element(
+          "p",
+          result.data.feedbackNotice,
+          "content-callout"
+        );
+        form.before(message);
+      }
+      if (!interacted)
+        status.textContent = available ? "填写后可直接提交给管理员，也可以选择生成邮件草稿。" : "暂时暂停接收网页反馈，可以生成邮件草稿联系管理员。";
+    }).catch(() => {
+      if (!interacted)
+        status.textContent = "网页提交暂不可用。输入仍可用于生成邮件草稿，请自行发送。";
+    }).finally(() => view.clearTimeout(timeout));
+  }
+
   // src/content/page.ts
   var catalog = readCatalog();
   var groups = catalog.valid ? catalog.data.groups : [];
@@ -4206,4 +4407,5 @@ ${body}`,
       window.location.href
     )
   );
+  mountOnlineContribution(document);
 })();

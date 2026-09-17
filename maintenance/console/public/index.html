@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="robots" content="noindex,nofollow" />
+    <link rel="icon" href="data:," />
+    <title>管理后台 · 中国地下偶像档案</title>
+    <link rel="stylesheet" href="/admin/admin.css" />
+    <script src="/admin/admin.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#workspace">跳至工作区</a>
+    <section id="login" class="login-shell" aria-labelledby="login-title">
+      <div class="login-brand">
+        <span class="brand-mark" aria-hidden="true">档</span
+        ><span>中国地下偶像档案<br /><small>管理工作台</small></span>
+      </div>
+      <div class="login-panel">
+        <p class="eyebrow">CN IDOL ARCHIVE / ADMIN</p>
+        <h1 id="login-title">回到工作台</h1>
+        <p class="muted">投稿核查、访问统计与站点管理，仅限管理员使用。</p>
+        <form id="login-form">
+          <label for="username">管理员账号</label
+          ><input
+            id="username"
+            autocomplete="username"
+            required
+            maxlength="64"
+          />
+          <label for="password">密码</label
+          ><input
+            id="password"
+            type="password"
+            autocomplete="current-password"
+            required
+            maxlength="256"
+          />
+          <button class="primary" id="login-submit" type="submit">
+            登录管理后台 <span aria-hidden="true">→</span>
+          </button>
+          <p id="login-status" role="status" aria-live="polite">
+            正在检查登录状态…
+          </p>
+        </form>
+        <p class="privacy-note">
+          私人资料加密保存。离开共享设备前，请退出登录。
+        </p>
+      </div>
+      <a class="back-site" href="/discover.html">← 返回公开网站</a>
+    </section>
+    <div id="console" class="console-shell" hidden>
+      <aside class="sidebar">
+        <a class="brand" href="#overview"
+          ><span class="brand-mark" aria-hidden="true">档</span
+          ><span>地下偶像档案<small>管理工作台</small></span></a
+        >
+        <p class="nav-caption">工作区</p>
+        <nav id="console-nav" aria-label="后台导航">
+          <a href="#overview" data-view="overview"
+            ><span aria-hidden="true">◈</span> 总览</a
+          >
+          <a href="#feedback" data-view="feedback"
+            ><span aria-hidden="true">▤</span> 投稿与反馈</a
+          >
+          <a href="#traffic" data-view="traffic"
+            ><span aria-hidden="true">↗</span> 访问趋势</a
+          >
+          <a href="#regions" data-view="regions"
+            ><span aria-hidden="true">◎</span> 地区分布</a
+          >
+          <a href="#visits" data-view="visits"
+            ><span aria-hidden="true">≡</span> 访问记录</a
+          >
+          <a href="#content" data-view="content"
+            ><span aria-hidden="true">▥</span> 内容巡检</a
+          >
+          <a href="#settings" data-view="settings"
+            ><span aria-hidden="true">⚙</span> 网站设置</a
+          >
+          <a href="#security" data-view="security"
+            ><span aria-hidden="true">◇</span> 安全与审计</a
+          >
+        </nav>
+        <div class="sidebar-bottom">
+          <a href="/discover.html" target="_blank" rel="noopener noreferrer"
+            >打开网站 ↗</a
+          ><span id="admin-name"></span
+          ><button id="logout" type="button">退出登录</button>
+        </div>
+      </aside>
+      <main id="workspace" tabindex="-1">
+        <header class="workspace-header">
+          <div>
+            <p class="eyebrow">CN IDOL ARCHIVE</p>
+            <h1 id="view-title">网站总览</h1>
+            <p id="view-description" class="muted"></p>
+          </div>
+          <div class="header-actions">
+            <label for="range">统计范围</label
+            ><select id="range">
+              <option value="7">最近 7 天</option>
+              <option value="30" selected>最近 30 天</option>
+              <option value="90">最近 90 天</option></select
+            ><button id="refresh" type="button">刷新</button>
+          </div>
+        </header>
+        <p
+          id="console-status"
+          class="console-status"
+          role="status"
+          aria-live="polite"
+        ></p>
+        <div id="view" class="view" aria-busy="false"></div>
+        <footer class="console-footer">
+          <span>中国地下偶像档案 · 私人管理工作台</span
+          ><span>按北京时间统计 · IP 明细保留 90 天</span>
+        </footer>
+      </main>
+    </div>
+    <noscript
+      ><p>
+        管理后台需要 JavaScript。私人数据不会在此页面中预先输出。
+      </p></noscript
+    >
+  </body>
+</html>

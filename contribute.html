@@ -9,7 +9,7 @@
     <meta name="color-scheme" content="dark" />
     <meta
       name="description"
-      content="选择反馈类型，写清相关页面与原始来源。本站仅在本机生成邮件草稿，由你检查后自行发送。"
+      content="提交团体资料、纠错、意见和功能建议。内容加密保存，仅管理员可见；也可使用邮件联系。"
     />
     <link rel="icon" href="data:," />
     <title>补充资料，纠正细节 · 地下偶像势力分布档案</title>
@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="styles/site.css" />
     <script src="assets/groups-data.js" defer></script>
     <script src="assets/contribute.js" defer></script>
+    <script src="assets/metrics.js" defer></script>
   </head>
   <body class="content-page">
     <a class="skip-link" href="#content-main">跳至正文</a>
@@ -31,12 +32,12 @@
         <a href="guide.html">观演指南</a>
       </nav>
       <header class="content-header">
-        <p class="content-kicker">CN-IDOL / CONTRIBUTE / LOCAL DRAFT</p>
+        <p class="content-kicker">CN-IDOL / CONTRIBUTE / FEEDBACK</p>
         <h1>补充资料，纠正细节</h1>
         <p class="content-lead">
-          选择反馈类型，写清相关页面与原始来源。本站仅在本机生成邮件草稿，由你检查后自行发送。
+          投稿、纠错，或分享你的想法。点击提交后内容才会上传，并加密保存供管理员核查；也可以生成邮件草稿自行发送。
         </p>
-        <p class="content-meta">地下偶像势力分布档案 · 编辑日期 2026-09-05</p>
+        <p class="content-meta">地下偶像势力分布档案 · 编辑日期 2026-09-17</p>
       </header>
       <main id="content-main" tabindex="-1">
         <div class="content-layout">
@@ -65,13 +66,16 @@
                 <div class="content-field">
                   <label for="draft-kind">反馈类型</label
                   ><select id="draft-kind" aria-describedby="template-hint">
+                    <option value="submission">资料投稿</option>
                     <option value="error">资料错误</option>
                     <option value="event">活动补充</option>
                     <option value="outdated">过时资料</option>
                     <option value="rights">素材权利</option>
+                    <option value="feedback">意见反馈</option>
+                    <option value="suggestion">功能建议</option>
                   </select>
                   <p id="template-hint" class="content-hint">
-                    指出哪一项有误、建议改成什么，并附可核对的原始来源。
+                    补充尚未收录的团体或公开资料，并尽量附上原始来源。
                   </p>
                 </div>
                 <div class="content-field">
@@ -128,7 +132,7 @@
               role="status"
               aria-live="polite"
             >
-              尚未发送。输入仅在本页处理，不上传至本站，也不保存账号。
+              尚未提交。输入不会自动上传，点击“直接提交反馈”并确认隐私说明后才会发送。
             </p>
             <section
               id="draft-result"

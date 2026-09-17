@@ -83,7 +83,7 @@ class PublicationTest(unittest.TestCase):
         result = self.runner()()
         self.assertEqual(result["status"], "published")
         self.assertEqual(os.readlink(self.base / "current"), "releases/" + self.plan["release"])
-        self.assertEqual(len(self.requests), 6)
+        self.assertEqual(len(self.requests), 7)
         self.assertIn(("assets/geography.js", self.plan["release"]), self.requests)
         receipt = self.receipt()
         self.assertEqual(receipt["requestSha256"], publish.digest(self.pending.read_bytes()))
@@ -98,7 +98,7 @@ class PublicationTest(unittest.TestCase):
         self.assertEqual(self.requests, [])
 
     def use_previous_without_geography(self):
-        for name in publish.GEOGRAPHY_FILES:
+        for name in publish.GEOGRAPHY_FILES | publish.METRICS_FILES:
             (self.old / name).unlink()
         self.rebuild_manifest(self.old, publish.PREVIOUS_REQUIRED)
         self.plan["previousManifestSha256"] = publish.digest((self.old / "manifest.sha256").read_bytes())
@@ -146,6 +146,49 @@ class PublicationTest(unittest.TestCase):
             self.runner()()
         self.assertEqual(os.readlink(self.base / "current"), self.plan["previous"])
 
+    def use_previous_map_release(self):
+        (self.old / "assets/metrics.js").unlink()
+        self.rebuild_manifest(self.old, publish.MAP_REQUIRED)
+        self.plan["previousManifestSha256"] = publish.digest((self.old / "manifest.sha256").read_bytes())
+        self.pending.write_bytes(publish.encode(self.plan))
+
+    def test_upgrade_from_complete_map_release(self):
+        self.use_previous_map_release()
+        self.assertEqual(self.runner()()["status"], "published")
+        self.assertIn(("assets/metrics.js", self.plan["release"]), self.requests)
+
+    def test_metrics_https_failure_rolls_back_to_complete_map_release(self):
+        self.use_previous_map_release()
+        def failure(name, release):
+            raw = self.fetch(name, release)
+            return b"tampered metrics" if name == "assets/metrics.js" and release == self.plan["release"] else raw
+        with self.assertRaisesRegex(RuntimeError, "post_switch_verification_failed"):
+            self.runner(failure)()
+        self.assertEqual(os.readlink(self.base / "current"), self.plan["previous"])
+        self.assertEqual(self.receipt()["status"], "rolled_back")
+        previous_requests = [name for name, release in self.requests if release == "previous-release"]
+        self.assertIn("assets/geography.js", previous_requests)
+        self.assertNotIn("assets/metrics.js", previous_requests)
+
+    def test_new_candidate_cannot_omit_metrics_and_private_names_are_forbidden(self):
+        raw = (self.source / "manifest.sha256").read_bytes()
+        lines = raw.decode().splitlines()
+        old = ("\n".join(line for line in lines if not line.endswith("  assets/metrics.js")) + "\n").encode()
+        with self.assertRaisesRegex(RuntimeError, "manifest_missing_entry"):
+            publish.parse_manifest(old, publish.digest(old))
+        for name in ["assets/admin.js", "console/server.mjs", "console.sqlite", "master.key", "assets/arbitrary.js"]:
+            bad = raw + ("0" * 64 + "  " + name + "\n").encode()
+            with self.assertRaisesRegex(RuntimeError, "nonpublic_file"):
+                publish.parse_manifest(bad, publish.digest(bad), allow_previous=True)
+
+    def test_partial_map_never_qualifies_as_previous_with_or_without_metrics(self):
+        for include_metrics in [True, False]:
+            for missing in publish.GEOGRAPHY_FILES:
+                names = publish.REQUIRED - {missing} - (set() if include_metrics else publish.METRICS_FILES)
+                raw = ("\n".join("0" * 64 + "  " + name for name in sorted(names)) + "\n").encode()
+                with self.assertRaisesRegex(RuntimeError, "manifest_missing_entry"):
+                    publish.parse_manifest(raw, publish.digest(raw), allow_previous=True)
+
     def test_pending_drift_stops_before_switch(self):
         original = publish.read_regular
         changed = False
@@ -191,7 +234,7 @@ class PublicationTest(unittest.TestCase):
             self.runner(failure)()
         self.assertEqual(os.readlink(self.base / "current"), self.plan["previous"])
         self.assertEqual(self.receipt()["status"], "rolled_back")
-        self.assertEqual(len(self.requests), 6)
+        self.assertEqual(len(self.requests), 7)
         self.assertIn(("assets/geography.js", "previous-release"), self.requests)
 
     def test_https_rollback_failure_is_explicit(self):

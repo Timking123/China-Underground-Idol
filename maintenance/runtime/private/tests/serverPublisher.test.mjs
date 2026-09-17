@@ -5,6 +5,7 @@ import {
   mkdir,
   mkdtemp,
   readFile,
+  unlink,
   rm,
   symlink,
   writeFile,
@@ -16,6 +17,7 @@ import {
   createPublicationPreparer,
   inspectPublicationCandidate,
   PUBLIC_FILES,
+  CONSOLE_ONLY_FILES,
 } from "../server/publisher.ts";
 
 const hash = (value) => createHash("sha256").update(value).digest("hex");
@@ -434,4 +436,89 @@ test("固定路径与runId验证阻止任意目标", async (t) => {
     prepare({ ...options, repoRoot: path.dirname(options.repoRoot) }),
     /publication_fixed_paths/u,
   );
+});
+
+test("统计资产必须完整且后台资产不能加入公开清单", async (t) => {
+  const { source } = await fixture(t);
+  await candidate(source);
+  const raw = await readFile(path.join(source, "manifest.sha256"), "utf8");
+  await unlink(path.join(source, "assets/metrics.js"));
+  await put(
+    source,
+    "manifest.sha256",
+    raw
+      .split("\n")
+      .filter((line) => !line.endsWith("  assets/metrics.js"))
+      .join("\n"),
+  );
+  await assert.rejects(
+    inspectPublicationCandidate(source),
+    /publication_missing_entry/u,
+  );
+  await candidate(source);
+  for (const name of [
+    "assets/admin.js",
+    "assets/arbitrary.js",
+    "console.sqlite",
+    "master.key",
+    "console/server.mjs",
+  ]) {
+    await put(source, name, "synthetic");
+    await put(
+      source,
+      "manifest.sha256",
+      raw + `${hash("synthetic")}  ${name}\n`,
+    );
+    await assert.rejects(
+      inspectPublicationCandidate(source),
+      /publication_nonpublic_file/u,
+    );
+    await unlink(path.join(source, name));
+  }
+});
+
+test("提交后的后台专属文件缺席于独立site不会导致ENOENT，公开契约仍核验", async (t) => {
+  const { prepare, options, calls } = await fixture(t, {
+    command: async (_file, args) => {
+      if (args[0] === "ls-files" && !args.includes("--others"))
+        return (
+          [
+            INPUT,
+            FOLLOWERS,
+            "index.html",
+            "assets/events.js",
+            ...CONSOLE_ONLY_FILES,
+          ].join("\0") + "\0"
+        );
+    },
+  });
+  for (const name of CONSOLE_ONLY_FILES)
+    await put(options.repoRoot, name, "后台源码\n");
+  assert.equal((await prepare(options)).changed, true);
+  assert.ok(calls.some((call) => call[1] === "push"));
+});
+
+test("未排除的反馈类型契约和未知源码仍须完全相同", async (t) => {
+  for (const name of [
+    "src/admin/contracts.ts",
+    "src/admin/unregistered.ts",
+    "scripts/typecheck.mjs",
+  ]) {
+    const { prepare, options } = await fixture(t, {
+      command: async (_file, args) => {
+        if (args[0] === "ls-files" && !args.includes("--others"))
+          return (
+            [INPUT, FOLLOWERS, "index.html", "assets/events.js", name].join(
+              "\0",
+            ) + "\0"
+          );
+      },
+    });
+    await put(options.repoRoot, name, "original\n");
+    await put(path.join(options.stageRoot, "site"), name, "changed\n");
+    await assert.rejects(
+      prepare(options),
+      /publication_unexpected_maintenance_change/u,
+    );
+  }
 });

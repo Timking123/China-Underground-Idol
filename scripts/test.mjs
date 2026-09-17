@@ -20,6 +20,18 @@ for (const name of files) {
   if (result.status !== 0) process.exit(result.status ?? 1);
 }
 
+// 公共站点物化目录不携带管理服务；原始源码仓库必须执行后台验收。
+if (existsSync(new URL("../maintenance/console/", import.meta.url))) {
+  for (const name of ["checkConsole.mjs", "testConsole.mjs"]) {
+    const result = spawnSync(
+      process.execPath,
+      [fileURLToPath(new URL(name, import.meta.url))],
+      { stdio: "inherit" },
+    );
+    if (result.status !== 0) process.exit(result.status ?? 1);
+  }
+}
+
 // 源码仓库验证维护契约；物化后的独立 site 不携带维护源码，由原仓库完成此门。
 if (existsSync(new URL("../maintenance/", import.meta.url))) {
   const result = spawnSync(
