@@ -14,7 +14,7 @@
 | 地区库   | `/srv/china-underground-idol/console/geo`                     | root:root，目录 0755，文件 0644                  |
 | 公开资料 | `/srv/china-underground-idol/current`                         | 沿用静态发布路径，后台只读                       |
 
-沿用服务器 `/usr/bin/node` 22.14.0、Nginx、systemd，管理进程单独使用无登录权限的 `idol-console`，不复用维护采集账户。后端只监听 127.0.0.1:8788。
+沿用预检确认的服务器 `/usr/bin/node`、Nginx、systemd；2026-09-18 实测 Node 为 22.23.2，部署前须将该版本与对应 Linux 验收证据绑定，不降级共享 Node。管理进程单独使用无登录权限的 `idol-console`，不复用维护采集账户。后端只监听 127.0.0.1:8788。
 
 协调构建的六个发行文件必须完整：`server.mjs`、`public/index.html`、`public/admin.js`、`public/admin.css`、`IP2REGION-LICENSE.txt`、`THIRD-PARTY-NOTICES.txt`，另有覆盖六文件的 `manifest.sha256`。由协调入口 `scripts/packageConsole.mjs` 生成。审核时单独记录清单 SHA-256；不能只信任待安装目录自己声称的哈希。
 
@@ -27,7 +27,7 @@
 ```bash
 set -euo pipefail
 umask 077
-test "$(/usr/bin/node --version)" = v22.14.0
+test "$(/usr/bin/node --version)" = v22.23.2
 getent passwd idol-console >/dev/null || useradd --system --user-group --no-create-home --home-dir /var/lib/idol-console --shell /usr/sbin/nologin idol-console
 # 核对账户非 root，home 和 shell 必须符合上行；既有不符时停止。
 test "$(id -u idol-console)" -gt 0
