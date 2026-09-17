@@ -415,7 +415,7 @@
   // data/events.v1.json
   var events_v1_default = {
     schemaVersion: "idol-events-v1",
-    updatedAt: "2026-09-16T16:01:04.242Z",
+    updatedAt: "2026-09-17T16:01:08.425Z",
     coverage: "partial",
     events: [
       {
@@ -3940,6 +3940,166 @@
             label: "揭示板所附详情（正文未核验）",
             publisher: "地下偶像相关揭示板",
             observedAt: "2026-09-16T16:00:23.676Z",
+            kind: "aggregator"
+          }
+        ],
+        notes: "揭示板收录线索，活动安排待确认；场地、地址、入场及演出时刻、出演阵容和海报尚未核实，请查阅来源并在出发前确认。",
+        poster: null
+      },
+      {
+        id: "e-board-ae471b5dccc388ac880395645b568171",
+        title: "YUMEFES Vol.24.0",
+        date: "2026-09-19",
+        province: null,
+        city: "上海",
+        venue: null,
+        address: null,
+        opensAt: null,
+        startsAt: null,
+        endsAt: null,
+        status: "unconfirmed",
+        performers: [],
+        sources: [
+          {
+            url: "https://weibo.com/7716940453/R3Ka7g7s0",
+            label: "地下偶像相关揭示板活动汇总",
+            publisher: "地下偶像相关揭示板",
+            observedAt: "2026-09-17T16:00:25.551Z",
+            kind: "aggregator"
+          },
+          {
+            url: "https://weibo.com/7716940453/5344091657209594",
+            label: "揭示板所附详情（正文未核验）",
+            publisher: "地下偶像相关揭示板",
+            observedAt: "2026-09-17T16:00:25.551Z",
+            kind: "aggregator"
+          }
+        ],
+        notes: "揭示板收录线索，活动安排待确认；场地、地址、入场及演出时刻、出演阵容和海报尚未核实，请查阅来源并在出发前确认。",
+        poster: null
+      },
+      {
+        id: "e-board-f34a3303c1171fcde9cbf428a88b5ea8",
+        title: "偶像回响",
+        date: "2026-09-19",
+        province: null,
+        city: "西安",
+        venue: null,
+        address: null,
+        opensAt: null,
+        startsAt: null,
+        endsAt: null,
+        status: "unconfirmed",
+        performers: [],
+        sources: [
+          {
+            url: "https://weibo.com/7716940453/R3Ka7g7s0",
+            label: "地下偶像相关揭示板活动汇总",
+            publisher: "地下偶像相关揭示板",
+            observedAt: "2026-09-17T16:00:25.551Z",
+            kind: "aggregator"
+          },
+          {
+            url: "https://weibo.com/7716940453/5343899141800268",
+            label: "揭示板所附详情（正文未核验）",
+            publisher: "地下偶像相关揭示板",
+            observedAt: "2026-09-17T16:00:25.551Z",
+            kind: "aggregator"
+          }
+        ],
+        notes: "揭示板收录线索，活动安排待确认；场地、地址、入场及演出时刻、出演阵容和海报尚未核实，请查阅来源并在出发前确认。",
+        poster: null
+      },
+      {
+        id: "e-board-2e9f681e2395d65815254ba85c7f9c75",
+        title: "绮丽偶像日K.F.C Shenzhen mini Vol.09",
+        date: "2026-09-19",
+        province: null,
+        city: "深圳",
+        venue: null,
+        address: null,
+        opensAt: null,
+        startsAt: null,
+        endsAt: null,
+        status: "unconfirmed",
+        performers: [],
+        sources: [
+          {
+            url: "https://weibo.com/7716940453/R3Ka7g7s0",
+            label: "地下偶像相关揭示板活动汇总",
+            publisher: "地下偶像相关揭示板",
+            observedAt: "2026-09-17T16:00:25.551Z",
+            kind: "aggregator"
+          },
+          {
+            url: "https://weibo.com/7716940453/5344142924187019",
+            label: "揭示板所附详情（正文未核验）",
+            publisher: "地下偶像相关揭示板",
+            observedAt: "2026-09-17T16:00:25.551Z",
+            kind: "aggregator"
+          }
+        ],
+        notes: "揭示板收录线索，活动安排待确认；场地、地址、入场及演出时刻、出演阵容和海报尚未核实，请查阅来源并在出发前确认。",
+        poster: null
+      },
+      {
+        id: "e-board-b61325aaa87a22f03e3acdb390dea517",
+        title: "Summer Idol Live Vol.22",
+        date: "2026-09-25",
+        province: null,
+        city: "重庆",
+        venue: null,
+        address: null,
+        opensAt: null,
+        startsAt: null,
+        endsAt: null,
+        status: "unconfirmed",
+        performers: [],
+        sources: [
+          {
+            url: "https://weibo.com/7716940453/R3Ka7g7s0",
+            label: "地下偶像相关揭示板活动汇总",
+            publisher: "地下偶像相关揭示板",
+            observedAt: "2026-09-17T16:00:25.551Z",
+            kind: "aggregator"
+          },
+          {
+            url: "https://weibo.com/7716940453/5344142830866461",
+            label: "揭示板所附详情（正文未核验）",
+            publisher: "地下偶像相关揭示板",
+            observedAt: "2026-09-17T16:00:25.551Z",
+            kind: "aggregator"
+          }
+        ],
+        notes: "揭示板收录线索，活动安排待确认；场地、地址、入场及演出时刻、出演阵容和海报尚未核实，请查阅来源并在出发前确认。",
+        poster: null
+      },
+      {
+        id: "e-board-493a10f0fe6ccd86a6a544f3591f697d",
+        title: "感電注意 IDOL LIVE Vol.19",
+        date: "2026-09-26",
+        province: null,
+        city: "武汉",
+        venue: null,
+        address: null,
+        opensAt: null,
+        startsAt: null,
+        endsAt: null,
+        status: "unconfirmed",
+        performers: [],
+        sources: [
+          {
+            url: "https://weibo.com/7716940453/R3Ka7g7s0",
+            label: "地下偶像相关揭示板活动汇总",
+            publisher: "地下偶像相关揭示板",
+            observedAt: "2026-09-17T16:00:25.551Z",
+            kind: "aggregator"
+          },
+          {
+            url: "https://weibo.com/7716940453/5344142541981681",
+            label: "揭示板所附详情（正文未核验）",
+            publisher: "地下偶像相关揭示板",
+            observedAt: "2026-09-17T16:00:25.551Z",
             kind: "aggregator"
           }
         ],
