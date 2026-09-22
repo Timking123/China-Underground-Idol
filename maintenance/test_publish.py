@@ -59,7 +59,7 @@ class PublicationTest(unittest.TestCase):
         for name in publish.REQUIRED:
             target = directory / name
             target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_bytes((value + ":" + name).encode())
+            target.write_bytes(publish.encode({"schemaVersion": "idol-public-artifacts-v1", "files": []}) if name == publish.ARTIFACT_MANIFEST else (value + ":" + name).encode())
         self.rebuild_manifest(directory)
 
     def rebuild_manifest(self, directory, names=None):
@@ -74,7 +74,7 @@ class PublicationTest(unittest.TestCase):
         return (current / name).read_bytes()
 
     def runner(self, fetch=None):
-        return publish.create_publisher(base=self.base, config=self.config, fetch=fetch or self.fetch, lock=publish.deployment_lock if os.name == "posix" else synthetic_lock)
+        return publish.create_publisher(base=self.base, config=self.config, fetch=fetch or self.fetch, lock=publish.deployment_lock if os.name == "posix" else synthetic_lock, guard=lambda: None)
 
     def receipt(self):
         return json.loads((self.base / "maintenance-receipts" / (self.plan["release"] + ".json")).read_bytes())
@@ -98,7 +98,7 @@ class PublicationTest(unittest.TestCase):
         self.assertEqual(self.requests, [])
 
     def use_previous_without_geography(self):
-        for name in publish.GEOGRAPHY_FILES | publish.METRICS_FILES:
+        for name in publish.GEOGRAPHY_FILES | publish.METRICS_FILES | publish.CITY_FILES:
             (self.old / name).unlink()
         self.rebuild_manifest(self.old, publish.PREVIOUS_REQUIRED)
         self.plan["previousManifestSha256"] = publish.digest((self.old / "manifest.sha256").read_bytes())
@@ -147,7 +147,8 @@ class PublicationTest(unittest.TestCase):
         self.assertEqual(os.readlink(self.base / "current"), self.plan["previous"])
 
     def use_previous_map_release(self):
-        (self.old / "assets/metrics.js").unlink()
+        for name in publish.METRICS_FILES | publish.CITY_FILES:
+            (self.old / name).unlink()
         self.rebuild_manifest(self.old, publish.MAP_REQUIRED)
         self.plan["previousManifestSha256"] = publish.digest((self.old / "manifest.sha256").read_bytes())
         self.pending.write_bytes(publish.encode(self.plan))

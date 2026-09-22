@@ -20,6 +20,8 @@ import { packageSite } from "../scripts/packageSite.mjs";
 import { buildSite } from "../scripts/build.mjs";
 import { createPreviewServer } from "../scripts/preview.mjs";
 import { request } from "node:http";
+import { publicFiles } from "../scripts/siteManifest.mjs";
+import { writePublicArtifactManifest } from "../scripts/publicArtifacts.mjs";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const png = Buffer.from(
@@ -148,8 +150,18 @@ test("六条合法活动与非微博来源、本地海报可维护，只打包�
       "assets/contribute.js",
       "assets/metrics.js",
     ];
-    for (const file of required)
+    for (const file of new Set(
+      [...required, ...publicFiles].filter(
+        (name) => name !== "data/events.v1.json",
+      ),
+    ))
       await writeFile(path.join(temporary, file), "临时打包回归占位", "utf8");
+    await writeFile(
+      path.join(temporary, "assets/public-artifacts.v1.json"),
+      JSON.stringify({ schemaVersion: "idol-public-artifacts-v1", files: [] }),
+      "utf8",
+    );
+    await writePublicArtifactManifest(temporary, []);
     // 只缺新发现模块时必须在生成任何脚本前停止，旧占位也不能被半成品覆盖。
     for (const file of [
       "src/site/map.ts",
@@ -244,7 +256,7 @@ test("六条合法活动与非微博来源、本地海报可维护，只打包�
       );
       for (const file of [
         "assets/debug.js",
-        "data/events.v1.json",
+        "data/event-verifications.v1.json",
         "src/site/map.ts",
         ".build/site/index.html",
         "assets/%2e%2e/scripts/build.mjs",

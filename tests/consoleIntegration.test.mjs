@@ -22,8 +22,8 @@ const compiled = await build({
 });
 const metrics = compiled.outputFiles[0].text;
 
-test("只有九个公开页面允许统计，路径和来源在上传前最小化", () => {
-  assert.equal(publicPages.length, 9);
+test("固定公开页面允许统计，路径和来源在上传前最小化", () => {
+  assert.equal(publicPages.length, 13);
   for (const page of publicPages) {
     assert.deepEqual(
       publicVisit(
@@ -54,6 +54,29 @@ test("只有九个公开页面允许统计，路径和来源在上传前最小�
       .referrer,
     "",
   );
+});
+
+test("生成页只统计本次精确登记的详情和索引，不上传关注查询参数", () => {
+  const generated = [
+    "/groups/g001.html",
+    "/groups/index.html",
+    "/events/index.html",
+    "/events/e-known.html",
+  ];
+  for (const path of generated)
+    assert.deepEqual(
+      publicVisit(
+        `https://example.com${path}?following=1#private`,
+        "",
+        generated,
+      ),
+      { path, referrer: "" },
+    );
+  assert.equal(
+    publicVisit("https://example.com/groups/g999.html", "", generated),
+    null,
+  );
+  assert.equal(publicVisit("https://example.com/groups/g001.html", ""), null);
 });
 
 async function visit({

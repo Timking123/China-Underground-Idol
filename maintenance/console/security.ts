@@ -36,6 +36,19 @@ export function privateFile(filename: string): void {
     throw new Error("私人文件必须为当前用户独占的普通文件");
 }
 
+/** root 迁移核验可读取服务账户私有文件，但不改变归属或权限。 */
+export function privateReadFile(filename: string): void {
+  const info = lstatSync(filename);
+  if (
+    !info.isFile() ||
+    info.nlink !== 1 ||
+    (process.platform !== "win32" &&
+      ((info.mode & 0o077) !== 0 ||
+        (process.getuid?.() !== 0 && info.uid !== process.getuid?.())))
+  )
+    throw new Error("迁移核验只读私有普通文件");
+}
+
 export function privateDirectory(directory: string): void {
   mkdirSync(directory, { recursive: true, mode: 0o700 });
   const info = lstatSync(directory);

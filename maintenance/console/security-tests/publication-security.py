@@ -115,7 +115,7 @@ def main():
                 if fail_new and release == plan["release"] and name == "assets/metrics.js":
                     return b"synthetic post-switch checksum mismatch"
                 return (base / os.readlink(base / "current") / name).read_bytes()
-            return publish.create_publisher(base=base, config=config, fetch=fetch)()
+            return publish.create_publisher(base=base, config=config, fetch=fetch, guard=lambda: None)()
 
         def private_unchanged():
             require(all(file.exists() and sha(file.read_bytes()) == checksum for file, checksum in private_before.items()), "发布/回滚改变了运行态或密钥")

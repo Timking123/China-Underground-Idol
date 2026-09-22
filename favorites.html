@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="我的关注，来自可核对的已收录地下偶像团体与演出资料；关注仅保存在浏览器。"
+    />
+    <link rel="icon" href="data:," />
+    <title>我的关注 · 地下偶像资料档案</title>
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="styles/site.css" />
+    <link rel="stylesheet" href="styles/groups.css" />
+    <link rel="stylesheet" href="styles/preferences.css" />
+    <link rel="stylesheet" href="styles/city.css" />
+    <script src="assets/groups-data.js" defer></script>
+    <script src="assets/favorites.js" defer></script>
+    <script src="assets/metrics.js" defer></script>
+  </head>
+  <body class="city-page">
+    <a class="skip-link" href="#favorites-content">跳至主要内容</a>
+    <div class="city-shell">
+      <nav class="site-nav" aria-label="主导航">
+        <a href="discover.html">发现</a>
+        <a href="groups.html">团体</a>
+        <a href="events.html">演出</a>
+        <a href="geography.html">全国地图</a>
+        <a href="index.html">风格图</a>
+        <a href="guide.html">观演指南</a>
+        <a href="city.html">城市</a>
+        <a href="favorites.html" aria-current="page">我的关注</a>
+      </nav>
+      <header class="city-header">
+        <p class="city-kicker">CN-IDOL / FOLLOWING</p>
+        <h1 id="favorites-title" tabindex="-1">我的关注</h1>
+        <p id="favorites-storage" role="status">
+          关注仅保存在此浏览器，不上传服务器。
+        </p>
+        <div class="city-actions">
+          <span id="favorites-count"></span
+          ><a href="updates.html?following=1">关注对象的更新</a
+          ><a href="subscriptions.html">订阅日历</a
+          ><button type="button" id="favorites-clear">清空关注</button>
+        </div>
+        <div id="favorites-confirm" class="city-confirm" hidden>
+          <p>清空此浏览器里的团体、城市和演出关注？此操作无法撤销。</p>
+          <button type="button" id="favorites-confirm-yes">确认清空</button
+          ><button type="button" id="favorites-confirm-no">保留关注</button>
+        </div>
+      </header>
+      <main id="favorites-content" aria-busy="true">
+        <p role="status">正在读取本地关注…</p>
+      </main>
+      <footer class="city-footer">
+        <p>公益资料整理 · 收录不完整，不是实时或完整日程。</p>
+        <a href="contribute.html">投稿与纠错</a>
+      </footer>
+      <noscript
+        >请启用 JavaScript 以读取我的关注；也可<a href="groups.html"
+          >浏览团体档案</a
+        >。</noscript
+      >
+    </div>
+  </body>
+</html>

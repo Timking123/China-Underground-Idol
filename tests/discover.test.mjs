@@ -140,18 +140,18 @@ test("缺失城市不会生成虚构入口，空资料保持空列表", () => {
   assert.deepEqual(discoveryCities([], [], now, normalize), []);
 });
 
-test("城市入口按其真实可用内容进入团体、近期或历史页", () => {
+test("城市入口统一进入保留城市参数的专页", () => {
   assert.equal(
     cityUrl({ name: "上海", groupCount: 1, upcomingCount: 0, pastCount: 0 }),
-    "groups.html?regionRole=activity&city=%E4%B8%8A%E6%B5%B7",
+    "city.html?city=%E4%B8%8A%E6%B5%B7",
   );
   assert.equal(
     cityUrl({ name: "上海", groupCount: 0, upcomingCount: 1, pastCount: 0 }),
-    "events.html?period=upcoming&city=%E4%B8%8A%E6%B5%B7",
+    "city.html?city=%E4%B8%8A%E6%B5%B7",
   );
   assert.equal(
     cityUrl({ name: "上海", groupCount: 0, upcomingCount: 0, pastCount: 1 }),
-    "events.html?period=past&city=%E4%B8%8A%E6%B5%B7",
+    "city.html?city=%E4%B8%8A%E6%B5%B7",
   );
 });
 

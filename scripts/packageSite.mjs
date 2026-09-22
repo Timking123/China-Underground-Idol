@@ -1,23 +1,22 @@
-import {
-  readdir,
-  mkdir,
-  copyFile,
-  readFile,
-  writeFile,
-  lstat,
-} from "node:fs/promises";
+import { readdir, mkdir, writeFile, lstat } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import path from "node:path";
 import { readEventAssets, readLocalEventPoster } from "./eventAssets.mjs";
 import { publicFiles, imageFolders, isPublicImage } from "./siteManifest.mjs";
+import {
+  readPublicArtifactManifest,
+  readOrdinaryPublicFile,
+} from "./publicArtifacts.mjs";
+import { gzipSync } from "node:zlib";
 
 export async function packageSite(
   root = fileURLToPath(new URL("../", import.meta.url)),
 ) {
   const { localPosters } = await readEventAssets(root);
   const output = path.join(root, ".build", "site");
-  const files = [...publicFiles];
+  const artifacts = await readPublicArtifactManifest(root);
+  const files = [...publicFiles, ...artifacts.files.map((item) => item.path)];
   for (const folder of imageFolders) {
     for (const entry of await readdir(path.join(root, "assets", folder), {
       withFileTypes: true,
@@ -57,7 +56,14 @@ export async function packageSite(
       if (error.code !== "ENOENT") throw error;
     }
   }
-  const allowed = new Set([...files, "manifest.sha256"]);
+  const compressible = files.filter((file) =>
+    /\.(?:html|css|js|json|ics|svg)$/u.test(file),
+  );
+  const allowed = new Set([
+    ...files,
+    ...compressible.map((file) => `${file}.gz`),
+    "manifest.sha256",
+  ]);
   for (const file of await existingFiles(output)) {
     if (!allowed.has(file))
       throw new Error(`发布目录存在非白名单文件：${file}`);
@@ -73,33 +79,35 @@ export async function packageSite(
       throw new Error(`公开素材目录不能是符号链接：${directory}`);
   }
   for (const file of files) {
-    if (!(await lstat(path.join(root, file))).isFile())
-      throw new Error(`公开文件不是普通文件：${file}`);
+    await readOrdinaryPublicFile(root, file);
   }
   for (const file of files) {
-    const source = path.join(root, file);
-    if (!(await lstat(source)).isFile())
-      throw new Error(`公开文件不是普通文件：${file}`);
     const bytes = localPosters.includes(file)
       ? await readLocalEventPoster(root, file)
-      : await readFile(source);
+      : await readOrdinaryPublicFile(root, file);
     const target = path.join(output, file);
     await mkdir(path.dirname(target), { recursive: true });
-    if (localPosters.includes(file)) await writeFile(target, bytes);
-    else await copyFile(source, target);
+    await writeFile(target, bytes);
     manifest.push(
       `${createHash("sha256").update(bytes).digest("hex")}  ${file}`,
     );
+    if (compressible.includes(file)) {
+      const compressed = gzipSync(bytes, { level: 9 });
+      await writeFile(`${target}.gz`, compressed);
+      manifest.push(
+        `${createHash("sha256").update(compressed).digest("hex")}  ${file}.gz`,
+      );
+    }
   }
   await writeFile(
     path.join(output, "manifest.sha256"),
-    `${manifest.join("\n")}\n`,
+    `${manifest.sort((a, b) => a.slice(66).localeCompare(b.slice(66), "en")).join("\n")}\n`,
     "utf8",
   );
   console.log(
-    `本地发布候选：.build/site，共 ${files.length} 个白名单文件；未推送、未部署。`,
+    `本地发布候选：.build/site，共 ${manifest.length} 个白名单文件（含 gzip）；未推送、未部署。`,
   );
-  return files;
+  return [...files, ...compressible.map((file) => `${file}.gz`)].sort();
 }
 
 if (

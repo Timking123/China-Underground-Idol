@@ -36,6 +36,7 @@ test("全国地图构建、预览、物化与两级发布器共用最小公开�
     [...publisher.GENERATED_FILES].sort(),
     [
       "assets/groups-data.js",
+      "assets/public-artifacts.v1.json",
       ...Object.keys(entryPoints).map((name) => `assets/${name}.js`),
     ].sort(),
   );
@@ -50,7 +51,10 @@ test("全国地图构建、预览、物化与两级发布器共用最小公开�
     [...required[1].matchAll(/"([^"]+)"/gu)].map((match) => match[1]).sort(),
     [...publicFiles].sort(),
   );
-  assert.ok(!publicFiles.some((name) => name.startsWith("data/")));
+  assert.deepEqual(
+    publicFiles.filter((name) => name.startsWith("data/")),
+    ["data/events.v1.json"],
+  );
   const materializer = await readFile(
     new URL("maintenance/materialize.mjs", root),
     "utf8",

@@ -17,6 +17,10 @@ import {
   writeOnce,
 } from "./state.ts";
 import { requireState } from "../src/sourceRegistry.ts";
+import {
+  readMaintenanceControl,
+  assertMaintenanceEnabled,
+} from "./maintenanceControl.ts";
 
 const STAGE = fileURLToPath(new URL("../../", import.meta.url));
 const BASE = "/srv/china-underground-idol/maintenance";
@@ -27,6 +31,7 @@ const day = (now = new Date()): string =>
   new Date(now.getTime() + 8 * 3600_000).toISOString().slice(0, 10);
 
 async function notify(incident: Omit<Incident, "message">) {
+  assertMaintenanceEnabled();
   const result = await sendMaintenanceIncident(incident, {
     stateRoot: STATE,
     sendKey: process.env.SERVERCHAN_SENDKEY,
@@ -127,6 +132,7 @@ async function health() {
 }
 
 async function maintenance(kind: "daily" | "weekly") {
+  assertMaintenanceEnabled();
   let slot = day();
   if (kind === "weekly") {
     const { selectWeeklyRunId } = await import("./weeklyPreflight.ts");
@@ -347,8 +353,23 @@ async function maintenance(kind: "daily" | "weekly") {
 }
 
 async function main() {
-  await privateDirectory(STATE);
   const command = process.argv[2];
+  const control = readMaintenanceControl();
+  if (control.paused) {
+    if (command === "health" || command === "service-failure") {
+      // 暂停时只报告控制状态，不升级周更、不联网、不通知、不创建状态目录。
+      console.log(
+        JSON.stringify({
+          status: "paused",
+          code: control.code,
+          checkedAt: new Date().toISOString(),
+        }),
+      );
+      return;
+    }
+    throw new Error(control.code);
+  }
+  await privateDirectory(STATE);
   if (command === "publish-result") {
     const { consumePublication } = await import("./publicationReceipt.ts");
     console.log(

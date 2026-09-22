@@ -5,6 +5,7 @@ import path from "node:path";
 import { readEventAssets } from "./eventAssets.mjs";
 import { writeGroupCatalog } from "./groupCatalog.mjs";
 import { entryPoints as candidates, publicFiles } from "./siteManifest.mjs";
+import { writePublicArtifactManifest } from "./publicArtifacts.mjs";
 
 export async function buildSite(
   root = fileURLToPath(new URL("../", import.meta.url)),
@@ -31,6 +32,13 @@ export async function buildSite(
   );
   await readEventAssets(root);
   await writeGroupCatalog(root);
+  // 生成器不访问网络、不推进业务修订；缺失生成器不能生成半套发布包。
+  const { generatePrerender } = await import("./prerender.mjs");
+  const { validateMedia } = await import("./validateMedia.mjs");
+  const { generateFeeds } = await import("./generateSubscriptions.mjs");
+  const media = await validateMedia(root);
+  const pages = await generatePrerender(root, { outputRoot: root });
+  const feeds = await generateFeeds(root, { outputRoot: root });
   await build({
     absWorkingDir: root,
     entryPoints,
@@ -42,8 +50,21 @@ export async function buildSite(
     charset: "utf8",
     legalComments: "none",
     sourcemap: false,
+    minify: true,
+    define: {
+      __PUBLIC_METRICS_PAGES__: JSON.stringify(
+        pages.files
+          .filter((name) => name.endsWith(".html"))
+          .map((name) => `/${name}`),
+      ),
+    },
     logLevel: "info",
   });
+  await writePublicArtifactManifest(root, [
+    ...media.files,
+    ...pages.files,
+    ...feeds.files,
+  ]);
 }
 
 if (

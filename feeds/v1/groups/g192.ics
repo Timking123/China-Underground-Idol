@@ -1,0 +1,35 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//China Underground Idol//Subscriptions v1//ZH-CN
+CALSCALE:GREGORIAN
+X-WR-CALNAME:PokaPokaTime · 地偶演出
+BEGIN:VEVENT
+UID:e-weibo-5339009950681922@idol-events.local
+DTSTAMP:20260918T231346Z
+CREATED:20260918T231346Z
+LAST-MODIFIED:20260918T231346Z
+SEQUENCE:0
+DTSTART;VALUE=DATE:20260906
+SUMMARY:【计划举行】紫禁之巅 Vol.2 —— 京门第一（日期
+ 占位）
+DESCRIPTION:状态：计划举行。日期经过不等于实际举办。\n
+ 中国当地时间 UTC+8；部分收录，出发前请核对官宣。\n字
+ 段核验：尚未核实；不改变主档日程状态。\n整场开演时
+ 刻未知；日历中的日期占位不表示全天演出。\n收录阵容
+ ：PokaPokaTime、風時計Kazetoke\n当前城市：北京；订阅保留
+ 曾归属范围以传达更正。\n日期和活动全名来自 PokaPokaTim
+ e 预告，城市及完整地址由同场活动的風時計Kazetoke 官号
+ 预告交叉核对。仅列已核实的部分出演团体，整场入场
+ 、开演和结束时刻未确认；未实时复核变更。\nPokaPokaTime
+  本周活动预告（PokaPokaTime 官号；观察于 2026-09-03T11:46:52.
+ 435Z）：https://weibo.com/detail/5339009950681922\n風時計Kazetoke 本
+ 周课程安排（風時計Kazetoke 官号；观察于 2026-09-03T11:43:48
+ .400Z）：https://weibo.com/detail/5339081194342085\n资料修订：2026-
+ 09-18T23:13:46.678Z；序号 0
+LOCATION:北京 · 门空间TheDoorSpace · 北京市西城区廊房头条2
+ 号院1号楼2层01号
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+URL:https://idol.hi-veblen.com/events.html?event=e-weibo-5339009950681922
+END:VEVENT
+END:VCALENDAR

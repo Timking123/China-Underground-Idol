@@ -1,0 +1,46 @@
+.follow-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 102px;
+  padding: 8px 12px;
+  margin-block: 8px;
+  background: var(--surface-2);
+  color: var(--text-soft);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  font-size: 14px;
+  transition: transform 120ms ease-out;
+}
+.follow-button[aria-pressed="true"] {
+  color: var(--accent-hot);
+  border-color: var(--accent-hot);
+}
+.follow-button:active {
+  transform: scale(0.96);
+}
+.follow-button:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+.follow-status {
+  color: var(--text-soft);
+  font-size: 14px;
+  line-height: 1.6;
+  padding-block: 16px;
+}
+@media (hover: hover) {
+  .follow-button:hover {
+    background: var(--surface-3);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .follow-button {
+    transition: none;
+  }
+  .follow-button:active {
+    transform: none;
+  }
+}

@@ -13,6 +13,8 @@ test("所有公开页面可达全国地图且继续保留风格图", async () =>
     "geography.html",
     "index.html",
     "guide.html",
+    "city.html",
+    "favorites.html",
   ];
   for (const name of publicFiles.filter((file) => file.endsWith(".html"))) {
     const html = await readFile(new URL(name, root), "utf8");

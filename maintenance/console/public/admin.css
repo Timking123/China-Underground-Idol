@@ -18,6 +18,134 @@
   background: var(--canvas);
   font-variant-numeric: tabular-nums;
 }
+.editorial-workspace,
+.editorial-detail,
+.editorial-list {
+  min-width: 0;
+}
+.editorial-list {
+  display: grid;
+  gap: 8px;
+  margin-block: 16px;
+}
+.editorial-list-item {
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.editorial-detail {
+  margin-top: 24px;
+  overflow-wrap: anywhere;
+}
+.editorial-detail h3 {
+  scroll-margin-top: 20px;
+}
+.editorial-field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+.editorial-workspace .editor-form {
+  max-width: none;
+}
+.editorial-workspace .editorial-field {
+  display: grid;
+}
+.editorial-workspace .editorial-toggle {
+  display: flex;
+}
+.editorial-field :is(input, select, textarea) {
+  width: 100%;
+  min-width: 0;
+}
+.editorial-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 42px;
+}
+.editorial-toggle input {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+}
+.editorial-patch-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.editorial-patch-field,
+.editorial-evidence {
+  min-width: 0;
+  padding: 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--raised);
+}
+.editorial-evidence {
+  display: grid;
+  gap: 12px;
+  margin-block: 16px;
+}
+.editorial-evidence a {
+  text-decoration: underline;
+}
+.editorial-evidence blockquote {
+  margin: 0;
+  padding-left: 12px;
+  border-left: 3px solid var(--accent);
+  white-space: pre-wrap;
+}
+.editorial-supports {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px 16px;
+}
+.editorial-diff-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-block: 12px;
+}
+.editorial-diff-row h4 {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+.editorial-diff-row p {
+  margin-bottom: 0;
+  white-space: pre-wrap;
+}
+.editorial-before,
+.editorial-after,
+.editorial-receipt,
+.editorial-warning {
+  border-radius: 8px;
+  padding: 12px;
+  background: var(--raised);
+}
+.editorial-after {
+  border-left: 3px solid var(--accent);
+}
+.editorial-warning {
+  background: var(--red-soft);
+}
+.editorial-detail details {
+  margin-block: 16px;
+}
+.editorial-detail summary {
+  cursor: pointer;
+  min-height: 42px;
+  padding-block: 8px;
+}
+@media (max-width: 600px) {
+  .editorial-patch-fields,
+  .editorial-diff-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .editorial-supports {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
 * {
   box-sizing: border-box;
 }

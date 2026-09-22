@@ -1,0 +1,2504 @@
+{
+  "schemaVersion": "idol-event-verifications-v1",
+  "updatedAt": "2026-09-18T23:10:33.896Z",
+  "coverage": "partial",
+  "records": [
+    {
+      "eventId": "e-board-0ce37f14769816768729bd9b43d1bf95",
+      "snapshot": {
+        "title": "糖心计划 Vol.2",
+        "city": "上海",
+        "province": null,
+        "date": "2026-09-19",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:18.458Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5343323868892224",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:25.951Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343323868892224.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:18.458Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-1adeb2536c1ac9bd68d3d3121d91562a",
+      "snapshot": {
+        "title": "暮云声彻",
+        "city": "广州",
+        "province": null,
+        "date": "2026-09-19",
+        "status": "scheduled",
+        "venue": "MAO Livehouse广州中大店（二号馆）",
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:18.729Z",
+      "verifiedAt": "2026-09-18T23:07:44.153Z",
+      "outcome": "partial",
+      "summary": "参演团体原文确认 9 月 19 日广州中大二号馆；16:05–16:25 是该团出演时段。完整地址、整场时刻仍未核实。",
+      "fields": {
+        "date": "verified",
+        "status": "verified",
+        "venue": "verified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5343130737187117",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:26.252Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343130737187117.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:18.729Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5344650803020979.html",
+          "publisher": "ReComi_Official",
+          "role": "official",
+          "observedAt": "2026-09-18T23:07:44.153Z",
+          "result": "read",
+          "fields": ["date", "venue", "status"],
+          "note": "参演团体原文确认 9 月 19 日广州中大二号馆；16:05–16:25 是该团出演时段。完整地址、整场时刻仍未核实。"
+        }
+      ],
+      "changes": [
+        {
+          "field": "venue",
+          "previous": null,
+          "current": "MAO Livehouse广州中大店（二号馆）",
+          "observedAt": "2026-09-18T23:07:44.153Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5344650803020979.html",
+          "reason": "补充已回读原文明示的活动信息。"
+        },
+        {
+          "field": "status",
+          "previous": "unconfirmed",
+          "current": "scheduled",
+          "observedAt": "2026-09-18T23:07:44.153Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5344650803020979.html",
+          "reason": "从汇总待确认更新为有原文支持的计划举行，不承诺现场无变动。"
+        }
+      ]
+    },
+    {
+      "eventId": "e-board-213e82626ff7719e1f0720152daff7d6",
+      "snapshot": {
+        "title": "她吃了那朵花·贰拾贰",
+        "city": "北京",
+        "province": null,
+        "date": "2026-09-19",
+        "status": "scheduled",
+        "venue": "DDC黄昏黎明俱乐部",
+        "address": "北京市朝阳区神路街39号地下一层",
+        "opensAt": "10:50",
+        "startsAt": "11:00",
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:19.303Z",
+      "verifiedAt": "2026-09-18T23:07:43.690Z",
+      "outcome": "verified",
+      "summary": "主办原文明示 9 月 19 日场地、完整地址、入场及开場时刻。整场结束时间仍未核实，阵容身份未做自动绑定。",
+      "fields": {
+        "date": "verified",
+        "status": "verified",
+        "venue": "verified",
+        "address": "verified",
+        "opensAt": "verified",
+        "startsAt": "verified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5343769064639966",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:26.857Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343769064639966.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:19.303Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343754198451107.html",
+          "publisher": "鲜花着锦事务所",
+          "role": "organizer",
+          "observedAt": "2026-09-18T23:07:43.690Z",
+          "result": "read",
+          "fields": [
+            "date",
+            "venue",
+            "address",
+            "opensAt",
+            "startsAt",
+            "status"
+          ],
+          "note": "主办原文明示 9 月 19 日场地、完整地址、入场及开場时刻。整场结束时间仍未核实，阵容身份未做自动绑定。"
+        }
+      ],
+      "changes": [
+        {
+          "field": "venue",
+          "previous": null,
+          "current": "DDC黄昏黎明俱乐部",
+          "observedAt": "2026-09-18T23:07:43.690Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5343754198451107.html",
+          "reason": "补充已回读原文明示的活动信息。"
+        },
+        {
+          "field": "address",
+          "previous": null,
+          "current": "北京市朝阳区神路街39号地下一层",
+          "observedAt": "2026-09-18T23:07:43.690Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5343754198451107.html",
+          "reason": "补充已回读原文明示的活动信息。"
+        },
+        {
+          "field": "opensAt",
+          "previous": null,
+          "current": "10:50",
+          "observedAt": "2026-09-18T23:07:43.690Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5343754198451107.html",
+          "reason": "补充已回读原文明示的活动信息。"
+        },
+        {
+          "field": "startsAt",
+          "previous": null,
+          "current": "11:00",
+          "observedAt": "2026-09-18T23:07:43.690Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5343754198451107.html",
+          "reason": "补充已回读原文明示的活动信息。"
+        },
+        {
+          "field": "status",
+          "previous": "unconfirmed",
+          "current": "scheduled",
+          "observedAt": "2026-09-18T23:07:43.690Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5343754198451107.html",
+          "reason": "从汇总待确认更新为有原文支持的计划举行，不承诺现场无变动。"
+        }
+      ]
+    },
+    {
+      "eventId": "e-board-219324ec6ae768b71b046390d6e688fe",
+      "snapshot": {
+        "title": "YGG IDOL Fes",
+        "city": "上海",
+        "province": null,
+        "date": "2026-09-19",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:19.209Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5343768993597692",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:26.659Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343768993597692.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:19.209Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-2e9f681e2395d65815254ba85c7f9c75",
+      "snapshot": {
+        "title": "绮丽偶像日K.F.C Shenzhen mini Vol.09",
+        "city": "深圳",
+        "province": null,
+        "date": "2026-09-19",
+        "status": "scheduled",
+        "venue": "九序音乐中心",
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:19.587Z",
+      "verifiedAt": "2026-09-18T23:02:31.775Z",
+      "outcome": "partial",
+      "summary": "主办原文确认 9 月 19 日在深圳宝安区九序音乐中心（钟屋南地铁站）。原文列出演阵容时段，未明确整场 OPEN/START；完整街道地址仍未核实。",
+      "fields": {
+        "date": "verified",
+        "status": "verified",
+        "venue": "verified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5344142924187019",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:27.154Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5344142924187019.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:19.587Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5344122839760987.html",
+          "publisher": "绮丽偶像日KileFestivalCity",
+          "role": "organizer",
+          "observedAt": "2026-09-18T23:02:31.775Z",
+          "result": "read",
+          "fields": ["date", "venue", "status"],
+          "note": "主办原文确认 9 月 19 日在深圳宝安区九序音乐中心（钟屋南地铁站）。原文列出演阵容时段，未明确整场 OPEN/START；完整街道地址仍未核实。"
+        }
+      ],
+      "changes": [
+        {
+          "field": "venue",
+          "previous": null,
+          "current": "九序音乐中心",
+          "observedAt": "2026-09-18T23:02:31.775Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5344122839760987.html",
+          "reason": "补充已回读原文明示的活动信息。"
+        },
+        {
+          "field": "status",
+          "previous": "unconfirmed",
+          "current": "scheduled",
+          "observedAt": "2026-09-18T23:02:31.775Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5344122839760987.html",
+          "reason": "从汇总待确认更新为有原文支持的计划举行，不承诺现场无变动。"
+        }
+      ]
+    },
+    {
+      "eventId": "e-board-3444dd1b79fab3f1a874585c14c8bf35",
+      "snapshot": {
+        "title": "水光下的微醺月光",
+        "city": "上海",
+        "province": null,
+        "date": "2026-09-19",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:18.168Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5329613595088455",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:25.651Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5329613595088455.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:18.168Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-3b037fa385ec698fdf6efc0f66f0ac38",
+      "snapshot": {
+        "title": "夏汐之约",
+        "city": "海口",
+        "province": null,
+        "date": "2026-09-19",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:19.099Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5343003972471097",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:26.560Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343003972471097.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:19.099Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-4aa1bfed01450eca30c1d5ffacc99bb7",
+      "snapshot": {
+        "title": "糖分补充企划VOL.25",
+        "city": "长沙",
+        "province": null,
+        "date": "2026-09-19",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:18.345Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5338970141494151",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:25.850Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5338970141494151.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:18.345Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-59f277d0395bb2d38e64872d515227f0",
+      "snapshot": {
+        "title": "星遇企划",
+        "city": "上海",
+        "province": null,
+        "date": "2026-09-19",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:00:26.756Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/R3Ka7g7s0",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:26.756Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-9a982ce08c199741ca44466c8228b56e",
+      "snapshot": {
+        "title": "银河系·星屑FESTIVAL IDOL Live Vol.2.0",
+        "city": "沈阳",
+        "province": null,
+        "date": "2026-09-19",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:18.927Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5342659881211236",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:26.458Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5342659881211236.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:18.927Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-a580b2ebff86420d35263b2e35a1e7fd",
+      "snapshot": {
+        "title": "Summer Fes",
+        "city": "广州",
+        "province": null,
+        "date": "2026-09-19",
+        "status": "scheduled",
+        "venue": "音乐唐人馆",
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:18.628Z",
+      "verifiedAt": "2026-09-18T23:07:43.958Z",
+      "outcome": "partial",
+      "summary": "参演团体原文确认 9 月 19 日广州音乐唐人馆。正文活动时间 11:40 未标明 OPEN/START，且搜索摘要为 11:20，均不采用；18:20–18:50 仅为该团出演时段。",
+      "fields": {
+        "date": "verified",
+        "status": "verified",
+        "venue": "verified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5343323789462384",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:26.154Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343323789462384.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:18.628Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5344276512772260.html",
+          "publisher": "極夜NightFell",
+          "role": "official",
+          "observedAt": "2026-09-18T23:07:43.958Z",
+          "result": "read",
+          "fields": ["date", "venue", "status"],
+          "note": "参演团体原文确认 9 月 19 日广州音乐唐人馆。正文活动时间 11:40 未标明 OPEN/START，且搜索摘要为 11:20，均不采用；18:20–18:50 仅为该团出演时段。"
+        }
+      ],
+      "changes": [
+        {
+          "field": "venue",
+          "previous": null,
+          "current": "音乐唐人馆",
+          "observedAt": "2026-09-18T23:07:43.958Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5344276512772260.html",
+          "reason": "补充已回读原文明示的活动信息。"
+        },
+        {
+          "field": "status",
+          "previous": "unconfirmed",
+          "current": "scheduled",
+          "observedAt": "2026-09-18T23:07:43.958Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5344276512772260.html",
+          "reason": "从汇总待确认更新为有原文支持的计划举行，不承诺现场无变动。"
+        }
+      ]
+    },
+    {
+      "eventId": "e-board-ae471b5dccc388ac880395645b568171",
+      "snapshot": {
+        "title": "YUMEFES Vol.24.0",
+        "city": "上海",
+        "province": null,
+        "date": "2026-09-19",
+        "status": "scheduled",
+        "venue": "世界树剧场",
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:39.481Z",
+      "verifiedAt": "2026-09-18T23:08:39.481Z",
+      "outcome": "partial",
+      "summary": "参演团体原文确认 9 月 19 日 YUMEFES Vol.24.0 在世界树；14:20–14:40 是该团出演时段。普通转发中的整场时刻未取得原发布者正文，暂不采用。",
+      "fields": {
+        "date": "verified",
+        "status": "verified",
+        "venue": "verified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5344091657209594",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:26.956Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5344091657209594.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:19.405Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5344249453218725.html",
+          "publisher": "幻夢YUMEUTSUTSU",
+          "role": "official",
+          "observedAt": "2026-09-18T23:08:39.481Z",
+          "result": "read",
+          "fields": ["date", "venue", "status"],
+          "note": "参演团体原文确认 9 月 19 日 YUMEFES Vol.24.0 在世界树；14:20–14:40 是该团出演时段。普通转发中的整场时刻未取得原发布者正文，暂不采用。"
+        }
+      ],
+      "changes": [
+        {
+          "field": "venue",
+          "previous": null,
+          "current": "世界树剧场",
+          "observedAt": "2026-09-18T23:08:39.481Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5344249453218725.html",
+          "reason": "补充已回读原文明示的活动信息。"
+        },
+        {
+          "field": "status",
+          "previous": "unconfirmed",
+          "current": "scheduled",
+          "observedAt": "2026-09-18T23:08:39.481Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5344249453218725.html",
+          "reason": "从汇总待确认更新为有原文支持的计划举行，不承诺现场无变动。"
+        }
+      ]
+    },
+    {
+      "eventId": "e-board-afe9be9f2f6c3837834e58699a4cfea0",
+      "snapshot": {
+        "title": "第7阶梯SevenStairs",
+        "city": "安阳",
+        "province": null,
+        "date": "2026-09-19",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:18.825Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5343003943633244",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:26.357Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343003943633244.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:18.825Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-d5172e56274007f7c85c2136fe6d9d6b",
+      "snapshot": {
+        "title": "光年Idol Live Vol.13",
+        "city": "武汉",
+        "province": null,
+        "date": "2026-09-19",
+        "status": "scheduled",
+        "venue": "Beach No.11",
+        "address": "武汉市硚口区解放大道632号武汉K11购物艺术中心6层",
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:18.257Z",
+      "verifiedAt": "2026-09-18T23:04:08.496Z",
+      "outcome": "partial",
+      "summary": "参演团体原文确认日期和场馆地址；其 14:55–15:15 是团体出演时段，不是整场 START。主办所称 13:00–21:00 是活动范围，未据此填写整场开演/结束。Pri-Mary 后续表示无法正常出演，不能解释为整场取消。",
+      "fields": {
+        "date": "verified",
+        "status": "verified",
+        "venue": "verified",
+        "address": "verified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5340791576985980",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:25.751Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5340791576985980.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:18.257Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343799890939278.html",
+          "publisher": "Pri-Mary-",
+          "role": "official",
+          "observedAt": "2026-09-18T23:04:08.496Z",
+          "result": "read",
+          "fields": ["date", "venue", "address", "status"],
+          "note": "参演团体原文确认日期和场馆地址；其 14:55–15:15 是团体出演时段，不是整场 START。主办所称 13:00–21:00 是活动范围，未据此填写整场开演/结束。Pri-Mary 后续表示无法正常出演，不能解释为整场取消。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5344150909880159.html",
+          "publisher": "Pri-Mary-",
+          "role": "official",
+          "observedAt": "2026-09-18T23:04:08.985Z",
+          "result": "read",
+          "fields": [],
+          "note": "参演团体自身安排变化，不据此取消整场活动；当前主档未自动绑定该团体。"
+        }
+      ],
+      "changes": [
+        {
+          "field": "venue",
+          "previous": null,
+          "current": "Beach No.11",
+          "observedAt": "2026-09-18T23:04:08.496Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5343799890939278.html",
+          "reason": "补充已回读原文明示的活动信息。"
+        },
+        {
+          "field": "address",
+          "previous": null,
+          "current": "武汉市硚口区解放大道632号武汉K11购物艺术中心6层",
+          "observedAt": "2026-09-18T23:04:08.496Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5343799890939278.html",
+          "reason": "补充已回读原文明示的活动信息。"
+        },
+        {
+          "field": "status",
+          "previous": "unconfirmed",
+          "current": "scheduled",
+          "observedAt": "2026-09-18T23:04:08.496Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5343799890939278.html",
+          "reason": "从汇总待确认更新为有原文支持的计划举行，不承诺现场无变动。"
+        }
+      ]
+    },
+    {
+      "eventId": "e-board-e7ecf66f50f9d4579c46e698d8f96fff",
+      "snapshot": {
+        "title": "Galaxy Reception Live 星遇现场 Vol.61",
+        "city": "北京",
+        "province": null,
+        "date": "2026-09-19",
+        "status": "scheduled",
+        "venue": "魅现场",
+        "address": "西单北大街109号西西友谊商城二层",
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:18.530Z",
+      "verifiedAt": "2026-09-18T23:02:30.674Z",
+      "outcome": "partial",
+      "summary": "参演团体原文确认日期及场馆地址；15:05–15:30 是该团体出演时间，整场时刻仍未核实。",
+      "fields": {
+        "date": "verified",
+        "status": "verified",
+        "venue": "verified",
+        "address": "verified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5343417456132613",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:26.054Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343417456132613.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:18.530Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5344152237902417.html",
+          "publisher": "真夜中ELF_Official",
+          "role": "official",
+          "observedAt": "2026-09-18T23:02:30.674Z",
+          "result": "read",
+          "fields": ["date", "venue", "address", "status"],
+          "note": "参演团体原文确认日期及场馆地址；15:05–15:30 是该团体出演时间，整场时刻仍未核实。"
+        }
+      ],
+      "changes": [
+        {
+          "field": "venue",
+          "previous": null,
+          "current": "魅现场",
+          "observedAt": "2026-09-18T23:02:30.674Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5344152237902417.html",
+          "reason": "补充已回读原文明示的活动信息。"
+        },
+        {
+          "field": "address",
+          "previous": null,
+          "current": "西单北大街109号西西友谊商城二层",
+          "observedAt": "2026-09-18T23:02:30.674Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5344152237902417.html",
+          "reason": "补充已回读原文明示的活动信息。"
+        },
+        {
+          "field": "status",
+          "previous": "unconfirmed",
+          "current": "scheduled",
+          "observedAt": "2026-09-18T23:02:30.674Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5344152237902417.html",
+          "reason": "从汇总待确认更新为有原文支持的计划举行，不承诺现场无变动。"
+        }
+      ]
+    },
+    {
+      "eventId": "e-board-f34a3303c1171fcde9cbf428a88b5ea8",
+      "snapshot": {
+        "title": "偶像回响",
+        "city": "西安",
+        "province": null,
+        "date": "2026-09-19",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:19.506Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5343899141800268",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:27.054Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343899141800268.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:19.506Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-fbed584ad9ad7ffb61d825ce099d8744",
+      "snapshot": {
+        "title": "RagnaRock Shanghai",
+        "city": "上海",
+        "province": null,
+        "date": "2026-09-19",
+        "status": "scheduled",
+        "venue": "MAO Livehouse 上海",
+        "address": null,
+        "opensAt": "11:30",
+        "startsAt": "12:00",
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:17.911Z",
+      "verifiedAt": "2026-09-18T23:02:30.992Z",
+      "outcome": "verified",
+      "summary": "主办原文明示 9 月 19 日及整场 OPEN/START，完整街道地址与结束时间仍未核实。",
+      "fields": {
+        "date": "verified",
+        "status": "verified",
+        "venue": "verified",
+        "address": "unverified",
+        "opensAt": "verified",
+        "startsAt": "verified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5338411562960559",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:25.223Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5338411562960559.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:17.911Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5338410480830875.html",
+          "publisher": "Ultimaidols_official",
+          "role": "organizer",
+          "observedAt": "2026-09-18T23:02:30.992Z",
+          "result": "read",
+          "fields": ["date", "venue", "opensAt", "startsAt", "status"],
+          "note": "主办原文明示 9 月 19 日及整场 OPEN/START，完整街道地址与结束时间仍未核实。"
+        }
+      ],
+      "changes": [
+        {
+          "field": "venue",
+          "previous": null,
+          "current": "MAO Livehouse 上海",
+          "observedAt": "2026-09-18T23:02:30.992Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5338410480830875.html",
+          "reason": "补充已回读原文明示的活动信息。"
+        },
+        {
+          "field": "opensAt",
+          "previous": null,
+          "current": "11:30",
+          "observedAt": "2026-09-18T23:02:30.992Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5338410480830875.html",
+          "reason": "补充已回读原文明示的活动信息。"
+        },
+        {
+          "field": "startsAt",
+          "previous": null,
+          "current": "12:00",
+          "observedAt": "2026-09-18T23:02:30.992Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5338410480830875.html",
+          "reason": "补充已回读原文明示的活动信息。"
+        },
+        {
+          "field": "status",
+          "previous": "unconfirmed",
+          "current": "scheduled",
+          "observedAt": "2026-09-18T23:02:30.992Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5338410480830875.html",
+          "reason": "从汇总待确认更新为有原文支持的计划举行，不承诺现场无变动。"
+        }
+      ]
+    },
+    {
+      "eventId": "e-board-82c603a35701b0c73ff702a5a7792cff",
+      "snapshot": {
+        "title": "银河系·星屑FESTIVAL IDOL Live Vol.2.0",
+        "city": "沈阳",
+        "province": null,
+        "date": "2026-09-20",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:18.927Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5342659881211236",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:26.458Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5342659881211236.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:18.927Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-9f41bf419b0df8d362ede9bbf18adb85",
+      "snapshot": {
+        "title": "Code:Ragnarök",
+        "city": "上海",
+        "province": null,
+        "date": "2026-09-20",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:19.681Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5342662863358795",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:27.252Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5342662863358795.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:19.681Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-f78bcbd6189cc49fb0035580d9ce8365",
+      "snapshot": {
+        "title": "星遇企划",
+        "city": "上海",
+        "province": null,
+        "date": "2026-09-20",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:00:26.756Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/R3Ka7g7s0",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:26.756Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-5f9fdfa1cc8b067c8981d58f70528f7b",
+      "snapshot": {
+        "title": "绮花夜影",
+        "city": "北京",
+        "province": null,
+        "date": "2026-09-22",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:19.785Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5340982107440669",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:27.352Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5340982107440669.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:19.785Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-a127722c2f79ea5bc96f88d313384978",
+      "snapshot": {
+        "title": "一瞬の沸騰、全ての序章",
+        "city": "北京",
+        "province": null,
+        "date": "2026-09-23",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:19.979Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5336579713536381",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:27.546Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5336579713536381.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:19.979Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-e81c88a61032c57007edc20106f9464f",
+      "snapshot": {
+        "title": "⟨裂Day⟩ — 突然蓝屏⟩⟨",
+        "city": "北京",
+        "province": null,
+        "date": "2026-09-23",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:19.886Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5339902678146617",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:27.446Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5339902678146617.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:19.886Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-9566a140d04762d459f9c9f91f7e79d6",
+      "snapshot": {
+        "title": "绮花夜影",
+        "city": "北京",
+        "province": null,
+        "date": "2026-09-24",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:19.785Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5340982107440669",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:27.352Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5340982107440669.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:19.785Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-76d977f2ccfdee5656e5430e5d54a90d",
+      "snapshot": {
+        "title": "STARRY MUSIC FES",
+        "city": "上海",
+        "province": null,
+        "date": "2026-09-25",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:20.150Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5343020174017912",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:27.737Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343020174017912.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:20.150Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-9ac40c65e4d2da4568247d42573adf06",
+      "snapshot": {
+        "title": "空岛 Skypiea Sunday Rally Vol.11",
+        "city": "天津",
+        "province": null,
+        "date": "2026-09-25",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:20.068Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5336561409593300",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:27.643Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5336561409593300.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:20.068Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-b61325aaa87a22f03e3acdb390dea517",
+      "snapshot": {
+        "title": "Summer Idol Live Vol.22",
+        "city": "重庆",
+        "province": null,
+        "date": "2026-09-25",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:20.253Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5344142830866461",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:27.833Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5344142830866461.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:20.253Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-09fc214e323b59b3f97d12894f236639",
+      "snapshot": {
+        "title": "君色に溶けゆく",
+        "city": "广州",
+        "province": null,
+        "date": "2026-09-26",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:20.443Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5343130826311780",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:28.026Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343130826311780.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:20.443Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-1ee7e25b1559e674804ff911881d25b6",
+      "snapshot": {
+        "title": "Mio&Riria生日SP",
+        "city": "海口",
+        "province": null,
+        "date": "2026-09-26",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:20.617Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5343130876381000",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:28.230Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343130876381000.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:20.617Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-493a10f0fe6ccd86a6a544f3591f697d",
+      "snapshot": {
+        "title": "感電注意 IDOL LIVE Vol.19",
+        "city": "武汉",
+        "province": null,
+        "date": "2026-09-26",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:20.696Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5344142541981681",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:28.329Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5344142541981681.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:20.696Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-841233594710c39da264f9557003ea3e",
+      "snapshot": {
+        "title": "Estrellas熠期一会Live Vol.55",
+        "city": "青岛",
+        "province": null,
+        "date": "2026-09-26",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:20.523Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5343417391647120",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:28.125Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343417391647120.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:20.523Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-a3a66181065042a552f75a9894993970",
+      "snapshot": {
+        "title": "银河galaxy Idol Fes vol.9",
+        "city": "郑州",
+        "province": null,
+        "date": "2026-09-26",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:20.347Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5341332295911168",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:27.930Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5341332295911168.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:20.347Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-373996c3e5d2a9b787a6e58f5ee060ae",
+      "snapshot": {
+        "title": "Sunday Candy Vol.15",
+        "city": "广州",
+        "province": null,
+        "date": "2026-09-27",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:20.778Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5342660018832287",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:28.427Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5342660018832287.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:20.778Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-6f2f861f87ebfd82ecf378bcb16eea70",
+      "snapshot": {
+        "title": "熠期派对",
+        "city": "青岛",
+        "province": null,
+        "date": "2026-09-27",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:20.860Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5343691255318629",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:28.524Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343691255318629.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:20.860Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-80ae10b4357d00d81f50bd4d8f62c293",
+      "snapshot": {
+        "title": "真夜中Drift",
+        "city": "北京",
+        "province": null,
+        "date": "2026-09-28",
+        "status": "scheduled",
+        "venue": "Mask",
+        "address": "朝阳区霄云路35号东信商业广场",
+        "opensAt": "19:15",
+        "startsAt": "19:30",
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:20.943Z",
+      "verifiedAt": "2026-09-18T23:02:30.873Z",
+      "outcome": "verified",
+      "summary": "团体单独公演原文明示 9 月 28 日、Mask 地址及整场 OPEN/START；结束时间仍未核实。",
+      "fields": {
+        "date": "verified",
+        "status": "verified",
+        "venue": "verified",
+        "address": "verified",
+        "opensAt": "verified",
+        "startsAt": "verified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5341546235036859",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:28.621Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5341546235036859.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:20.943Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5341539003274357.html",
+          "publisher": "真夜中ELF_Official",
+          "role": "official",
+          "observedAt": "2026-09-18T23:02:30.873Z",
+          "result": "read",
+          "fields": [
+            "date",
+            "venue",
+            "address",
+            "opensAt",
+            "startsAt",
+            "status"
+          ],
+          "note": "团体单独公演原文明示 9 月 28 日、Mask 地址及整场 OPEN/START；结束时间仍未核实。"
+        }
+      ],
+      "changes": [
+        {
+          "field": "venue",
+          "previous": null,
+          "current": "Mask",
+          "observedAt": "2026-09-18T23:02:30.873Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5341539003274357.html",
+          "reason": "补充已回读原文明示的活动信息。"
+        },
+        {
+          "field": "address",
+          "previous": null,
+          "current": "朝阳区霄云路35号东信商业广场",
+          "observedAt": "2026-09-18T23:02:30.873Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5341539003274357.html",
+          "reason": "补充已回读原文明示的活动信息。"
+        },
+        {
+          "field": "opensAt",
+          "previous": null,
+          "current": "19:15",
+          "observedAt": "2026-09-18T23:02:30.873Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5341539003274357.html",
+          "reason": "补充已回读原文明示的活动信息。"
+        },
+        {
+          "field": "startsAt",
+          "previous": null,
+          "current": "19:30",
+          "observedAt": "2026-09-18T23:02:30.873Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5341539003274357.html",
+          "reason": "补充已回读原文明示的活动信息。"
+        },
+        {
+          "field": "status",
+          "previous": "unconfirmed",
+          "current": "scheduled",
+          "observedAt": "2026-09-18T23:02:30.873Z",
+          "sourceUrl": "https://www.sina.cn/news/detail/5341539003274357.html",
+          "reason": "从汇总待确认更新为有原文支持的计划举行，不承诺现场无变动。"
+        }
+      ]
+    },
+    {
+      "eventId": "e-board-7a42af7262d6bdac9365f91879d84f2b",
+      "snapshot": {
+        "title": "绮花夜影",
+        "city": "北京",
+        "province": null,
+        "date": "2026-09-29",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:19.785Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5340982107440669",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:27.352Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5340982107440669.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:19.785Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-0e91d827d10fc0e522b8c133444211f2",
+      "snapshot": {
+        "title": "心率逃逸计划",
+        "city": "上海",
+        "province": null,
+        "date": "2026-10-01",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:00:26.756Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/R3Ka7g7s0",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:26.756Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-ae4a5b4d5b0c8ec0b943f547eb62aed4",
+      "snapshot": {
+        "title": "Ani Project Festival 2.0",
+        "city": "广州",
+        "province": null,
+        "date": "2026-10-03",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:21.024Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5343687613875154",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:28.723Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343687613875154.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:21.024Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-6e2a5f821460b00c75ebb3fcc9827f00",
+      "snapshot": {
+        "title": "Ani Project Festival 2.0",
+        "city": "广州",
+        "province": null,
+        "date": "2026-10-04",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:21.024Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5343687613875154",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:28.723Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343687613875154.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:21.024Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-7262a6a8b93d0c721091be2d70935343",
+      "snapshot": {
+        "title": "RagnaRock",
+        "city": "上海",
+        "province": null,
+        "date": "2026-10-05",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:21.107Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5343768821370219",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:28.827Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343768821370219.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:21.107Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-44c2a6e6695d9ea9a39ac73c7856d60d",
+      "snapshot": {
+        "title": "碎夜瑠璃Lapislazuli&ANNYX&Misology bandset 3manLive",
+        "city": "上海",
+        "province": null,
+        "date": "2026-10-06",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:00:26.756Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/R3Ka7g7s0",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:26.756Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-6dc556e3526acfeeae309661daa27f79",
+      "snapshot": {
+        "title": "運命の軌道 MeFloar LAST ONEMAN LIVE",
+        "city": "广州",
+        "province": null,
+        "date": "2026-10-06",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:21.297Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5343769281169039",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:29.024Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343769281169039.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:21.297Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-9c93b165766d23c0ec76d38784330d05",
+      "snapshot": {
+        "title": "惑星VORTEX 4TH ONEMAN LIVE ~奇点临界Iv·VORTEX::OMNI~with BANDSET PART",
+        "city": "上海",
+        "province": null,
+        "date": "2026-10-06",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:21.187Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5341871207612538",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:28.928Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5341871207612538.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:21.187Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-00ad893a0d34840fa7bf00a39eb7a77d",
+      "snapshot": {
+        "title": "黑星入梦.异常信号",
+        "city": "上海",
+        "province": null,
+        "date": "2026-10-17",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:08:21.411Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/5333896099268143",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:29.122Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5333896099268143.html",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:08:21.411Z",
+          "result": "insufficient",
+          "fields": [],
+          "note": "新浪公开映射页仅有汇总转发文字，未取得可归属主办的完整活动安排"
+        }
+      ],
+      "changes": []
+    },
+    {
+      "eventId": "e-board-757b5071426baaa3ab151f63090ed7c8",
+      "snapshot": {
+        "title": "心率逃逸计划",
+        "city": "北京",
+        "province": null,
+        "date": "2026-10-17",
+        "status": "unconfirmed",
+        "venue": null,
+        "address": null,
+        "opensAt": null,
+        "startsAt": null,
+        "endsAt": null
+      },
+      "checkedAt": "2026-09-18T23:00:26.756Z",
+      "verifiedAt": null,
+      "outcome": "unverified",
+      "summary": "已尝试回读收录来源，未取得可核对的一手活动安排。保留原日期与城市线索，其余字段尚未核实，出发前请向主办确认。",
+      "fields": {
+        "date": "unverified",
+        "status": "unverified",
+        "venue": "unverified",
+        "address": "unverified",
+        "opensAt": "unverified",
+        "startsAt": "unverified",
+        "endsAt": "unverified"
+      },
+      "evidence": [
+        {
+          "url": "https://weibo.com/7716940453/R3Ka7g7s0",
+          "publisher": "地下偶像相关揭示板",
+          "role": "aggregator",
+          "observedAt": "2026-09-18T23:00:26.756Z",
+          "result": "unavailable",
+          "fields": [],
+          "note": "本轮返回微博访客验证页，未取得可核对原文；不据此判断取消或延期。"
+        }
+      ],
+      "changes": []
+    }
+  ]
+}

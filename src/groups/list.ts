@@ -7,6 +7,7 @@ import {
   type GroupCatalog,
 } from "../catalog/model";
 import { readCatalog } from "../catalog/runtime";
+import { bindFollowButtons, followButton } from "../preferences/browser";
 import { element, imageBlock, link, required, showFailure } from "./dom";
 import {
   describeRegion,
@@ -60,6 +61,7 @@ function makeCard(
         "groups-card-style",
       ),
     );
+  content.append(followButton("group", group.id, group.name));
   card.append(content);
   return card;
 }
@@ -93,6 +95,7 @@ export function mountGroupsPage(): void {
   let filters: CatalogFilters = defaultCatalogFilters();
   let page = 1;
   let sort: GroupListSort = "archive";
+  let unbindFollowing = () => {};
   form.hidden = false;
   required("groups-archive").textContent =
     `收录 ${catalog.groups.length} 条档案 · 历史截点 ${catalog.archiveDate} · 状态以各项来源为准`;
@@ -220,6 +223,8 @@ export function mountGroupsPage(): void {
     next.disabled = page >= visible.pages;
     required("groups-page-info").textContent =
       `第 ${page} / ${visible.pages} 页`;
+    unbindFollowing();
+    unbindFollowing = bindFollowButtons(results);
   };
 
   const remember = (push: boolean): void => {

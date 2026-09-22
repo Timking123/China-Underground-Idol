@@ -3,12 +3,15 @@ import { resolve } from "node:path";
 import { sha256 } from "../src/sourceCapture.ts";
 import { requireState } from "../src/sourceRegistry.ts";
 import { readOptional, regularPath, writeOnce } from "./state.ts";
+import { assertMaintenanceEnabled } from "./maintenanceControl.ts";
 
 /** 仅消费与root发布回执逐字节绑定的pending；失败或未知结果保留供人工处理。 */
 export async function consumePublication(
   stateRoot: string,
   receiptRoot: string,
+  assertEnabled: () => void = assertMaintenanceEnabled,
 ) {
+  assertEnabled();
   const pendingPath = resolve(stateRoot, "publish/pending.json");
   const pending = await readOptional(pendingPath);
   if (!pending) return { status: "noop" };
@@ -44,7 +47,8 @@ export async function consumePublication(
         previous.newSha === pending.newSha,
       "publication_consumed_drift",
     );
-  else
+  else {
+    assertEnabled();
     await writeOnce(consumedPath, {
       schemaVersion: "idol-publication-consumed-v1",
       requestSha256,
@@ -53,11 +57,13 @@ export async function consumePublication(
       release: pending.release,
       receipt,
     });
+  }
   requireState(
     sha256(await readFile(pendingPath)) === requestSha256,
     "publication_pending_drift",
   );
   await regularPath(pendingPath);
+  assertEnabled();
   await unlink(pendingPath);
   return {
     status: "published",

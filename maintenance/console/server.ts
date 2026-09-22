@@ -3,7 +3,17 @@ import {
   type IncomingMessage,
   type ServerResponse,
 } from "node:http";
-import { randomBytes, randomUUID, timingSafeEqual } from "node:crypto";
+import {
+  createHash,
+  randomBytes,
+  randomUUID,
+  timingSafeEqual,
+} from "node:crypto";
+import {
+  artifactManifestPath,
+  isGeneratedPublicPath,
+  validateArtifactManifest,
+} from "../../scripts/publicArtifacts.mjs";
 import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import { performance } from "node:perf_hooks";
@@ -15,6 +25,12 @@ import {
 } from "./store.ts";
 import { hashPassword, verifyPassword } from "./crypto.ts";
 import { createSiteFileResolver } from "./security.ts";
+import {
+  editorialBaseline,
+  editorialDetail,
+  mutateEditorial,
+} from "./editorial.ts";
+import type { EditorialRevision } from "../../src/admin/editorial-contracts.ts";
 import {
   feedbackInput,
   HttpError,
@@ -54,6 +70,10 @@ const PUBLIC_PAGES = new Set([
   "/guide.html",
   "/contribute.html",
   "/about.html",
+  "/city.html",
+  "/favorites.html",
+  "/subscriptions.html",
+  "/updates.html",
 ]);
 const COOKIE = "idol_admin";
 const MIME: Record<string, string> = {
@@ -65,6 +85,8 @@ const MIME: Record<string, string> = {
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
   ".webp": "image/webp",
+  ".json": "application/json; charset=utf-8",
+  ".ics": "text/calendar; charset=utf-8",
 };
 function headers(response: ServerResponse): void {
   response.setHeader("Cache-Control", "no-store, private");
@@ -135,6 +157,27 @@ export function createConsoleServer(options: ServerOptions) {
     }
   };
   const { store, geo } = options;
+  const generatedFile = async (name: string): Promise<Buffer | null> => {
+    if (!isGeneratedPublicPath(name)) return null;
+    try {
+      const manifestFile = await publicFile(artifactManifestPath);
+      if ((await stat(manifestFile)).size > 2 * 1024 * 1024) return null;
+      const manifest = validateArtifactManifest(
+        JSON.parse(await readFile(manifestFile, "utf8")),
+      );
+      const entry = manifest.files.find((item) => item.path === name);
+      if (!entry) return null;
+      const filename = await publicFile(name);
+      if ((await stat(filename)).size !== entry.bytes) return null;
+      const bytes = await readFile(filename);
+      return bytes.length === entry.bytes &&
+        createHash("sha256").update(bytes).digest("hex") === entry.sha256
+        ? bytes
+        : null;
+    } catch {
+      return null;
+    }
+  };
   const now = options.now ?? Date.now;
   const publicOrigin = new URL(options.origin);
   if (
@@ -260,8 +303,24 @@ export function createConsoleServer(options: ServerOptions) {
           throw new HttpError(400, "页面路径不正确");
         }
         // 本地预览也只服务发行包中的明确文件，绝不暴露源码或状态目录。
+        const generated = await generatedFile(name.slice(1));
+        if (generated) {
+          response.writeHead(200, {
+            "Content-Type":
+              MIME[path.extname(name)] ?? "application/octet-stream",
+          });
+          response.end(generated);
+          return;
+        }
         if (
           PUBLIC_PAGES.has(name) ||
+          [
+            "/data/events.v1.json",
+            "/data/event-verifications.v1.json",
+            "/data/feed-state.v1.json",
+            "/data/updates.v1.json",
+            `/${artifactManifestPath}`,
+          ].includes(name) ||
           /^\/(?:app\.(?:css|js)|data\.js|styles\/[a-z-]+\.css|assets\/[a-z-]+\.js|assets\/(?:avatars|posters|group-visuals|profile-covers|weibo-api-avatar-candidates|weibo-avatars|weibo-cached-visuals|event-posters)\/[a-zA-Z0-9.-]+\.(?:png|jpe?g|webp|svg))$/u.test(
             name,
           )
@@ -323,7 +382,13 @@ export function createConsoleServer(options: ServerOptions) {
           rawPath.includes("\\") ||
           /[\r\n\t]/u.test(rawPath) ||
           parsedPath.origin !== options.origin ||
-          !PUBLIC_PAGES.has(pathname)
+          !(
+            PUBLIC_PAGES.has(pathname) ||
+            (/^\/(?:groups\/(?:g\d{3,8}|index)|events\/(?:e-[a-z0-9][a-z0-9_-]{0,95}|index))\.html$/u.test(
+              pathname,
+            ) &&
+              (await generatedFile(pathname.slice(1))))
+          )
         )
           throw new HttpError(400, "访问页面不在统计范围内");
         const eventId = textField(data.id, 36, true);
@@ -436,6 +501,82 @@ export function createConsoleServer(options: ServerOptions) {
       }
       if (method === "GET" && route.pathname === "/api/v1/admin/session")
         return reply(response, 200, sessionResponse(session.value, now()));
+      if (route.pathname.startsWith("/api/v1/admin/editorial")) {
+        const prefix = "/api/v1/admin/editorial";
+        const readBaseline = async (): Promise<Buffer> => {
+          const filename = await publicFile("data/events.v1.json");
+          if ((await stat(filename)).size > 4 * 1024 * 1024)
+            throw new HttpError(503, "活动基线超过读取上限");
+          const bytes = await readFile(filename);
+          stillAuthorized();
+          return bytes;
+        };
+        if (method === "GET" && route.pathname === `${prefix}/baseline`)
+          return reply(response, 200, editorialBaseline(await readBaseline()));
+        if (method === "GET" && route.pathname === prefix)
+          return reply(
+            response,
+            200,
+            store.recordPage<EditorialRevision>(
+              "editorial",
+              positivePage(route.searchParams.get("page")),
+              20,
+            ),
+          );
+        if (method === "POST" && route.pathname === prefix) {
+          const data = await readAdminJson();
+          return reply(
+            response,
+            201,
+            mutateEditorial(
+              store,
+              "create",
+              null,
+              data,
+              await readBaseline(),
+              session.value.username,
+              now(),
+              stillAuthorized,
+            ),
+          );
+        }
+        const match =
+          /^\/api\/v1\/admin\/editorial\/([a-f0-9-]{36})(?:\/(review|handoff|withdraw))?$/u.exec(
+            route.pathname,
+          );
+        if (match) {
+          const [, id, action] = match;
+          if (method === "GET" && !action)
+            return reply(
+              response,
+              200,
+              editorialDetail(store, id, await readBaseline()),
+            );
+          if (
+            (method === "PATCH" && !action) ||
+            (method === "POST" && action)
+          ) {
+            const data = await readAdminJson();
+            const operation = (action ?? "edit") as
+              "edit" | "review" | "handoff" | "withdraw";
+            return reply(
+              response,
+              200,
+              mutateEditorial(
+                store,
+                operation,
+                id,
+                data,
+                operation === "withdraw" ? null : await readBaseline(),
+                session.value.username,
+                now(),
+                stillAuthorized,
+              ),
+            );
+          }
+        }
+        throw new HttpError(404, "修订接口不存在");
+      }
       if (method === "POST" && route.pathname === "/api/v1/admin/logout") {
         store.remove("sessions", session.id);
         setCookie(response, "", 0);

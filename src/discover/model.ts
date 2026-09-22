@@ -90,14 +90,5 @@ export function eventUrl(event: Pick<EventRecord, "id">): string {
 }
 
 export function cityUrl(city: DiscoveryCity): string {
-  if (city.groupCount > 0) {
-    return `groups.html?${new URLSearchParams({
-      regionRole: "activity",
-      city: city.name,
-    })}`;
-  }
-  return `events.html?${new URLSearchParams({
-    period: city.upcomingCount > 0 ? "upcoming" : "past",
-    city: city.name,
-  })}`;
+  return `city.html?${new URLSearchParams({ city: city.name })}`;
 }

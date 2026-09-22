@@ -1,4 +1,6 @@
 import rawDataset from "../../data/events.v1.json";
+import rawVerificationDataset from "../../data/event-verifications.v1.json";
+import { bindFollowButtons, followButton } from "../preferences/browser";
 import { readCatalog } from "../catalog/runtime";
 import { normalizeRegionName } from "../catalog/model";
 import {
@@ -22,6 +24,17 @@ import {
   type EventPeriod,
   type FilterOptions,
 } from "./navigation";
+import {
+  buildVenueNavigationUrl,
+  eventFieldLabel,
+  getEventVerification,
+  SOURCE_ROLE_LABELS,
+  validateEventVerificationDataset,
+  VERIFICATION_FIELD_LABELS,
+  VERIFICATION_LABELS,
+  type EventVerificationDataset,
+  type EventVerificationRecord,
+} from "./verification";
 
 export {
   chinaToday,
@@ -132,7 +145,23 @@ function uniqueRegions(values: string[]): string[] {
   return [...regions.values()];
 }
 
-function eventEntry(event: EventRecord, now: Date): HTMLElement {
+export function formatVerificationTime(timestamp: string): string {
+  return new Intl.DateTimeFormat("zh-CN", {
+    timeZone: "Asia/Shanghai",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).format(new Date(timestamp));
+}
+
+function eventEntry(
+  event: EventRecord,
+  now: Date,
+  verification?: EventVerificationRecord,
+): HTMLElement {
   const article = element("article", "", "events-entry");
   article.id = event.id;
   article.tabIndex = -1;
@@ -147,28 +176,48 @@ function eventEntry(event: EventRecord, now: Date): HTMLElement {
   const status = element("span", STATUS_LABELS[event.status], "events-badge");
   status.dataset.status = event.status;
   badges.append(status);
+  const verificationBadge = element(
+    "span",
+    verification
+      ? VERIFICATION_LABELS[verification.outcome]
+      : "尚无本轮核验记录",
+    "events-badge events-verification-badge",
+  );
+  verificationBadge.dataset.verification =
+    verification?.outcome || "unverified";
+  badges.append(verificationBadge);
   const temporal = getEventTemporalState(event, now);
   if (temporal === "past")
     badges.append(element("span", "日期已过 · 不代表已举办", "events-badge"));
   else if (temporal === "today")
     badges.append(element("span", "今天", "events-badge"));
   body.append(badges, element("h3", event.title));
+  if (verification)
+    body.append(
+      element(
+        "p",
+        verification.verifiedAt
+          ? `核验于 ${formatVerificationTime(verification.verifiedAt)} · 非实时确认`
+          : `最近尝试 ${formatVerificationTime(verification.checkedAt)} · 尚未取得充分原文`,
+        "events-meta",
+      ),
+    );
   body.append(
     element(
       "p",
-      `${[event.province, event.city].filter(Boolean).join(" · ") || "地区待核实"} / ${event.venue || "场地待公布"}`,
+      `${[event.province, event.city].filter(Boolean).join(" · ") || "地区尚未核实"} / ${eventFieldLabel(event, verification, "venue")}`,
     ),
   );
   body.append(
     element(
       "p",
-      event.startsAt ? `开演 ${event.startsAt}（UTC+8）` : "开演时间待公布",
+      `整场开演：${eventFieldLabel(event, verification, "startsAt")}${event.startsAt ? "（UTC+8）" : ""}`,
     ),
   );
   const performers = element("div", "", "events-performers");
   performers.append(element("span", "出演："));
   if (!event.performers.length)
-    performers.append(element("span", "出演阵容待公布"));
+    performers.append(element("span", "阵容尚未核实"));
   for (const performer of event.performers) {
     if (performer.groupId) {
       const link = element("a", performer.name);
@@ -177,18 +226,91 @@ function eventEntry(event: EventRecord, now: Date): HTMLElement {
     } else performers.append(element("span", performer.name));
   }
   body.append(performers);
+  const actions = element("div", "", "events-entry-actions");
+  actions.append(followButton("event", event.id, event.title));
+  const navigation = buildVenueNavigationUrl(event, verification);
+  if (navigation) actions.append(externalLink(navigation, "查看场馆地图 ↗"));
+  const permalink = element("a", "这场活动的链接");
+  permalink.href = `events.html#${encodeURIComponent(event.id)}`;
+  actions.append(permalink);
+  body.append(actions);
   const details = element("details", "", "events-detail");
   details.append(element("summary", "展开详情与信息来源"));
   const detailBody = element("div", "", "events-detail-body");
   detailBody.append(
     element(
       "p",
-      `入场：${event.opensAt || "待公布"} / 开演：${event.startsAt || "待公布"} / 结束：${event.endsAt || "待公布"}（UTC+8）`,
+      `入场：${eventFieldLabel(event, verification, "opensAt")} / 整场开演：${eventFieldLabel(event, verification, "startsAt")} / 结束：${eventFieldLabel(event, verification, "endsAt")}（UTC+8）`,
     ),
   );
   detailBody.append(
-    element("p", `地址：${event.address || "待公布，请查阅官宣"}`),
+    element("p", `地址：${eventFieldLabel(event, verification, "address")}`),
   );
+  if (!navigation)
+    detailBody.append(
+      element(
+        "p",
+        "地址或当前场馆安排尚未完成核验，暂不提供地图导航。",
+        "events-meta",
+      ),
+    );
+  if (verification) {
+    const review = element("section", "", "events-verification");
+    review.append(
+      element("h4", "本轮核验"),
+      element("p", verification.summary),
+    );
+    review.append(
+      element(
+        "p",
+        `最近检查：${formatVerificationTime(verification.checkedAt)}（UTC+8）。尚未公布表示原文明示未公布；尚未核实表示本站未取得充分依据。`,
+        "events-meta",
+      ),
+    );
+    const evidenceList = element("ul");
+    for (const evidence of verification.evidence) {
+      const item = element("li");
+      const result = {
+        read: "已回读",
+        unavailable: "未能读取原文",
+        insufficient: "原文信息不足",
+      }[evidence.result];
+      item.append(
+        externalLink(
+          evidence.url,
+          `${SOURCE_ROLE_LABELS[evidence.role]} · ${evidence.publisher}`,
+        ),
+        element(
+          "span",
+          ` · ${result} · ${formatVerificationTime(evidence.observedAt)}`,
+          "events-meta",
+        ),
+      );
+      item.append(element("p", evidence.note));
+      evidenceList.append(item);
+    }
+    review.append(evidenceList);
+    if (verification.changes.length) {
+      review.append(element("h4", "资料变化"));
+      const changes = element("ul");
+      for (const change of verification.changes) {
+        const label = (value: string | null): string =>
+          value === null
+            ? "尚未收录"
+            : change.field === "status"
+              ? STATUS_LABELS[value as EventRecord["status"]] || value
+              : value;
+        const item = element(
+          "li",
+          `${VERIFICATION_FIELD_LABELS[change.field]}：${label(change.previous)} → ${label(change.current)}。${change.reason} `,
+        );
+        item.append(externalLink(change.sourceUrl, "核对变更来源"));
+        changes.append(item);
+      }
+      review.append(changes);
+    }
+    detailBody.append(review);
+  }
   if (event.notes) detailBody.append(element("p", event.notes, "events-notes"));
   if (event.status === "postponed")
     detailBody.append(
@@ -198,10 +320,17 @@ function eventEntry(event: EventRecord, now: Date): HTMLElement {
   for (const source of event.sources) {
     const item = element("li");
     item.append(
-      externalLink(source.url, `${source.label} · ${source.publisher}`),
+      externalLink(
+        source.url,
+        `${SOURCE_ROLE_LABELS[source.kind]} · ${source.label} · ${source.publisher}`,
+      ),
     );
     item.append(
-      element("span", ` · 观察时间：${source.observedAt}`, "events-meta"),
+      element(
+        "span",
+        ` · 观察时间：${formatVerificationTime(source.observedAt)}（UTC+8）`,
+        "events-meta",
+      ),
     );
     sources.append(item);
   }
@@ -240,6 +369,7 @@ export function mountEventsPage(
   dataset: EventDataset,
   groups: GroupReference[],
   now?: Date,
+  verificationDataset?: EventVerificationDataset,
 ): void {
   const readNow = (): Date => now ?? new Date();
   let today = chinaToday(readNow());
@@ -344,6 +474,7 @@ export function mountEventsPage(
   let view: "list" | "month" = "list";
   let month = today.slice(0, 7);
   let selectedDate = "";
+  let unbindFollowButtons: (() => void) | undefined;
 
   const syncForm = (): void => {
     today = chinaToday(readNow());
@@ -488,7 +619,34 @@ export function mountEventsPage(
         ? selectedDate || `${month} 整月`
         : "按日期排列 · 状态以已收录官宣为准";
     if (view === "month") renderCalendar();
-    list.replaceChildren(...visible.map((event) => eventEntry(event, at)));
+    unbindFollowButtons?.();
+    list.replaceChildren(
+      ...visible.map((event) =>
+        eventEntry(
+          event,
+          at,
+          verificationDataset
+            ? getEventVerification(verificationDataset, event.id)
+            : undefined,
+        ),
+      ),
+    );
+    unbindFollowButtons = bindFollowButtons(list);
+    const verificationStatus = document.getElementById(
+      "events-verification-summary",
+    );
+    if (verificationStatus) {
+      const count = (outcome: EventVerificationRecord["outcome"]): number =>
+        matches.filter(
+          (event) =>
+            verificationDataset &&
+            getEventVerification(verificationDataset, event.id)?.outcome ===
+              outcome,
+        ).length;
+      verificationStatus.textContent = verificationDataset
+        ? `核心安排已核验 ${count("verified")} 场 · 部分核验 ${count("partial")} 场 · 待核实或无本轮记录 ${matches.length - count("verified") - count("partial")} 场`
+        : "核验补充资料暂不可用。可继续浏览已收录线索，核验标记与地图导航暂不可用。";
+    }
     required("events-empty").hidden = visible.length > 0;
     required("events-empty-reason").textContent =
       matches.length && view === "month"
@@ -702,10 +860,24 @@ function boot(): void {
       catalog.data.groups.map((item) => item.id),
     );
     if (!validation.valid) throw new Error("活动资料校验失败");
-    mountEventsPage(validation.data, catalog.data.groups);
+    const verification = validateEventVerificationDataset(
+      rawVerificationDataset,
+      validation.data.events,
+    );
+    mountEventsPage(
+      validation.data,
+      catalog.data.groups,
+      undefined,
+      verification.valid ? verification.data : undefined,
+    );
   } catch {
     required("events-result-status").textContent =
       "活动资料暂时无法读取，请重新打开完整站点文件，或稍后重试。";
+    const verificationStatus = document.getElementById(
+      "events-verification-summary",
+    );
+    if (verificationStatus)
+      verificationStatus.textContent = "活动资料暂不可用，核验记录暂停展示。";
     required<HTMLButtonElement>("events-export").disabled = true;
     for (const control of document.querySelectorAll<
       HTMLInputElement | HTMLButtonElement | HTMLSelectElement

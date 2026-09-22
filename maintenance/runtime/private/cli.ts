@@ -1,5 +1,6 @@
 import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
+import { assertMaintenanceEnabled } from "./server/maintenanceControl.ts";
 import {
   archiveImport,
   applyActivityRun,
@@ -52,6 +53,8 @@ const print = (value: unknown): void => {
   process.stdout.write(encode(value));
 };
 try {
+  // 旧 events-only apply 与手动采集/恢复入口也受同一 root 暂停边界约束。
+  if (!["help", "sources"].includes(command)) assertMaintenanceEnabled();
   const registry = validateSourceRegistry(
     JSON.parse(
       (await readStageFile(stage, "private/sources.v1.json")).toString("utf8"),

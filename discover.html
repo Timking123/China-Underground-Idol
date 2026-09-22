@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="app.css" />
     <link rel="stylesheet" href="styles/site.css" />
     <link rel="stylesheet" href="styles/discover.css" />
+    <link rel="stylesheet" href="styles/preferences.css" />
     <script src="assets/groups-data.js" defer></script>
     <script src="assets/discover.js" defer></script>
     <script src="assets/metrics.js" defer></script>
@@ -30,6 +31,8 @@
         <a href="geography.html">全国地图</a>
         <a href="index.html">风格图</a>
         <a href="guide.html">观演指南</a>
+        <a href="city.html">城市</a>
+        <a href="favorites.html">我的关注</a>
       </nav>
       <header class="discover-header">
         <div>
@@ -59,6 +62,14 @@
         </form>
       </header>
       <main>
+        <form id="discover-city-preference" class="discover-city-preference">
+          <label for="discover-active-city">常看城市</label>
+          <select id="discover-active-city">
+            <option value="">全国 · 不限定城市</option>
+          </select>
+          <button type="submit">记住选择</button>
+          <span id="discover-city-context" role="status">正在查看全国</span>
+        </form>
         <div class="discover-content">
           <section
             class="discover-groups"

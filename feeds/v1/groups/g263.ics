@@ -1,0 +1,31 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//China Underground Idol//Subscriptions v1//ZH-CN
+CALSCALE:GREGORIAN
+X-WR-CALNAME:TakeBlue · 地偶演出
+BEGIN:VEVENT
+UID:e-weibo-5338755200452940@idol-events.local
+DTSTAMP:20260918T231346Z
+CREATED:20260918T231346Z
+LAST-MODIFIED:20260918T231346Z
+SEQUENCE:0
+DTSTART;VALUE=DATE:20260905
+SUMMARY:【计划举行】偶像回响 Idol Echo Live Vol.31 · 小丸mori
+ 生诞祭（日期占位）
+DESCRIPTION:状态：计划举行。日期经过不等于实际举办。\n
+ 中国当地时间 UTC+8；部分收录，出发前请核对官宣。\n字
+ 段核验：尚未核实；不改变主档日程状态。\n整场开演时
+ 刻未知；日历中的日期占位不表示全天演出。\n收录阵容
+ ：TakeBlue\n当前城市：尚未确认；订阅保留曾归属范围以
+ 传达更正。\n据已归档官号预告整理，未实时复核变更。
+ 预告中的 15:40–16:00 为 TakeBlue 出演时段，不能据此确定
+ 整场开演时间；仅收录已核实的部分阵容。省市、完整
+ 地址和整场时刻未确认。\nTakeBlue 本周演出情报（TakeBlue 
+ 官号；观察于 2026-09-03T11:43:48.400Z）：https://weibo.com/detail/
+ 5338755200452940\n资料修订：2026-09-18T23:13:46.678Z；序号 0
+LOCATION:VeinLab未来俱乐部
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+URL:https://idol.hi-veblen.com/events.html?event=e-weibo-5338755200452940
+END:VEVENT
+END:VCALENDAR

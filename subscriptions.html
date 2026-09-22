@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="按团体或城市获取固定日历订阅地址，也可下载 ICS 文件手动导入。只包含已收录资料，刷新由日历客户端决定。"
+    />
+    <link rel="icon" href="data:," />
+    <title>日历订阅 · 地下偶像资料档案</title>
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="styles/site.css" />
+    <link rel="stylesheet" href="styles/preferences.css" />
+    <link rel="stylesheet" href="styles/subscriptions.css" />
+    <script src="assets/groups-data.js" defer></script>
+    <script src="assets/subscriptions.js" defer></script>
+    <script src="assets/metrics.js" defer></script>
+  </head>
+  <body class="feeds-page">
+    <a class="skip-link" href="#feed-heading">跳至日历订阅</a>
+    <div class="feeds-shell">
+      <nav class="site-nav" aria-label="主导航">
+        <a href="discover.html">发现</a><a href="groups.html">团体</a
+        ><a href="events.html">演出</a><a href="geography.html">全国地图</a
+        ><a href="index.html">风格图</a><a href="guide.html">观演指南</a
+        ><a href="city.html">城市</a><a href="favorites.html">我的关注</a>
+      </nav>
+      <main id="subscriptions-app">
+        <header class="feeds-header">
+          <p class="feeds-code">CN-IDOL / CALENDAR</p>
+          <h1 id="feed-heading">把演出放进日历</h1>
+          <p>
+            选择一个团体或城市。固定地址随资料修订更新，下载文件则保留此刻的版本。
+          </p>
+        </header>
+        <p id="feeds-load-state" class="feeds-notice" role="status">
+          正在读取订阅资料…
+        </p>
+        <noscript
+          ><p class="feeds-notice">
+            此页需要 JavaScript 才能选择范围。可打开
+            <a href="feeds/v1/manifest.json">订阅文件目录</a>，按其中路径下载
+            ICS；目录仅在 HTTP 预览或已生成发行中可用。
+          </p></noscript
+        >
+        <div id="feeds-workspace" class="feeds-workspace" hidden>
+          <section class="feeds-select" aria-labelledby="feeds-range-heading">
+            <h2 id="feeds-range-heading">01 / 选择范围</h2>
+            <label for="feed-type">订阅类型</label>
+            <select id="feed-type">
+              <option value="city">按城市</option>
+              <option value="group">按团体</option>
+            </select>
+            <label class="feeds-checkbox"
+              ><input
+                id="feed-following"
+                type="checkbox"
+              />只看与我的关注相关</label
+            >
+            <label for="feed-range">团体或城市</label>
+            <select id="feed-range"></select>
+            <p id="feed-range-state" class="feeds-muted" role="status"></p>
+            <a href="favorites.html" class="feeds-text-link">管理我的关注 →</a>
+          </section>
+          <section class="feeds-result" aria-labelledby="feed-selected-name">
+            <p class="feeds-code">02 / 订阅与下载</p>
+            <h2 id="feed-selected-name">请选择范围</h2>
+            <p id="feed-count" class="feeds-muted"></p>
+            <div id="feed-http-actions" hidden>
+              <label for="feed-url">固定订阅地址</label>
+              <input id="feed-url" type="url" readonly spellcheck="false" />
+              <div class="feeds-actions">
+                <button id="feed-copy" type="button">复制地址</button
+                ><a
+                  id="feed-open"
+                  class="feeds-button"
+                  href="feeds/v1/manifest.json"
+                  >查看 ICS 文件</a
+                >
+              </div>
+            </div>
+            <p id="feed-mode" class="feeds-notice"></p>
+            <button
+              id="feed-download"
+              class="feeds-primary"
+              type="button"
+              disabled
+            >
+              下载 ICS 文件
+            </button>
+            <p
+              id="feed-action-status"
+              role="status"
+              class="feeds-action-status"
+            ></p>
+          </section>
+        </div>
+        <section class="feeds-method" aria-labelledby="feeds-method-heading">
+          <h2 id="feeds-method-heading">日历里会出现什么</h2>
+          <dl>
+            <div>
+              <dt>部分收录，状态透明</dt>
+              <dd>
+                取消会标为已取消；延期保留原日期占位。整场时刻未知时只占日期，不代表全天演出。来源缺席不等于取消。
+              </dd>
+            </div>
+            <div>
+              <dt>订阅与下载不同</dt>
+              <dd>
+                在日历应用中选择「通过网址订阅」，粘贴上方地址。刷新频率由客户端决定；下载后手动导入不会自动更新，也不保证所有客户端重复导入都会去重。
+              </dd>
+            </div>
+            <div>
+              <dt>不提供即时提醒</dt>
+              <dd>
+                这里不发送通知，也不会自动设闹钟。出发前请核对官宣；修订依据可在
+                <a href="updates.html">更新动态</a> 查看。
+              </dd>
+            </div>
+          </dl>
+        </section>
+        <p id="feed-storage" class="feeds-muted"></p>
+      </main>
+      <footer class="feeds-footer">
+        地下偶像资料档案 · 中国当地时间 UTC+8 ·
+        <a href="events.html">回到演出日历</a>
+      </footer>
+    </div>
+  </body>
+</html>

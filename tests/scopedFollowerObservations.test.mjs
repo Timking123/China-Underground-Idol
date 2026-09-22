@@ -797,7 +797,10 @@ test("构建缺失 v2 在普通及 partial 模式先拒绝，partial 仍可暂�
         name: "scoped-build-guard",
         setup(builder) {
           builder.onResolve(
-            { filter: /^(esbuild|\.\/(eventAssets|groupCatalog)\.mjs)$/ },
+            {
+              filter:
+                /^(esbuild|\.\/(eventAssets|groupCatalog|prerender|validateMedia|generateSubscriptions|publicArtifacts)\.mjs)$/,
+            },
             (args) => ({ path: args.path, namespace: "scoped-build-probe" }),
           );
           builder.onLoad(
@@ -808,9 +811,17 @@ test("构建缺失 v2 在普通及 partial 模式先拒绝，partial 仍可暂�
                   ? "build"
                   : args.path.includes("eventAssets")
                     ? "readEventAssets"
-                    : "writeGroupCatalog";
+                    : args.path.includes("prerender")
+                      ? "generatePrerender"
+                      : args.path.includes("validateMedia")
+                        ? "validateMedia"
+                        : args.path.includes("generateSubscriptions")
+                          ? "generateFeeds"
+                          : args.path.includes("publicArtifacts")
+                            ? "writePublicArtifactManifest"
+                            : "writeGroupCatalog";
               return {
-                contents: `export async function ${name}(input) { globalThis.SCOPED_FOLLOWER_BUILD_CALLS.push({name: ${JSON.stringify(name)}, input}); }`,
+                contents: `export async function ${name}(input) { globalThis.SCOPED_FOLLOWER_BUILD_CALLS.push({name: ${JSON.stringify(name)}, input}); return {files: []}; }`,
                 loader: "js",
               };
             },
@@ -840,9 +851,19 @@ test("构建缺失 v2 在普通及 partial 模式先拒绝，partial 仍可暂�
     await fixtureBuild.buildSite(directory, { partial: true });
     assert.deepEqual(
       globalThis.SCOPED_FOLLOWER_BUILD_CALLS.map((item) => item.name),
-      ["readEventAssets", "writeGroupCatalog", "build"],
+      [
+        "readEventAssets",
+        "writeGroupCatalog",
+        "validateMedia",
+        "generatePrerender",
+        "generateFeeds",
+        "build",
+        "writePublicArtifactManifest",
+      ],
     );
-    const buildCall = globalThis.SCOPED_FOLLOWER_BUILD_CALLS.at(-1);
+    const buildCall = globalThis.SCOPED_FOLLOWER_BUILD_CALLS.find(
+      (item) => item.name === "build",
+    );
     assert.equal(
       Object.values(buildCall.input.entryPoints).includes(missingEntry),
       false,

@@ -117,6 +117,8 @@ test("旧页面导航顺序、可展开资料状态与指南锚点保持可达",
         "geography.html",
         "index.html",
         "guide.html",
+        "city.html",
+        "favorites.html",
       ],
     );
     assert.match(html, /lang="zh-CN"/);

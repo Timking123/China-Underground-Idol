@@ -3,7 +3,9 @@ import { mkdtemp, readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { consumePublication } from "../server/publicationReceipt.ts";
+import { consumePublication as consume } from "../server/publicationReceipt.ts";
+const consumePublication = (state, receipts) =>
+  consume(state, receipts, () => {});
 import { writeOnce, readOptional } from "../server/state.ts";
 import { sha256 } from "../src/sourceCapture.ts";
 

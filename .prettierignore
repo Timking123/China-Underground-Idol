@@ -7,6 +7,10 @@ data/微博候选证据展示层.json
 data/公开补充复核.json
 docs/readme-cover.svg
 .build/
+# 精确生成的静态页与日历由生成器和哈希清单校验；不改写分发字节。
+groups/
+events/
+feeds/
 maintenance/
 reports/
 # 保留原有图表样式与旧测试字节；新增源文件和修改的图表脚本接受检查。

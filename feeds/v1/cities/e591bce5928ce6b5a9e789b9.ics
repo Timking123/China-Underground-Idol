@@ -1,0 +1,36 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//China Underground Idol//Subscriptions v1//ZH-CN
+CALSCALE:GREGORIAN
+X-WR-CALNAME:呼和浩特 · 地偶演出
+BEGIN:VEVENT
+UID:e-weibo-5338640013852929@idol-events.local
+DTSTAMP:20260918T231346Z
+CREATED:20260918T231346Z
+LAST-MODIFIED:20260918T231346Z
+SEQUENCE:0
+DTSTART:20260913T060000Z
+SUMMARY:【计划举行】MOGUMOGU生长计划4 · RED²红色的二次方
+DESCRIPTION:状态：计划举行。日期经过不等于实际举办。\n
+ 中国当地时间 UTC+8；部分收录，出发前请核对官宣。\n字
+ 段核验：尚未核实；不改变主档日程状态。\n入场：13:40\
+ n收录阵容：绯色苏打、MOGUMOGU\n当前城市：呼和浩特；订
+ 阅保留曾归属范围以传达更正。\n2026-09-09复核MOGUMOGU原预
+ 告，补充呼和浩特WHOHOT LIVEHOUSE及地址；日期与OPEN 13:40 / 
+ START 14:00和既有绯色苏打预告一致，沿用同一活动ID。MOGU
+ MOGU身份未独立绑定，结束时刻未知。历史预告复核不表
+ 示已排除后续取消、延期或阵容变更。\n绯色苏打 TWOMAN L
+ IVE 官宣（绯色苏打 官号；观察于 2026-09-03T11:46:52.435Z）
+ ：https://weibo.com/detail/5338640013852929\n绯色苏打 8 月 12 日预
+ 告（新浪公开页）（绯色苏打_Official；观察于 2026-09-08T08
+ :33:36Z）：https://www.sina.cn/news/detail/5331060167541520.html\nMOGUMO
+ GU RED²原预告（MOGUMOGU；观察于 2026-09-09T07:27:48.327Z）：htt
+ ps://weibo.com/6579150992/RgdcNn1Bz\n资料修订：2026-09-18T23:13:46.67
+ 8Z；序号 0
+LOCATION:呼和浩特 · WHOHOT LIVEHOUSE · 呼和浩特市赛罕区尚好
+ 家快捷酒店南巷
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+URL:https://idol.hi-veblen.com/events.html?event=e-weibo-5338640013852929
+END:VEVENT
+END:VCALENDAR

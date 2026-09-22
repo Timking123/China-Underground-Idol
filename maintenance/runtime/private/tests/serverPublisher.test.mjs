@@ -33,7 +33,13 @@ async function put(root, name, value) {
 async function candidate(root) {
   const entries = [];
   for (const name of [...PUBLIC_FILES].sort()) {
-    const value = `synthetic:${name}\n`;
+    const value =
+      name === "assets/public-artifacts.v1.json"
+        ? JSON.stringify({
+            schemaVersion: "idol-public-artifacts-v1",
+            files: [],
+          })
+        : `synthetic:${name}\n`;
     await put(root, name, value);
     entries.push(`${hash(value)}  ${name}`);
   }
@@ -67,6 +73,7 @@ async function fixture(t, overrides = {}) {
   let committed = false;
   const changed = [INPUT, "assets/events.js"];
   const deps = {
+    assertEnabled: () => {},
     base,
     now: () => new Date("2026-09-09T18:00:00Z"),
     baseline: async () => ({

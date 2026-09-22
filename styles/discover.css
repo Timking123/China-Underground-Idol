@@ -1,6 +1,32 @@
 .discover-page {
   background: var(--canvas);
 }
+.discover-city-preference {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-block: 20px;
+  border-bottom: 1px solid var(--line);
+}
+.discover-city-preference select,
+.discover-city-preference button {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-xs);
+  color: var(--text);
+  background: var(--surface-2);
+  font: inherit;
+}
+.discover-city-preference span {
+  color: var(--text-soft);
+  font-size: 14px;
+}
+.discover-city-preference :is(button, select):focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
 .discover-shell {
   max-width: 1360px;
   margin: 0 auto;

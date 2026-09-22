@@ -14,6 +14,13 @@ import {
 import { createServer } from "node:http";
 import path from "node:path";
 import { promisify } from "node:util";
+import { gunzipSync } from "node:zlib";
+import { assertMaintenanceEnabled } from "./maintenanceControl.ts";
+import {
+  ARTIFACT_MANIFEST,
+  isGeneratedPublicPath,
+  parsePublicArtifacts,
+} from "./publicArtifacts.ts";
 
 const BASE = "/srv/china-underground-idol";
 const CONFIG = "/etc/nginx/sites-available/idol.hi-veblen.com.conf";
@@ -25,6 +32,13 @@ const INPUTS = new Set([
 export const CONSOLE_ONLY_FILES = new Set([
   "src/admin/page.ts",
   "src/admin/charts.ts",
+  "src/admin/editorial.ts",
+  "src/admin/editorial-contracts.ts",
+  "scripts/localConsole.mjs",
+  "tests/localEditorial.test.mjs",
+  "tests/localEditorialFixtures.mjs",
+  "tests/localEditorialLock.test.mjs",
+  "tests/localEditorialCrashChild.mjs",
   "scripts/buildConsole.mjs",
   "scripts/checkConsole.mjs",
   "scripts/testConsole.mjs",
@@ -40,6 +54,11 @@ export const GENERATED_FILES = new Set([
   "assets/discover.js",
   "assets/geography.js",
   "assets/metrics.js",
+  "assets/favorites.js",
+  "assets/city.js",
+  "assets/subscriptions.js",
+  "assets/updates.js",
+  "assets/public-artifacts.v1.json",
 ]);
 export const PUBLIC_FILES = new Set([
   "index.html",
@@ -51,15 +70,24 @@ export const PUBLIC_FILES = new Set([
   "guide.html",
   "contribute.html",
   "about.html",
+  "favorites.html",
+  "city.html",
+  "subscriptions.html",
+  "updates.html",
   "app.css",
   "app.js",
   "data.js",
+  "data/events.v1.json",
   "styles/site.css",
   "styles/events.css",
   "styles/content.css",
   "styles/groups.css",
   "styles/discover.css",
   "styles/geography.css",
+  "styles/preferences.css",
+  "styles/city.css",
+  "styles/subscriptions.css",
+  "styles/updates.css",
   ...GENERATED_FILES,
 ]);
 const PUBLIC_IMAGE =
@@ -197,10 +225,14 @@ export async function inspectPublicationCandidate(
     const match = /^([a-f0-9]{64}) {2}([A-Za-z0-9_./-]+)$/u.exec(line);
     requireState(match, "publication_manifest_line");
     const name = safeName(match[2]);
+    const original = name.endsWith(".gz") ? name.slice(0, -3) : name;
     requireState(
-      PUBLIC_FILES.has(name) ||
-        PUBLIC_IMAGE.test(name) ||
-        EVENT_IMAGE.test(name),
+      (PUBLIC_FILES.has(original) ||
+        PUBLIC_IMAGE.test(original) ||
+        EVENT_IMAGE.test(original) ||
+        isGeneratedPublicPath(original)) &&
+        (!name.endsWith(".gz") ||
+          /\.(?:html|css|js|json|ics|svg)$/u.test(original)),
       "publication_nonpublic_file",
     );
     requireState(!Object.hasOwn(files, name), "publication_duplicate_file");
@@ -239,6 +271,36 @@ export async function inspectPublicationCandidate(
     requireState(
       total <= 512_000_000 && sha256(value) === expected,
       "publication_candidate_hash",
+    );
+    if (name.endsWith(".gz")) {
+      const original = name.slice(0, -3);
+      requireState(
+        Object.hasOwn(files, original),
+        "publication_compressed_original",
+      );
+      requireState(
+        sha256(gunzipSync(value, { maxOutputLength: 20_000_000 })) ===
+          files[original],
+        "publication_compressed_mismatch",
+      );
+    }
+  }
+  const artifacts = parsePublicArtifacts(
+    await bytes(path.join(source, ARTIFACT_MANIFEST)),
+  );
+  const registered = new Set(artifacts.map((item) => item.path));
+  for (const item of artifacts) {
+    requireState(files[item.path] === item.sha256, "publication_artifact_hash");
+    requireState(
+      (await lstat(path.join(source, item.path))).size === item.bytes,
+      "publication_artifact_size",
+    );
+  }
+  for (const name of Object.keys(files)) {
+    const original = name.endsWith(".gz") ? name.slice(0, -3) : name;
+    requireState(
+      !isGeneratedPublicPath(original) || registered.has(original),
+      "publication_unregistered_artifact",
     );
   }
   return {
@@ -296,6 +358,8 @@ export async function validatePublicationCandidate(
         ".jpg": "image/jpeg",
         ".jpeg": "image/jpeg",
         ".webp": "image/webp",
+        ".json": "application/json; charset=utf-8",
+        ".ics": "text/calendar; charset=utf-8",
       };
       response.writeHead(200, {
         "Content-Type": types[path.extname(name)] ?? "application/octet-stream",
@@ -434,6 +498,7 @@ export interface PublicationBaseline {
   configSha256: string;
 }
 export interface PublicationDependencies {
+  assertEnabled?: () => void;
   base: string;
   command: (file: string, args: string[], cwd: string) => Promise<string>;
   browser: (source: string) => Promise<void>;
@@ -474,6 +539,7 @@ export function createPublicationPreparer(deps: PublicationDependencies) {
   return async function prepare(
     options: PublicationOptions,
   ): Promise<{ changed: boolean; requestPath?: string }> {
+    (deps.assertEnabled ?? assertMaintenanceEnabled)();
     const { stageRoot, repoRoot, stateRoot, runId } = options;
     requireState(
       /^[a-z0-9][a-z0-9-]{0,90}$/u.test(runId),
@@ -583,6 +649,7 @@ export function createPublicationPreparer(deps: PublicationDependencies) {
           (await gitValue(["status", "--porcelain=v1", "-uall"])) === "",
         "publication_repo_preimage_changed",
       );
+      (deps.assertEnabled ?? assertMaintenanceEnabled)();
       for (const update of updates)
         await replaceOwned(
           path.join(repoRoot, update.name),
@@ -602,7 +669,10 @@ export function createPublicationPreparer(deps: PublicationDependencies) {
       requireState(
         allChanges.length > 0 &&
           allChanges.every(
-            (name) => INPUTS.has(name) || GENERATED_FILES.has(name),
+            (name) =>
+              INPUTS.has(name) ||
+              GENERATED_FILES.has(name) ||
+              isGeneratedPublicPath(name),
           ),
         "publication_unexpected_build_change",
       );
@@ -668,6 +738,7 @@ export function createPublicationPreparer(deps: PublicationDependencies) {
           candidate.manifestSha256,
         "publication_post_commit_manifest_drift",
       );
+      (deps.assertEnabled ?? assertMaintenanceEnabled)();
       await git(["push", "origin", "HEAD:main"]);
       requireState(
         (await gitValue(["ls-remote", "origin", "refs/heads/main"])).split(

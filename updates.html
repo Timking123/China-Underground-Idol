@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="查看已记录的真实资料修订、前后差异与来源，也可只看与本地关注相关的更新。新启用时不补造历史动态。"
+    />
+    <link rel="icon" href="data:," />
+    <title>更新动态 · 地下偶像资料档案</title>
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="styles/site.css" />
+    <link rel="stylesheet" href="styles/preferences.css" />
+    <link rel="stylesheet" href="styles/subscriptions.css" />
+    <link rel="stylesheet" href="styles/updates.css" />
+    <script src="assets/groups-data.js" defer></script>
+    <script src="assets/updates.js" defer></script>
+    <script src="assets/metrics.js" defer></script>
+  </head>
+  <body class="feeds-page updates-page">
+    <a class="skip-link" href="#updates-heading">跳至更新动态</a>
+    <div class="feeds-shell">
+      <nav class="site-nav" aria-label="主导航">
+        <a href="discover.html">发现</a><a href="groups.html">团体</a
+        ><a href="events.html">演出</a><a href="geography.html">全国地图</a
+        ><a href="index.html">风格图</a><a href="guide.html">观演指南</a
+        ><a href="city.html">城市</a><a href="favorites.html">我的关注</a>
+      </nav>
+      <main id="updates-app">
+        <header class="feeds-header">
+          <p class="feeds-code">CN-IDOL / CHANGE LOG</p>
+          <h1 id="updates-heading">每一次修订，都有来处</h1>
+          <p>
+            查看实际记录的资料变化，展开前后差异与公开来源。这里的记录时间不等于演出发生时间。
+          </p>
+        </header>
+        <div id="updates-controls" class="updates-controls" hidden>
+          <label class="feeds-checkbox"
+            ><input
+              id="updates-following"
+              type="checkbox"
+            />只看与我的关注相关</label
+          ><a class="feeds-text-link" href="favorites.html">管理关注 →</a>
+        </div>
+        <p id="updates-status" class="feeds-muted" role="status">
+          正在读取更新记录…
+        </p>
+        <noscript
+          ><p class="feeds-notice">
+            此页需要 JavaScript 展示修订差异；可直接查看
+            <a href="data/updates.v1.json">公开更新记录</a>。
+          </p></noscript
+        >
+        <section
+          id="updates-empty"
+          class="updates-empty"
+          hidden
+          aria-labelledby="updates-empty-heading"
+        >
+          <p class="feeds-code">ARCHIVE / 留下真实记录</p>
+          <h2 id="updates-empty-heading">尚无可追溯的新修订</h2>
+          <p id="updates-empty-copy">
+            更新记录从本次启用开始保留。已有资料不补记为刚刚新增，有真实变更后才会显示在这里。
+          </p>
+          <a class="feeds-text-link" href="events.html">查看已收录演出 →</a>
+        </section>
+        <ol
+          id="updates-list"
+          class="updates-list"
+          aria-label="资料修订列表"
+        ></ol>
+        <button id="updates-more" type="button" hidden>再看 20 条</button>
+        <p id="updates-storage" class="feeds-muted"></p>
+        <p class="feeds-notice">
+          当前追踪活动公开资料与字段核验的实际变化。撤下记录不代表取消；动态不提供即时推送。团体其他档案修订尚未纳入此记录。
+        </p>
+      </main>
+      <footer class="feeds-footer">
+        地下偶像资料档案 · 时间以中国当地时间 UTC+8 显示 ·
+        <a href="subscriptions.html">获取日历订阅</a>
+      </footer>
+    </div>
+  </body>
+</html>

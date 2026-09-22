@@ -1,0 +1,226 @@
+.feeds-page {
+  min-height: 100vh;
+}
+.feeds-shell {
+  width: min(1120px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 20px 0 36px;
+}
+.feeds-header {
+  margin: 48px 0 32px;
+  max-width: 760px;
+}
+.feeds-code {
+  color: var(--accent-hot);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+.feeds-header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.15;
+  letter-spacing: -0.022em;
+  margin: 12px 0 16px;
+  text-wrap: balance;
+}
+.feeds-header p:not(.feeds-code) {
+  color: var(--text-soft);
+  line-height: 1.8;
+}
+.feeds-page h2 {
+  font-size: 20px;
+  line-height: 1.45;
+  letter-spacing: -0.012em;
+  margin: 0 0 24px;
+}
+.feeds-workspace {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.85fr) minmax(0, 1.55fr);
+  gap: 32px;
+  align-items: start;
+}
+.feeds-select {
+  padding: 24px 0;
+}
+.feeds-result {
+  padding: 28px;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  min-width: 0;
+}
+.feeds-result h2 {
+  margin: 12px 0;
+  overflow-wrap: anywhere;
+}
+.feeds-page label {
+  display: block;
+  font-size: 14px;
+  color: var(--text-soft);
+  margin: 18px 0 8px;
+}
+.feeds-page input[type="url"],
+.feeds-page select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 12px;
+  background: var(--canvas);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-xs);
+  color: var(--text);
+  font: inherit;
+}
+.feeds-page select:focus-visible,
+.feeds-page summary:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+.feeds-page .feeds-checkbox {
+  display: flex;
+  gap: 10px;
+  min-height: 44px;
+  align-items: center;
+  margin: 14px 0;
+  cursor: pointer;
+}
+.feeds-checkbox input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+  flex: 0 0 auto;
+}
+.feeds-page button,
+.feeds-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-xs);
+  color: var(--text);
+  background: var(--surface-3);
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 120ms ease-out;
+}
+.feeds-page button:active,
+.feeds-button:active {
+  transform: scale(0.96);
+}
+.feeds-page button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.feeds-page .feeds-primary {
+  color: var(--text);
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+.feeds-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.feeds-muted,
+.feeds-notice,
+.feeds-action-status {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-soft);
+  overflow-wrap: anywhere;
+}
+.feeds-notice {
+  background: var(--surface-1);
+  padding: 16px;
+  border-radius: var(--radius-xs);
+}
+.feeds-action-status {
+  min-height: 26px;
+  margin-bottom: 0;
+}
+.feeds-text-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--accent-hot);
+}
+.feeds-method {
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line-strong);
+}
+.feeds-method dl {
+  margin: 0;
+}
+.feeds-method dl > div {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 32px;
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+}
+.feeds-method dt {
+  font-weight: 600;
+  font-size: 15px;
+}
+.feeds-method dd {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 14px;
+  line-height: 1.8;
+}
+.feeds-method a,
+.feeds-footer a,
+.feeds-notice a {
+  color: var(--accent-hot);
+  text-underline-offset: 3px;
+}
+.feeds-footer {
+  margin-top: 40px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+@media (hover: hover) {
+  .feeds-page button:not(:disabled):hover,
+  .feeds-button:hover {
+    border-color: var(--accent-hot);
+  }
+}
+@media (max-width: 680px) {
+  .feeds-shell {
+    width: calc(100% - 32px);
+    padding-top: 12px;
+  }
+  .feeds-header {
+    margin-top: 32px;
+  }
+  .feeds-workspace {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .feeds-select {
+    padding: 8px 0;
+  }
+  .feeds-result {
+    padding: 20px 16px;
+  }
+  .feeds-method dl > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feeds-page button,
+  .feeds-button {
+    transition: none;
+  }
+  .feeds-page button:active,
+  .feeds-button:active {
+    transform: none;
+  }
+}

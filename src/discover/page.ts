@@ -6,6 +6,13 @@ import {
 import { readCatalog } from "../catalog/runtime";
 import { validateEventDataset, type EventRecord } from "../events/model";
 import eventInput from "../../data/events.v1.json";
+import { responsiveImage } from "../media/images";
+import { presentedEventField } from "../city/eventPresentation";
+import {
+  bindFollowButtons,
+  followButton,
+  getPreferences,
+} from "../preferences/browser";
 import {
   cityUrl,
   discoveryCities,
@@ -75,7 +82,12 @@ function imageView(
     fallback.hidden = false;
     fallback.textContent = lead ? "资料图暂时无法显示" : name.slice(0, 1);
   });
-  img.src = image.src;
+  const media = responsiveImage(image.src, {
+    kind: lead ? "detail" : "avatar",
+  });
+  img.src = media.src;
+  if (media.srcset) img.srcset = media.srcset;
+  if (media.sizes) img.sizes = media.sizes;
   frame.append(img);
   return frame;
 }
@@ -112,6 +124,7 @@ function leadGroup(group: CatalogGroup): HTMLElement {
   text.append(element("p", "discover-style", style));
   const actions = element("div", "discover-actions");
   actions.append(
+    followButton("group", group.id, group.name),
     link("了解这支团", groupUrl(group.id)),
     link(
       "查看相关演出",
@@ -132,7 +145,7 @@ function compactGroup(group: CatalogGroup): HTMLElement {
     element("span", "discover-region", groupRegion(group)),
   );
   anchor.append(imageView(group.avatar, group.name, false), copy);
-  item.append(anchor);
+  item.append(anchor, followButton("group", group.id, group.name));
   return item;
 }
 
@@ -147,7 +160,7 @@ function eventCard(event: EventRecord): HTMLElement {
     element(
       "span",
       "discover-event-time",
-      event.startsAt ? `${event.startsAt} 开演` : "开演待确认",
+      `开演 ${presentedEventField(event, "startsAt")}`,
     ),
   );
   const body = element("div", "discover-event-body");
@@ -165,7 +178,7 @@ function eventCard(event: EventRecord): HTMLElement {
     element(
       "p",
       "discover-event-place",
-      `${event.city ? normalizeRegionName(event.city) : "城市待核实"} / ${event.venue ?? "场地待公布"}`,
+      `${event.city ? normalizeRegionName(event.city) : "城市待核实"} / 场地 ${presentedEventField(event, "venue")}`,
     ),
   );
   const performers = element("p", "discover-performers", "出演：");
@@ -182,7 +195,11 @@ function eventCard(event: EventRecord): HTMLElement {
         : performer.name,
     );
   });
-  body.append(performers, link("详情与官宣", eventUrl(event)));
+  body.append(
+    performers,
+    link("详情与官宣", eventUrl(event)),
+    followButton("event", event.id, event.title),
+  );
   article.append(dateBlock, body);
   return article;
 }
@@ -228,11 +245,20 @@ export function renderDiscovery(
     );
     return;
   }
-  const chosen = discoveryGroups(catalog.data.groups);
+  const activeCity = getPreferences().read().activeCity;
+  const chosen = discoveryGroups(
+    activeCity
+      ? catalog.data.groups.filter(
+          (group) =>
+            group.activity.city &&
+            normalizeRegionName(group.activity.city) === activeCity,
+        )
+      : catalog.data.groups,
+  );
   setStatus(
     "discover-group-status",
     chosen.length
-      ? "按档案顺序展示部分存续团体。"
+      ? `${activeCity ? activeCity + " · " : ""}按档案顺序展示部分存续团体。`
       : "尚未收录可展示的存续团体，可在完整档案查看历史资料。",
   );
   if (chosen[0]) feature.append(leadGroup(chosen[0]));
@@ -250,7 +276,15 @@ export function renderDiscovery(
       true,
     );
   } else {
-    const upcoming = discoveryEvents(events, now);
+    const upcoming = discoveryEvents(
+      activeCity
+        ? events.filter(
+            (event) =>
+              event.city && normalizeRegionName(event.city) === activeCity,
+          )
+        : events,
+      now,
+    );
     setStatus(
       "discover-event-status",
       upcoming.length
@@ -269,6 +303,31 @@ export function renderDiscovery(
     now,
     normalizeRegionName,
   );
+  const select = document.getElementById(
+    "discover-active-city",
+  ) as HTMLSelectElement | null;
+  if (select) {
+    select.replaceChildren();
+    const all = element("option", "", "全国 · 不限定城市");
+    all.value = "";
+    select.append(all);
+    for (const city of cities) {
+      const option = element("option", "", city.name);
+      option.value = city.name;
+      select.append(option);
+    }
+    if (activeCity && !cities.some((city) => city.name === activeCity)) {
+      const missing = element("option", "", `${activeCity}（资料暂不可用）`);
+      missing.value = activeCity;
+      select.append(missing);
+    }
+    select.value = activeCity ?? "";
+  }
+  const context = document.getElementById("discover-city-context");
+  if (context)
+    context.textContent = activeCity
+      ? `正在查看 ${activeCity} · 仅记住你主动选择的城市`
+      : "正在查看全国 · 可主动选择常看城市";
   setStatus(
     "discover-city-status",
     cities.length
@@ -290,11 +349,36 @@ export function renderDiscovery(
             : "看历史活动",
       ),
     );
+    anchor.addEventListener("click", () => {
+      getPreferences().setActiveCity(city.name);
+    });
     item.append(anchor);
     cityList.append(item);
   }
 }
 
 if (typeof document !== "undefined") {
-  renderDiscovery(readCatalog(), eventInput, new Date());
+  let unbind = () => {};
+  const render = () => {
+    unbind();
+    renderDiscovery(readCatalog(), eventInput, new Date());
+    unbind = bindFollowButtons();
+  };
+  render();
+  let activeCity = getPreferences().read().activeCity;
+  getPreferences().subscribe((state) => {
+    if (state.activeCity !== activeCity) {
+      activeCity = state.activeCity;
+      render();
+    }
+  });
+  document
+    .getElementById("discover-city-preference")
+    ?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const select = document.getElementById(
+        "discover-active-city",
+      ) as HTMLSelectElement;
+      getPreferences().setActiveCity(select.value || null);
+    });
 }

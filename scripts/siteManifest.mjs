@@ -8,6 +8,10 @@ export const entryPoints = Object.freeze({
   discover: "src/discover/page.ts",
   geography: "src/geography/page.ts",
   metrics: "src/metrics/page.ts",
+  favorites: "src/favorites/page.ts",
+  city: "src/city/page.ts",
+  subscriptions: "src/subscriptions/page.ts",
+  updates: "src/updates/page.ts",
 });
 
 export const publicFiles = Object.freeze([
@@ -20,16 +24,26 @@ export const publicFiles = Object.freeze([
   "guide.html",
   "contribute.html",
   "about.html",
+  "favorites.html",
+  "city.html",
+  "subscriptions.html",
+  "updates.html",
   "app.css",
   "app.js",
   "data.js",
+  "data/events.v1.json",
   "styles/site.css",
   "styles/events.css",
   "styles/content.css",
   "styles/groups.css",
   "styles/discover.css",
   "styles/geography.css",
+  "styles/preferences.css",
+  "styles/city.css",
+  "styles/subscriptions.css",
+  "styles/updates.css",
   "assets/groups-data.js",
+  "assets/public-artifacts.v1.json",
   ...Object.keys(entryPoints).map((name) => `assets/${name}.js`),
 ]);
 

@@ -44,7 +44,7 @@ export const SOURCE_PROVENANCE = Object.freeze([
     source: "private/cli.ts",
     sha256: "dc5253d077e998b2c8a1448d68f886d92c447986c0d953e44c1f64a0f46d2e14",
     packagedSha256:
-      "ab35de29305de7325b06142e46fb56010a7f296f4f11ba418ec4a546d46be2b8",
+      "7d9fe104ef546b893aacb00f6a5071fb4a53fb791ec89d6234600f2836644de2",
     bytes: 12309,
   },
   {
@@ -413,6 +413,10 @@ const PUBLIC_ROOT_FILES = new Set([
   "group.html",
   "groups.html",
   "guide.html",
+  "favorites.html",
+  "city.html",
+  "subscriptions.html",
+  "updates.html",
   "app.css",
   "app.js",
   "data.js",
@@ -431,6 +435,9 @@ const PUBLIC_DIRS = new Set([
   "src",
   "styles",
   "tests",
+  "groups",
+  "events",
+  "feeds",
 ]);
 const PUBLIC_DATA_FILES = new Set([
   "群体分布数据.json",
@@ -440,6 +447,9 @@ const PUBLIC_DATA_FILES = new Set([
   "follower-observations.v1.json",
   "follower-observations.v2.json",
   "events.v1.json",
+  "event-verifications.v1.json",
+  "feed-state.v1.json",
+  "updates.v1.json",
 ]);
 // 地理来源与离线构建输入采用精确清单，不开放任意 data 子目录。
 const GEOGRAPHY_DATA_FILES = new Set([
@@ -472,6 +482,13 @@ const EXCLUDED = new Set([
 const CONSOLE_ONLY_FILES = new Set([
   "src/admin/page.ts",
   "src/admin/charts.ts",
+  "src/admin/editorial.ts",
+  "src/admin/editorial-contracts.ts",
+  "scripts/localConsole.mjs",
+  "tests/localEditorial.test.mjs",
+  "tests/localEditorialFixtures.mjs",
+  "tests/localEditorialLock.test.mjs",
+  "tests/localEditorialCrashChild.mjs",
   "scripts/buildConsole.mjs",
   "scripts/checkConsole.mjs",
   "scripts/testConsole.mjs",
@@ -666,7 +683,10 @@ async function sourceEntries(repoRoot) {
     for (const entry of await readdir(directory, { withFileTypes: true })) {
       const child = `${relative}/${entry.name}`;
       // 审查证据保留原位；它不是运行代码，也不进入服务器源码包。
-      if (relative === "maintenance/runtime" && entry.name === "reports")
+      if (
+        relative === "maintenance/runtime" &&
+        ["reports", "node_modules"].includes(entry.name)
+      )
         continue;
       requireState(!entry.isSymbolicLink(), `symbolic_link:${child}`);
       if (entry.isDirectory()) {
@@ -739,6 +759,10 @@ async function sourceEntries(repoRoot) {
         requireState(
           relative
             ? PUBLIC_EXTENSION.test(entry.name) ||
+                /^feeds\/v1\/(?:groups\/g\d{3,8}|cities\/[0-9a-f]{2,192})\.ics$/u.test(
+                  child,
+                ) ||
+                child === "scripts/optimizeMedia.py" ||
                 GEOGRAPHY_DATA_FILES.has(child)
             : PUBLIC_ROOT_FILES.has(entry.name),
           `site_file_not_allowed:${child}`,
@@ -750,8 +774,23 @@ async function sourceEntries(repoRoot) {
           `site_data_not_allowed:${child}`,
         );
         requireState(
+          !/^(?:groups|events|feeds)\//u.test(child) ||
+            /^(?:groups|events)\/index\.html$/u.test(child) ||
+            /^groups\/g\d{3,8}\.html$/u.test(child) ||
+            /^events\/e-[a-z0-9][a-z0-9_-]{0,95}\.html$/u.test(child) ||
+            /^feeds\/v1\/(?:manifest\.json|groups\/g\d{3,8}\.ics|cities\/[0-9a-f]{2,192}\.ics)$/u.test(
+              child,
+            ),
+          `site_generated_path_not_allowed:${child}`,
+        );
+        requireState(
           !child.startsWith("assets/") ||
-            /\.(?:js|png|jpe?g|webp|svg|ico)$/iu.test(entry.name),
+            /\.(?:js|png|jpe?g|webp|svg|ico)$/iu.test(entry.name) ||
+            child === "assets/public-artifacts.v1.json" ||
+            child === "assets/prerender.css" ||
+            child === "assets/media-optimized/manifest.v1.json" ||
+            child === "assets/page-data/catalog.json" ||
+            /^assets\/page-data\/groups\/g\d{3,8}\.json$/u.test(child),
           `site_asset_not_allowed:${child}`,
         );
         await add(child, `${STAGE}/site/${child}`);

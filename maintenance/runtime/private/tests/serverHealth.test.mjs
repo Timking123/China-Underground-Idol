@@ -10,6 +10,10 @@ const complete = (finishedAt = NOW) => ({ status: "complete", finishedAt });
 // 执行真实 health 入口，仅隔离文件、周更及网络边界；禁止触碰服务器状态或发送通知。
 function runHealth({ names, receipts }) {
   const stubs = {
+    "/server/maintenanceControl.ts": `
+      export const readMaintenanceControl = () => ({ paused: false, code: 'maintenance_enabled' });
+      export const assertMaintenanceEnabled = () => {};
+    `,
     "/server/state.ts": `
       const receipts = ${JSON.stringify(receipts)};
       export const privateDirectory = async () => {};

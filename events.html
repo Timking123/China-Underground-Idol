@@ -15,6 +15,7 @@
     <title>活动日历 · 地下偶像资料档案</title>
     <link rel="stylesheet" href="app.css" />
     <link rel="stylesheet" href="styles/events.css" />
+    <link rel="stylesheet" href="styles/preferences.css" />
     <link rel="stylesheet" href="styles/site.css" />
     <script src="assets/groups-data.js" defer></script>
     <script src="assets/events.js" defer></script>
@@ -30,6 +31,8 @@
         <a href="geography.html">全国地图</a>
         <a href="index.html">风格图</a>
         <a href="guide.html">观演指南</a>
+        <a href="city.html">城市</a>
+        <a href="favorites.html">我的关注</a>
       </nav>
       <header class="events-header">
         <p class="events-code">CN-IDOL / EVENT ARCHIVE</p>
@@ -40,6 +43,23 @@
       </header>
 
       <main id="events-app">
+        <aside class="events-verification-intro" aria-label="资料核验说明">
+          <p class="events-verification-title">安排有变化，先看核验</p>
+          <p id="events-verification-summary" role="status">
+            正在读取核验记录…
+          </p>
+          <details class="events-verification-help">
+            <summary>核验口径与日历订阅</summary>
+            <p class="events-help">
+              核验依据预告原文，出发前请核对最新官宣。尚未核实 ≠
+              尚未公布；只有原文明示未公布才使用“尚未公布”。来源访问失败不表示活动取消。
+            </p>
+            <p>
+              <a href="subscriptions.html">日历订阅</a> ·
+              <a href="updates.html">资料更新</a>
+            </p>
+          </details>
+        </aside>
         <form id="events-filters" class="events-filters" aria-label="筛选活动">
           <input
             id="events-period"
@@ -231,7 +251,10 @@
           </p>
           <p>
             ICS
-            下载当前筛选结果，需手动导入日历应用；不提供自动同步订阅。取消与延期请核对最新官宣。
+            下载当前筛选结果，需手动导入日历应用；未知整场时刻使用日期占位，不表示活动持续全天。也可前往<a
+              href="subscriptions.html"
+              >日历订阅</a
+            >获取固定链接。取消与延期请核对最新官宣，刷新频率由日历客户端决定。
           </p>
         </details>
         公益资料整理 · 非官方日程 ·

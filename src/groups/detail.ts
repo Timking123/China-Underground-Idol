@@ -4,6 +4,9 @@ import {
   type GroupCatalog,
 } from "../catalog/model";
 import { readCatalog } from "../catalog/runtime";
+import { normalizeRegionName } from "../catalog/model";
+import { presentedEventField } from "../city/eventPresentation";
+import { bindFollowButtons, followButton } from "../preferences/browser";
 import { validateEventDataset, type EventRecord } from "../events/model";
 import eventData from "../../data/events.v1.json";
 import { element, imageBlock, link, required, showFailure } from "./dom";
@@ -55,14 +58,11 @@ function eventsList(
     body.append(
       element(
         "p",
-        `${event.city || "城市待核实"} · ${event.venue || "场地待公布"}`,
+        `${event.city || "城市待核实"} · 场地 ${presentedEventField(event, "venue")}`,
       ),
     );
     body.append(
-      element(
-        "p",
-        event.startsAt ? `开演 ${event.startsAt}（UTC+8）` : "开演时间待公布",
-      ),
+      element("p", `开演 ${presentedEventField(event, "startsAt")}（UTC+8）`),
     );
     item.append(date, body);
     list.append(item);
@@ -211,6 +211,14 @@ export function mountGroupPage(): void {
     element("p", `CN-IDOL / ${group.id.toUpperCase()}`, "groups-kicker"),
   );
   header.append(element("h1", group.name));
+  header.append(followButton("group", group.id, group.name));
+  if (group.activity.city)
+    header.append(
+      link(
+        "查看城市现场",
+        `city.html?${new URLSearchParams({ city: normalizeRegionName(group.activity.city) })}`,
+      ),
+    );
   header.append(
     element(
       "span",
@@ -295,6 +303,7 @@ export function mountGroupPage(): void {
   const sections = element("div", "", "groups-detail-sections");
   sections.append(activitySection(group, result.data), sourcesSection(group));
   root.append(sections);
+  bindFollowButtons(root);
 }
 
 if (typeof document !== "undefined" && document.getElementById("group-main"))

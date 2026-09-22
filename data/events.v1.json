@@ -1,6 +1,6 @@
 {
   "schemaVersion": "idol-events-v1",
-  "updatedAt": "2026-09-17T16:01:08.425Z",
+  "updatedAt": "2026-09-18T23:10:33.896Z",
   "coverage": "partial",
   "events": [
     {
@@ -379,12 +379,12 @@
       "date": "2026-09-19",
       "province": null,
       "city": "上海",
-      "venue": null,
+      "venue": "MAO Livehouse 上海",
       "address": null,
-      "opensAt": null,
-      "startsAt": null,
+      "opensAt": "11:30",
+      "startsAt": "12:00",
       "endsAt": null,
-      "status": "unconfirmed",
+      "status": "scheduled",
       "performers": [],
       "sources": [
         {
@@ -400,9 +400,16 @@
           "publisher": "地下偶像相关揭示板",
           "observedAt": "2026-09-11T11:14:15.553Z",
           "kind": "aggregator"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5338410480830875.html",
+          "label": "2026-09-19 原文补核",
+          "publisher": "Ultimaidols_official",
+          "kind": "organizer",
+          "observedAt": "2026-09-18T23:02:30.992Z"
         }
       ],
-      "notes": "揭示板收录线索，活动安排待确认；场地、地址、入场及演出时刻、出演阵容和海报尚未核实，请查阅来源并在出发前确认。",
+      "notes": "初收录为揭示板线索；2026-09-19 原文补核：主办原文明示 9 月 19 日及整场 OPEN/START，完整街道地址与结束时间仍未核实。 阵容仍仅部分收录；海报未核实使用依据。出发前请核对最新官宣。",
       "poster": null
     },
     {
@@ -2260,12 +2267,12 @@
       "date": "2026-09-19",
       "province": null,
       "city": "武汉",
-      "venue": null,
-      "address": null,
+      "venue": "Beach No.11",
+      "address": "武汉市硚口区解放大道632号武汉K11购物艺术中心6层",
       "opensAt": null,
       "startsAt": null,
       "endsAt": null,
-      "status": "unconfirmed",
+      "status": "scheduled",
       "performers": [],
       "sources": [
         {
@@ -2281,9 +2288,23 @@
           "publisher": "地下偶像相关揭示板",
           "observedAt": "2026-09-11T11:14:15.553Z",
           "kind": "aggregator"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343799890939278.html",
+          "label": "2026-09-19 原文补核",
+          "publisher": "Pri-Mary-",
+          "kind": "official",
+          "observedAt": "2026-09-18T23:04:08.496Z"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5344150909880159.html",
+          "label": "参演团体阵容变化说明",
+          "publisher": "Pri-Mary-",
+          "kind": "official",
+          "observedAt": "2026-09-18T23:04:08.985Z"
         }
       ],
-      "notes": "揭示板收录线索，活动安排待确认；场地、地址、入场及演出时刻、出演阵容和海报尚未核实，请查阅来源并在出发前确认。",
+      "notes": "初收录为揭示板线索；2026-09-19 原文补核：参演团体原文确认日期和场馆地址；其 14:55–15:15 是团体出演时段，不是整场 START。主办所称 13:00–21:00 是活动范围，未据此填写整场开演/结束。Pri-Mary 后续表示无法正常出演，不能解释为整场取消。 阵容仍仅部分收录；海报未核实使用依据。出发前请核对最新官宣。",
       "poster": null
     },
     {
@@ -2516,12 +2537,12 @@
       "date": "2026-09-28",
       "province": null,
       "city": "北京",
-      "venue": null,
-      "address": null,
-      "opensAt": null,
-      "startsAt": null,
+      "venue": "Mask",
+      "address": "朝阳区霄云路35号东信商业广场",
+      "opensAt": "19:15",
+      "startsAt": "19:30",
       "endsAt": null,
-      "status": "unconfirmed",
+      "status": "scheduled",
       "performers": [],
       "sources": [
         {
@@ -2537,9 +2558,16 @@
           "publisher": "地下偶像相关揭示板",
           "observedAt": "2026-09-11T11:14:15.553Z",
           "kind": "aggregator"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5341539003274357.html",
+          "label": "2026-09-19 原文补核",
+          "publisher": "真夜中ELF_Official",
+          "kind": "official",
+          "observedAt": "2026-09-18T23:02:30.873Z"
         }
       ],
-      "notes": "揭示板收录线索，活动安排待确认；场地、地址、入场及演出时刻、出演阵容和海报尚未核实，请查阅来源并在出发前确认。",
+      "notes": "初收录为揭示板线索；2026-09-19 原文补核：团体单独公演原文明示 9 月 28 日、Mask 地址及整场 OPEN/START；结束时间仍未核实。 阵容仍仅部分收录；海报未核实使用依据。出发前请核对最新官宣。",
       "poster": null
     },
     {
@@ -2879,12 +2907,12 @@
       "date": "2026-09-19",
       "province": null,
       "city": "北京",
-      "venue": null,
-      "address": null,
+      "venue": "魅现场",
+      "address": "西单北大街109号西西友谊商城二层",
       "opensAt": null,
       "startsAt": null,
       "endsAt": null,
-      "status": "unconfirmed",
+      "status": "scheduled",
       "performers": [],
       "sources": [
         {
@@ -2900,9 +2928,16 @@
           "publisher": "地下偶像相关揭示板",
           "observedAt": "2026-09-15T16:00:22.617Z",
           "kind": "aggregator"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5344152237902417.html",
+          "label": "2026-09-19 原文补核",
+          "publisher": "真夜中ELF_Official",
+          "kind": "official",
+          "observedAt": "2026-09-18T23:02:30.674Z"
         }
       ],
-      "notes": "揭示板收录线索，活动安排待确认；场地、地址、入场及演出时刻、出演阵容和海报尚未核实，请查阅来源并在出发前确认。",
+      "notes": "初收录为揭示板线索；2026-09-19 原文补核：参演团体原文确认日期及场馆地址；15:05–15:30 是该团体出演时间，整场时刻仍未核实。 阵容仍仅部分收录；海报未核实使用依据。出发前请核对最新官宣。",
       "poster": null
     },
     {
@@ -2911,12 +2946,12 @@
       "date": "2026-09-19",
       "province": null,
       "city": "广州",
-      "venue": null,
+      "venue": "音乐唐人馆",
       "address": null,
       "opensAt": null,
       "startsAt": null,
       "endsAt": null,
-      "status": "unconfirmed",
+      "status": "scheduled",
       "performers": [],
       "sources": [
         {
@@ -2932,9 +2967,16 @@
           "publisher": "地下偶像相关揭示板",
           "observedAt": "2026-09-15T16:00:22.617Z",
           "kind": "aggregator"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5344276512772260.html",
+          "label": "2026-09-19 原文补核",
+          "publisher": "極夜NightFell",
+          "kind": "official",
+          "observedAt": "2026-09-18T23:07:43.958Z"
         }
       ],
-      "notes": "揭示板收录线索，活动安排待确认；场地、地址、入场及演出时刻、出演阵容和海报尚未核实，请查阅来源并在出发前确认。",
+      "notes": "初收录为揭示板线索；2026-09-19 原文补核：参演团体原文确认 9 月 19 日广州音乐唐人馆。正文活动时间 11:40 未标明 OPEN/START，且搜索摘要为 11:20，均不采用；18:20–18:50 仅为该团出演时段。 阵容仍仅部分收录；海报未核实使用依据。出发前请核对最新官宣。",
       "poster": null
     },
     {
@@ -2943,12 +2985,12 @@
       "date": "2026-09-19",
       "province": null,
       "city": "广州",
-      "venue": null,
+      "venue": "MAO Livehouse广州中大店（二号馆）",
       "address": null,
       "opensAt": null,
       "startsAt": null,
       "endsAt": null,
-      "status": "unconfirmed",
+      "status": "scheduled",
       "performers": [],
       "sources": [
         {
@@ -2964,9 +3006,16 @@
           "publisher": "地下偶像相关揭示板",
           "observedAt": "2026-09-15T16:00:22.617Z",
           "kind": "aggregator"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5344650803020979.html",
+          "label": "2026-09-19 原文补核",
+          "publisher": "ReComi_Official",
+          "kind": "official",
+          "observedAt": "2026-09-18T23:07:44.153Z"
         }
       ],
-      "notes": "揭示板收录线索，活动安排待确认；场地、地址、入场及演出时刻、出演阵容和海报尚未核实，请查阅来源并在出发前确认。",
+      "notes": "初收录为揭示板线索；2026-09-19 原文补核：参演团体原文确认 9 月 19 日广州中大二号馆；16:05–16:25 是该团出演时段。完整地址、整场时刻仍未核实。 阵容仍仅部分收录；海报未核实使用依据。出发前请核对最新官宣。",
       "poster": null
     },
     {
@@ -3320,12 +3369,12 @@
       "date": "2026-09-19",
       "province": null,
       "city": "北京",
-      "venue": null,
-      "address": null,
-      "opensAt": null,
-      "startsAt": null,
+      "venue": "DDC黄昏黎明俱乐部",
+      "address": "北京市朝阳区神路街39号地下一层",
+      "opensAt": "10:50",
+      "startsAt": "11:00",
       "endsAt": null,
-      "status": "unconfirmed",
+      "status": "scheduled",
       "performers": [],
       "sources": [
         {
@@ -3341,9 +3390,16 @@
           "publisher": "地下偶像相关揭示板",
           "observedAt": "2026-09-16T16:00:23.676Z",
           "kind": "aggregator"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5343754198451107.html",
+          "label": "2026-09-19 原文补核",
+          "publisher": "鲜花着锦事务所",
+          "kind": "organizer",
+          "observedAt": "2026-09-18T23:07:43.690Z"
         }
       ],
-      "notes": "揭示板收录线索，活动安排待确认；场地、地址、入场及演出时刻、出演阵容和海报尚未核实，请查阅来源并在出发前确认。",
+      "notes": "初收录为揭示板线索；2026-09-19 原文补核：主办原文明示 9 月 19 日场地、完整地址、入场及开場时刻。整场结束时间仍未核实，阵容身份未做自动绑定。 阵容仍仅部分收录；海报未核实使用依据。出发前请核对最新官宣。",
       "poster": null
     },
     {
@@ -3537,12 +3593,12 @@
       "date": "2026-09-19",
       "province": null,
       "city": "上海",
-      "venue": null,
+      "venue": "世界树剧场",
       "address": null,
       "opensAt": null,
       "startsAt": null,
       "endsAt": null,
-      "status": "unconfirmed",
+      "status": "scheduled",
       "performers": [],
       "sources": [
         {
@@ -3558,9 +3614,16 @@
           "publisher": "地下偶像相关揭示板",
           "observedAt": "2026-09-17T16:00:25.551Z",
           "kind": "aggregator"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5344249453218725.html",
+          "label": "2026-09-19 原文补核",
+          "publisher": "幻夢YUMEUTSUTSU",
+          "kind": "official",
+          "observedAt": "2026-09-18T23:08:39.481Z"
         }
       ],
-      "notes": "揭示板收录线索，活动安排待确认；场地、地址、入场及演出时刻、出演阵容和海报尚未核实，请查阅来源并在出发前确认。",
+      "notes": "初收录为揭示板线索；2026-09-19 原文补核：参演团体原文确认 9 月 19 日 YUMEFES Vol.24.0 在世界树；14:20–14:40 是该团出演时段。普通转发中的整场时刻未取得原发布者正文，暂不采用。 阵容仍仅部分收录；海报未核实使用依据。出发前请核对最新官宣。",
       "poster": null
     },
     {
@@ -3601,12 +3664,12 @@
       "date": "2026-09-19",
       "province": null,
       "city": "深圳",
-      "venue": null,
+      "venue": "九序音乐中心",
       "address": null,
       "opensAt": null,
       "startsAt": null,
       "endsAt": null,
-      "status": "unconfirmed",
+      "status": "scheduled",
       "performers": [],
       "sources": [
         {
@@ -3622,9 +3685,16 @@
           "publisher": "地下偶像相关揭示板",
           "observedAt": "2026-09-17T16:00:25.551Z",
           "kind": "aggregator"
+        },
+        {
+          "url": "https://www.sina.cn/news/detail/5344122839760987.html",
+          "label": "2026-09-19 原文补核",
+          "publisher": "绮丽偶像日KileFestivalCity",
+          "kind": "organizer",
+          "observedAt": "2026-09-18T23:02:31.775Z"
         }
       ],
-      "notes": "揭示板收录线索，活动安排待确认；场地、地址、入场及演出时刻、出演阵容和海报尚未核实，请查阅来源并在出发前确认。",
+      "notes": "初收录为揭示板线索；2026-09-19 原文补核：主办原文确认 9 月 19 日在深圳宝安区九序音乐中心（钟屋南地铁站）。原文列出演阵容时段，未明确整场 OPEN/START；完整街道地址仍未核实。 阵容仍仅部分收录；海报未核实使用依据。出发前请核对最新官宣。",
       "poster": null
     },
     {

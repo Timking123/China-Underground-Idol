@@ -1,9 +1,9 @@
 import { DatabaseSync } from "node:sqlite";
 import { randomUUID } from "node:crypto";
-import { existsSync, writeFileSync } from "node:fs";
+import { existsSync, writeFileSync, lstatSync } from "node:fs";
 import path from "node:path";
 import { Vault } from "./crypto.ts";
-import { privateDirectory, privateFile } from "./security.ts";
+import { privateDirectory, privateFile, privateReadFile } from "./security.ts";
 import type {
   Audit,
   ConsoleSettings,
@@ -49,10 +49,38 @@ export class ConsoleStore {
   readonly db: DatabaseSync;
   readonly vault: Vault;
   readonly filename: string;
-  constructor(dataDirectory: string, key: Buffer) {
+  constructor(
+    dataDirectory: string,
+    key: Buffer,
+    options: { readOnly?: boolean } = {},
+  ) {
     this.vault = new Vault(key);
-    privateDirectory(dataDirectory);
     this.filename = path.join(dataDirectory, "console.sqlite");
+    if (options.readOnly) {
+      // 迁移核验绝不创建库、key-check、账户或升级 schema，也不延长任何到期时间。
+      const directory = lstatSync(dataDirectory);
+      if (
+        !directory.isDirectory() ||
+        directory.isSymbolicLink() ||
+        (process.platform !== "win32" && (directory.mode & 0o077) !== 0)
+      )
+        throw new Error("迁移核验目录必须私有且已存在");
+      privateReadFile(this.filename);
+      this.db = new DatabaseSync(this.filename, { readOnly: true });
+      try {
+        if (
+          this.get<{ check: string }>("meta", "key-check")?.check !==
+            "idol-console-v1" ||
+          !this.get<Account>("account", "admin")
+        )
+          throw new Error("原密钥或管理员缺失");
+      } catch (error) {
+        this.db.close();
+        throw error;
+      }
+      return;
+    }
+    privateDirectory(dataDirectory);
     if (!existsSync(this.filename))
       writeFileSync(this.filename, Buffer.alloc(0), {
         flag: "wx",

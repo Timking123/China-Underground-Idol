@@ -15,6 +15,7 @@ import {
   type Visit,
 } from "./contracts";
 import { regionMap, trendChart } from "./charts";
+import { renderEditorial } from "./editorial";
 
 const view = required("view");
 const login = required("login");
@@ -34,10 +35,15 @@ let idleTimer = 0;
 let absoluteTimer = 0;
 let absoluteDeadline = 0;
 let resumeSession = false;
+let editorialFeedback: Feedback | null = null;
 const requests = new Set<AbortController>();
 const descriptions: Record<string, [string, string]> = {
   overview: ["网站总览", "了解访问变化，处理读者带来的新线索。"],
   feedback: ["投稿与反馈", "把每一条补充、纠错和建议，留在清楚的处理流程里。"],
+  editorial: [
+    "活动资料修订",
+    "核对证据与字段差异，追踪受限候选的真实维护结果。",
+  ],
   traffic: ["访问趋势", "按天查看浏览量、访客估算与独立 IP。"],
   regions: ["地区分布", "看看读者从哪里来。颜色越亮，访问量越高。"],
   visits: ["访问记录", "完整 IP、访问页面和大致地区，仅管理员可见。"],
@@ -83,6 +89,7 @@ function showLogin(text = "请输入管理员账号和密码。"): void {
   feedbackFilter = "";
   visitsPage = 1;
   auditPage = 1;
+  editorialFeedback = null;
 }
 function armIdleLock(): void {
   window.clearTimeout(idleTimer);
@@ -502,7 +509,15 @@ function openFeedback(
   host.onkeydown = (event) => {
     if (event.key === "Escape") close();
   };
-  host.append(form, button("关闭详情", close));
+  host.append(
+    form,
+    button("整理活动修订", () => {
+      if (save.disabled) return;
+      editorialFeedback = item;
+      window.location.hash = "editorial";
+    }),
+    button("关闭详情", close),
+  );
   title.focus();
   host.scrollIntoView({ block: "nearest" });
 }
@@ -871,13 +886,15 @@ async function loadView(): Promise<void> {
           ? renderRegions()
           : name === "feedback"
             ? renderFeedback()
-            : name === "visits"
-              ? renderVisits()
-              : name === "content"
-                ? renderContent()
-                : name === "settings"
-                  ? renderSettings()
-                  : renderSecurity());
+            : name === "editorial"
+              ? renderEditorial(api, editorialFeedback)
+              : name === "visits"
+                ? renderVisits()
+                : name === "content"
+                  ? renderContent()
+                  : name === "settings"
+                    ? renderSettings()
+                    : renderSecurity());
     if (version !== generation || !loggedIn) return;
     view.replaceChildren(content);
     view.inert = false;

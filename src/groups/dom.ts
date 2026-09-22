@@ -1,4 +1,5 @@
 import type { CatalogImage } from "../catalog/model";
+import { responsiveImage } from "../media/images";
 
 export function element<K extends keyof HTMLElementTagNameMap>(
   tag: K,
@@ -62,7 +63,12 @@ export function imageBlock(
     picture.hidden = true;
     fallback.hidden = false;
   });
-  picture.src = image.src;
+  const media = responsiveImage(image.src, {
+    kind: large ? "detail" : "avatar",
+  });
+  picture.src = media.src;
+  if (media.srcset) picture.srcset = media.srcset;
+  if (media.sizes) picture.sizes = media.sizes;
   frame.append(picture);
   return frame;
 }

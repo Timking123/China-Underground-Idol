@@ -8,6 +8,14 @@ esac
 unset LD_PRELOAD LD_LIBRARY_PATH PYTHONPATH PYTHONHOME NODE_OPTIONS BASH_ENV ENV
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin
 cd /srv/china-underground-idol/maintenance/workspace/work/phase3-20260909
+if ! /usr/bin/python3 -I /usr/local/libexec/idol-maintenance-publish.py --check-maintenance; then
+  # 暂停健康入口只读报告；绝不继续调用 publisher 或消费发布回执。
+  if [ "$1" = health ]; then
+    /usr/sbin/runuser -u idol-maint -- /usr/bin/node --experimental-strip-types private/server/runner.ts health
+    exit 0
+  fi
+  exit 75
+fi
 /usr/sbin/runuser -u idol-maint -- /usr/bin/node --experimental-strip-types private/server/runner.ts "$1"
 /usr/bin/python3 -I /usr/local/libexec/idol-maintenance-publish.py
 /usr/sbin/runuser -u idol-maint -- /usr/bin/node --experimental-strip-types private/server/runner.ts publish-result

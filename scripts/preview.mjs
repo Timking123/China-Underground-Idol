@@ -4,6 +4,8 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import path from "node:path";
 import { readEventAssets, readLocalEventPoster } from "./eventAssets.mjs";
 import { publicFiles, isPublicImage } from "./siteManifest.mjs";
+import { readPublicArtifactManifest } from "./publicArtifacts.mjs";
+import { gzipSync } from "node:zlib";
 
 // 只向本机提供页面白名单；开发配置与 Git 元数据不属于预览资源。
 export async function createPreviewServer(
@@ -11,7 +13,11 @@ export async function createPreviewServer(
 ) {
   const root = await realpath(directory);
   const { localPosters } = await readEventAssets(root);
-  const files = new Set(publicFiles);
+  const artifacts = await readPublicArtifactManifest(root);
+  const files = new Set([
+    ...publicFiles,
+    ...artifacts.files.map((item) => item.path),
+  ]);
   const mime = {
     ".html": "text/html; charset=utf-8",
     ".js": "text/javascript; charset=utf-8",
@@ -22,9 +28,25 @@ export async function createPreviewServer(
     ".jpeg": "image/jpeg",
     ".webp": "image/webp",
     ".svg": "image/svg+xml",
+    ".ics": "text/calendar; charset=utf-8",
   };
   return createServer(async (request, response) => {
     try {
+      if (request.method === "POST" && request.url === "/api/v1/pageviews") {
+        request.resume();
+        response.writeHead(200, {
+          "Content-Type": "application/json",
+          "Cache-Control": "no-store",
+        });
+        response.end(
+          JSON.stringify({
+            code: 0,
+            data: { recorded: false },
+            message: "本机静态预览不记录访问",
+          }),
+        );
+        return;
+      }
       if (request.method !== "GET" && request.method !== "HEAD") {
         response.writeHead(405).end();
         return;
@@ -67,13 +89,23 @@ export async function createPreviewServer(
       const body = localPosters.includes(name)
         ? await readLocalEventPoster(root, name)
         : await readFile(target);
+      const gzipAccepted =
+        /(?:^|,)\s*gzip(?:\s*;\s*q=(?!0(?:\.0*)?(?:\s*,|\s*$))[0-9.]+)?\s*(?:,|$)/iu.test(
+          request.headers["accept-encoding"] ?? "",
+        );
+      const compressed =
+        gzipAccepted && /\.(?:html|css|js|json|ics|svg)$/u.test(name);
+      const payload = compressed ? gzipSync(body, { level: 9 }) : body;
       response.writeHead(200, {
         "Content-Type":
           mime[path.extname(target)] ?? "application/octet-stream",
         "Cache-Control": "no-store",
         "X-Content-Type-Options": "nosniff",
+        "Content-Length": payload.length,
+        Vary: "Accept-Encoding",
+        ...(compressed ? { "Content-Encoding": "gzip" } : {}),
       });
-      response.end(request.method === "HEAD" ? undefined : body);
+      response.end(request.method === "HEAD" ? undefined : payload);
     } catch {
       response.writeHead(404).end();
     }

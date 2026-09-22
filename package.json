@@ -11,6 +11,8 @@
     "format": "prettier . --write",
     "verify": "npm run typecheck && npm run lint && npm run format:check && npm run build && npm test",
     "preview": "node scripts/preview.mjs",
+    "preview:console": "node scripts/localConsole.mjs",
+    "maintain:local": "node maintenance/localEditorial.mjs",
     "package:site": "npm run verify && node scripts/packageSite.mjs",
     "build:console": "node scripts/buildConsole.mjs",
     "test:console": "node scripts/testConsole.mjs",

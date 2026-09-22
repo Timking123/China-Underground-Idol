@@ -12,7 +12,8 @@ interface EventSource {
   label: string;
   publisher: string;
   observedAt: string;
-  kind: "official" | "organizer" | "venue" | "wiki";
+  kind:
+    "official" | "organizer" | "venue" | "wiki" | "aggregator" | "ticketing";
 }
 interface EventRecord {
   id: string;
@@ -117,3 +118,38 @@ node --experimental-strip-types --test tests/eventsModel.test.mjs
 ```
 
 首批证据特征使用固定 `tests/fixtures/events-seed-20260905.json`；其他合成记录仅在内存或 `.build` 临时测试目录使用，不写入正式数据。正式门拒绝 `e-test-`、`e-fixture-`、`e-summary-` 等测试保留 ID，以及 example.com/net/org、.test、.invalid、localhost 示例来源。该检查不能替代证据复核。测试覆盖持续数据维护、主档 ID、非法/重复 ID、来源 URL、日期、稀疏数组、混合省市筛选、跨系统时区、取消延期、全天/定时导出、UTF-8 折行及 CRLF 注入。统一构建、ESLint 与 TypeScript strict 配置由站点集成维护。
+
+## 独立活动核验层
+
+`data/event-verifications.v1.json` 使用 `idol-event-verifications-v1`，通过稳定 `eventId` 关联。旧活动字段、稳定 ID 与 ICS 语义保持不变。完整类型和纯函数见 `src/events/verification.ts`。
+
+根字段为 `schemaVersion / updatedAt / coverage / records`。记录固定包含 `eventId / snapshot / checkedAt / verifiedAt / outcome / summary / fields / evidence / changes`，未知字段一律拒绝。
+
+- `checkedAt` 是实际尝试检查时间，读取失败也保留；`verifiedAt` 是最近一条成功确认字段的原文观察时间，无确认字段时为 null。不能用本次编辑时间覆盖原有来源时间。
+- `outcome` 为 `unverified / partial / verified`，分别显示尚未核实、部分信息已核验、核心安排已核验。核心安排要求日期、举行安排、场馆、整场开演四项均有一手原文，不表示整场所有信息已知或实时保证。
+- `fields` 固定包含 `date / status / venue / address / opensAt / startsAt / endsAt`。状态为 `unverified / unannounced / verified`。空值默认为尚未核实；原文明示还未公布才允许 unannounced，不能把无法访问或没有搜索到解释为未公布。
+- `evidence` 固定包含 `url / publisher / role / observedAt / result / fields / note`。角色沿用主档来源枚举；`result` 为 `read / unavailable / insufficient`。确认字段需要已回读的主办、团体、场馆或票务原文，且主档保留同一 URL、发布者和角色。汇总与百科仅为线索。新浪页面角色归属于原发布者，页面本身不被误标为主办。
+- `changes` 固定包含 `field / previous / current / observedAt / sourceUrl / reason`。只记录七项核验字段的实际值变化，当前值必须等于主档，来源必须已读取并支持该字段，观察时间须与证据一致。检索/编辑本身不是活动变化。
+
+`snapshot` 固定保存 `title / city / province / date / status / venue / address / opensAt / startsAt / endsAt`。`validateEventVerificationDataset(input, events)` 检查当前主档快照、严格形状、时间顺序、稳定 ID、来源与变化关系；成功返回 `{ valid: true, data, errors: [] }`，失败返回带字段路径的错误。核验不是阵容身份验证，不自动绑定同名团体。
+
+`eventVerificationSnapshot(event)` 创建快照；`getEventVerification(dataset, eventId)` 读取记录；`eventFieldLabel(event, record, field)` 生成字段缺口文案；`buildVenueNavigationUrl(event, record)` 仅在快照相符、城市/场馆/地址齐全且场馆和地址均已核验时返回地图查询 URL，不猜坐标。取消与延期记录不沿用旧导航。
+
+`invalidateEventVerifications(dataset, previousEvents, nextEvents)` 对主档变化或移除的记录保守整条失效，其余原样保留，不伪造核验时间。旧证据由发布版本快照保存。发布候选必须联合校验主档、核验补充层与订阅/更新状态后原子交付；不能先覆盖主档再把旧确认贴到新资料。补充层校验失败应阻止新发行；浏览器降级为主档浏览，明确提示核验资料不可用，关闭确认标记与地图导航。
+
+活动页沿用暗色日程列表，近期筛选优先显示可用性。核验口径默认折叠，检查结果、计划状态和核心时刻保持可见；细节包含来源角色、原观察时间、实际检查时间和真实变更。关注交由 `src/preferences/browser.ts` 的共享按钮接口，重新渲染前退订上一次订阅，不上传个人关注。
+
+### 2026-09-19 补核范围
+
+114 条基线中，9 月 19 日起共 45 条未来线索，至 9 月 25 日的未来 7 天为 27 条。全部逐条尝试来源；其中 9 条取得可补充的主办/团体原文（3 条核心安排、6 条部分信息），其余 36 条保留来源缺口。新增 3 条明确整场开演和 4 条可靠地址；未增加活动数、未自动绑定阵容。逐条结论及访问收据在 `reports/city-upgrade-a/EVENT-REVIEW.md`。
+
+RagnaRock、她吃了那朵花·贰拾贰、真夜中 Drift 使用原文明示的整场入场/开演。光年、星遇现场、Summer Fes、暮云声彻、YUMEFES 的团体出演时段未用作整场 START。Pri-Mary 的自身出演变化不等于光年整场取消。没有可靠取消/延期新原文不表示所有活动确定照常举行。
+
+定向验证：
+
+```sh
+node --experimental-strip-types --test tests/eventVerification.test.mjs tests/eventsModel.test.mjs tests/eventsPage.test.mjs tests/eventNavigation.test.mjs
+node tests/eventVerification.browser.mjs
+```
+
+浏览器测试使用宿主已有 Playwright，可通过 `PLAYWRIGHT_MODULE` 指定已安装模块；临时编译、截图和测试回执只写 `reports/city-upgrade-a/`，仅绑定 127.0.0.1，结束关闭临时服务，不改共享 assets。总构建、发布白名单与本地发行验收由集成任务执行。
