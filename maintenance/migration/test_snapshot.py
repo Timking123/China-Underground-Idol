@@ -1,8 +1,11 @@
 """同代与回退测试只在系统临时目录操作合成 SQLite/账本，不使用生产凭据。"""
 import importlib.util
 import json
+import os
 from pathlib import Path
 import sqlite3
+import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -75,6 +78,30 @@ class SnapshotTest(unittest.TestCase):
             migration.private_package_path(Path('/var/lib/idol-migration/final')),
             Path('/var/lib/idol-migration/final'),
         )
+
+    def test_rehearsal_entry_remounts_sysfs_only_inside_private_isolation(self):
+        package = Path('/var/lib/idol-migration/initial-fixture')
+        generation = '12345678-1234-1234-1234-123456789abc'
+        manifest = 'a' * 64
+        command = migration.rehearsal_launch_command(package, generation, manifest)
+        self.assertEqual(command[:7], ['/usr/bin/unshare', '--mount', '--net', '--propagation', 'private', '/bin/sh', '-c'])
+        shell = command[7]
+        self.assertIn('/usr/bin/mount -t sysfs sysfs /sys', shell)
+        self.assertIn('/usr/sbin/ip link set lo up', shell)
+        self.assertIn('test "$(/usr/bin/ls /sys/class/net)" = lo', shell)
+        self.assertLess(shell.index('/usr/bin/mount'), shell.index('/usr/sbin/ip'))
+        self.assertLess(shell.index('/usr/sbin/ip'), shell.index('test "$('))
+        self.assertEqual(command[8:], ['rehearsal', '/usr/bin/python3', '-I', str(migration.TOOLS / 'snapshot.py'), 'rehearsal-worker', '--package', str(package), '--generation', generation, '--console-manifest-sha256', manifest])
+
+    @unittest.skipUnless(sys.platform.startswith('linux') and os.geteuid() == 0, '需要 Linux root 命名空间')
+    def test_rehearsal_launcher_sees_only_loopback_in_linux(self):
+        probe = subprocess.run(['/usr/bin/unshare', '--mount', '--net', '--propagation', 'private', '/usr/bin/true'], capture_output=True, timeout=10)
+        if probe.returncode != 0:
+            self.skipTest('当前离线环境不授予命名空间能力')
+        command = migration.rehearsal_launch_command('/var/lib/idol-migration/fixture', '12345678-1234-1234-1234-123456789abc', 'a' * 64)
+        check = 'import os; assert set(os.listdir("/sys/class/net")) == {"lo"}; assert set(x.split(":", 1)[0].strip() for x in open("/proc/net/dev").read().splitlines()[2:]) == {"lo"}'
+        result = subprocess.run([*command[:8], 'rehearsal', '/usr/bin/python3', '-c', check], capture_output=True, timeout=15)
+        self.assertEqual(result.returncode, 0, result.stderr.decode(errors='replace')[:200])
 
 
 if __name__ == '__main__':

@@ -384,6 +384,12 @@ def rehearse(package, generation, console_manifest):
     return result
 
 
+def rehearsal_launch_command(package, generation, console_manifest, tools=TOOLS):
+    # sysfs 必须在独立挂载命名空间内重挂，才能让 worker 看到网络命名空间的真实网卡集合。
+    isolated = '/usr/bin/mount -t sysfs sysfs /sys && /usr/sbin/ip link set lo up && test "$(/usr/bin/ls /sys/class/net)" = lo && exec "$@"'
+    return ['/usr/bin/unshare', '--mount', '--net', '--propagation', 'private', '/bin/sh', '-c', isolated, 'rehearsal', '/usr/bin/python3', '-I', str(tools / 'snapshot.py'), 'rehearsal-worker', '--package', str(package), '--generation', generation, '--console-manifest-sha256', console_manifest]
+
+
 def main():
     require(sys.platform.startswith('linux') and os.geteuid() == 0 and sys.flags.isolated == 1, 'isolated_root_linux_required')
     require(Path(__file__).absolute() == TOOLS / 'snapshot.py', 'fixed_installed_tool_required')
@@ -403,7 +409,7 @@ def main():
     if args.command in ('rehearse', 'rehearsal-worker'):
         require(args.generation and re.fullmatch(r'[a-f0-9-]{36}', args.generation) and args.console_manifest_sha256 and re.fullmatch(r'[a-f0-9]{64}', args.console_manifest_sha256), 'rehearsal_binding_required')
         if args.command == 'rehearse':
-            command = ['/usr/bin/unshare', '--net', '/bin/sh', '-c', '/usr/sbin/ip link set lo up && exec "$@"', 'rehearsal', '/usr/bin/python3', '-I', str(TOOLS / 'snapshot.py'), 'rehearsal-worker', '--package', str(package), '--generation', args.generation, '--console-manifest-sha256', args.console_manifest_sha256]
+            command = rehearsal_launch_command(package, args.generation, args.console_manifest_sha256)
             completed = subprocess.run(command, capture_output=True, timeout=120)
             require(completed.returncode == 0, 'rehearsal_failed_preserve_transaction')
             print(completed.stdout.decode().strip())
