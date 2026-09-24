@@ -26,6 +26,8 @@ PrivateTmp=yes
 ProtectSystem=strict
 ProtectHome=read-only
 ReadWritePaths=/srv/china-underground-idol/maintenance /srv/china-underground-idol/releases /srv/china-underground-idol/deployments /srv/china-underground-idol /var/lib/idol-maint
+# 根发布器仍需写发行目录、站点 current 与部署回执；vendor 只供运行时读取。
+ReadOnlyPaths=/srv/china-underground-idol/maintenance/vendor
 ProtectKernelTunables=yes
 ProtectKernelModules=yes
 ProtectControlGroups=yes

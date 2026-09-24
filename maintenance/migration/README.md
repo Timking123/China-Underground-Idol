@@ -2,6 +2,16 @@
 
 本目录只服务 2026-09-23 的本站迁移。B 批交付本地工具、候选准备和合成验证；下述安装、备份、传输、服务变更及 DNS 操作均须由 CTO 的 C 批具体授权执行。本批未做这些生产操作。已完成的 P 动作仅停止并禁用旧机 health timer，旧站与后台仍运行。
 
+## C4 新机运行入口与权限边界
+
+128 上的 `/srv/china-underground-idol/maintenance` 已由 root 持有、权限 0755。旧 `maintenance/bootstrap-server.sh` 要求这个 BASE 由 `idol-maint` 持有且为 0700，还会在 `vendor` 内运行 npm 安装和浏览器下载；它不适用于当前新机布局，不能作为重复安装入口。
+
+新机安装应从已验包在 root 私有目录重建 `vendor`，逐成员核路径、类型、哈希及六个链接；在维护暂停、无本站服务账户进程和未决锁时保全原槽，再接入 root 持有且服务账户不可改的最终 `maintenance/vendor`。最终槽的父目录也不能由服务账户替换。维护 unit 以 `ReadOnlyPaths` 进一步限制该目录；`APPDATA` 下的 npm 查找链接与 `PLAYWRIGHT_BROWSERS_PATH` 仍须在服务身份下可读，以原离线 DOM 探针复验。依赖更新使用新的 root 私有验真代，不由旧 bootstrap 在运行槽内更新。
+
+`maintenance/workspace` 已有空的 `private` 骨架，物化器不会覆盖非空根。先保全该骨架及权限，再核独占新代的两个来源 marker 和 `sourceSha256`，按受控换代接入固定路径。root 物化默认生成 0600 源码和 marker；应只把程序文件调整为服务可读、不可写，把确证的状态、缓存、日志和工作站点副本留给 `idol-maint` 写入。以真实服务身份测试源码和 marker 可读、许可目录可写、vendor 创建或替换失败；不得递归移交整个 BASE。旧私有数据只在最终同代恢复窗口写入确证目标，不用历史源码覆盖新 guard。
+
+固定 `maintenance/repo` 必须是真实 Git 工作树，而非仅有相同文件的目录。维护 `publisher.ts` 要求 `main`、干净工作树、`fetch origin main` 后远端前像等于本地 HEAD，随后才会更新输入、构建、浏览器验证、提交和推送。准备真实仓库时先测标准 Git bundle 或受权 clone 的实际字节与来源，复用已验站点资产；远端推送由本批唯一 Git 集成者在差异审查后执行。维护 worker 需写 repo 的 Git 对象、构建输出和受控输入，也需写 `maintenance/state` 与工作区运行数据；root `publish.py` 需写 `releases`、`maintenance-receipts`、`deployments` 及站点根的原子 `current` 切换。因此 unit 保留这些现有写入挂载，只针对 vendor 加只读保护；文件系统上的程序树归属仍是独立安全门。C4 的暂停入口核验不等于启用维护或正式发布。
+
 ## 先确认的条件
 
 - 旧机可用空间约 548 MB，不能在旧机生成全部历史归档。最终快照工具会估算固定数据库/账本集合，并保留至少 128 MiB 余量；空间不足会在创建包前停止。不要通过删除 verification、vendor 或备份来腾空间。
