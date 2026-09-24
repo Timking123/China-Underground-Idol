@@ -121,6 +121,10 @@ python3 -I /usr/local/libexec/idol-maintenance-publish.py \
 
 root 必须从真实组合验证和 Git 交付结果生成既有 pending/verified 记录；`gitPushVerified`、`browserVerified` 必须有对应真实证据，不能为了通过助手填 true。批准文件签发和发布执行均留 C 另行批准，B 未生成真实批准文件。
 
+迁移收据入口 `receipt.py` 由 root 安装到固定 `/root/idol-migration-tools-20260923/receipt.py`，复用已审固定发布助手；将已审浏览器探针放在迁移证据根 `c2-20260924/c5-browser-probe.mjs`，不从可写 `/tmp` 导入证据。真实 Git 推送原件置于同根 `git-push-evidence.json`，其独审 SHA 通过 `--push-evidence-sha256` 绑定。只接受固定 GitHub、当前真实 refs/tree/clean、完整2b清单、固定v5浏览器原字节及采集器身份、旧9cd/current和Nginx配置；不接收两个验证布尔开关。C6源码若后继bff，仅允许此入口/测试/本文差异，baseSha来自实际推送前像，previous独立指旧静态发行。
+
+先创建root:root0700的 `receipt-dry-runs` 私有目录，再执行 `python3 -I /root/idol-migration-tools-20260923/receipt.py dry-run --run-id migration-20260924-<唯一批号> --push-evidence-sha256 <原件SHA>`。只输出私有 pending/verified 原字节与证据侧车，明确非生产；不能当作已发布。生产 `prepare` 还要求 `--package /var/lib/idol-migration/<最终包名> --generation <代号>`，只可在下一获批事务的最终同代恢复 verified-offline 后调用。它先读恢复/静默状态，再持既有双锁，写root私有固定意图，按独占verified、复核、pending最后的顺序写固定state；任何中断保留半成品并拒绝换runId重试，人工核原意图后处理，不清理重跑。C6仅执行dry-run，不调用prepare、普通维护或发布器。
+
 原发布器先完成请求、前像、完整旧/新清单与验证记录核对，进入原发布锁后才写 root 私有事务意图、复制和切换。已开始但未闭合的事务先读意图/current 再停止；不得换名字重跑。同一已完成请求只读返回 already_published。令牌在切换前过期就停止；切换后因 HTTPS 失败需要恢复旧版时，安全回退不再受令牌到期影响。该模式不调用 Provider、runner、通知或 publish-result，不改变后台单写状态。
 
 迁移模式的发布后回读固定连接新机 `127.0.0.1:443`，HTTP Host、TLS SNI 及系统 CA 校验证书名仍为 `idol.hi-veblen.com`；这避免 DNS 切换前误读旧机。普通发布入口仍按原域名解析。DNS 切换后的外部公网验证须由 C 单独执行，回环校验不能替代。
